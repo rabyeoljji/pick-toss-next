@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:fix": "eslint ./src --fix",
+    "format:write": "prettier --write .",
+    "check:spell": "cspell '**' --gitignore --no-progress",
+    "check:lint": "next lint",
+    "check:format": "prettier --check ."
   },
   "dependencies": {
     "next": "14.1.4",
@@ -20,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "autoprefixer": "^10.0.1",
+    "cspell": "^8.7.0",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "eslint-config-prettier": "^9.1.0",
