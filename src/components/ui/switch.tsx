@@ -2,10 +2,8 @@
 
 import * as React from 'react'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
-
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import checkIcon from '../../../public/icons/check.svg'
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
@@ -25,8 +23,10 @@ const Switch = React.forwardRef<
       )}
     >
       <Image
-        src={checkIcon as string}
+        src="/icons/check.svg"
         alt=""
+        width={9}
+        height={7}
         className="absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2"
       />
     </SwitchPrimitives.Thumb>
