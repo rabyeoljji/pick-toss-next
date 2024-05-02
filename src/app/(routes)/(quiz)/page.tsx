@@ -11,7 +11,7 @@ export default function Quiz() {
 
       <div className="flex gap-[16px]">
         {/** TODO: 배너 컴포넌트 구현 (대기, 완료, disabled) */}
-        <div className="relative size-full flex-1 rounded-[16px] bg-orange-02 px-[40px] pb-[28px] pt-[30px]">
+        <div className="relative size-full h-[240px] flex-1 rounded-[16px] bg-orange-02 px-[40px] pb-[28px] pt-[30px]">
           <div className="flex flex-col">
             <div className="mb-[12px] text-[16px] font-[700] text-orange-06">TODAY&apos;s QUIZ</div>
             <div className="mb-[29px] gap-[8px] text-[32px] font-[700] text-gray-09">
