@@ -11,6 +11,10 @@ import powerUpQuiz from '../../public/icons/power-up-quiz.svg'
 import search from '../../public/icons/search.svg'
 import star from '../../public/icons/star.svg'
 import circleQuestion from '../../public/icons/circle-question.svg'
+import kebab from '../../public/icons/kebab.svg'
+import pin from '../../public/icons/pin.svg'
+import google from '../../public/icons/google.svg'
+import file from '../../public/icons/file.svg'
 
 const icons = {
   check,
@@ -24,6 +28,10 @@ const icons = {
   search,
   star,
   circleQuestion,
+  kebab,
+  pin,
+  google,
+  file,
 }
 
 export default icons as Record<keyof typeof icons, StaticImport>
