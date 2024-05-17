@@ -22,7 +22,30 @@ export const API_ENDPOINT = {
   },
 
   // 문서 관련 API
-  document: {},
+  document: {
+    getDocument: (documentId: number) => ({
+      url: `/documents/${documentId}`,
+      method: HttpMethod.GET,
+    }),
+
+    createDocument: () => ({
+      url: `/documents`,
+      method: HttpMethod.POST,
+    }),
+  },
+
+  // 카테고리 관련 API
+  category: {
+    getCategories: () => ({
+      url: `/categories`,
+      method: HttpMethod.GET,
+    }),
+
+    createCategory: () => ({
+      url: `/categories`,
+      method: HttpMethod.POST,
+    }),
+  },
 
   // 재화 관련 API
   star: {

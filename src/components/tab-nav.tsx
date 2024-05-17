@@ -27,16 +27,16 @@ export const TabNavigation = () => {
         segments: [['main']],
       },
       {
+        href: '/repository',
+        title: '노트 창고',
+        Icon: StudyRepositoryIcon,
+        segments: [['repository'], ['document']],
+      },
+      {
         href: '/review',
         title: '복습 체크',
         Icon: ReviewCheckIcon,
         segments: [['review']],
-      },
-      {
-        href: '/repository',
-        title: '공부 창고',
-        Icon: StudyRepositoryIcon,
-        segments: [['repository'], ['document']],
       },
       {
         href: '/profile',
@@ -63,15 +63,12 @@ export const TabNavigation = () => {
           const { href, Icon, title } = item
           const isActive = activeItem == item
           return (
-            <Link key={title} href={href} className="flex h-[64px] items-center gap-4">
+            <Link key={title} href={href} className="flex h-[64px] items-center gap-4 pl-[45px]">
               <Icon isActive={isActive} />
-              <span className={cn('text-gray-40', isActive && 'text-[#FB7E20]')}>{title}</span>
+              <span className={cn('text-gray-06', isActive && 'text-orange-06')}>{title}</span>
             </Link>
           )
         })}
-        {/**
-         * TODO: 폴더 구조 표시
-         */}
       </div>
 
       <div className="fixed bottom-0 flex h-[84px] w-full justify-around border-t border-gray-02 bg-white px-[20px] lg:hidden">
@@ -82,10 +79,10 @@ export const TabNavigation = () => {
             <Link
               key={title}
               href={href}
-              className="flex flex-1 flex-col items-center gap-1 pt-[16px]"
+              className="flex flex-1 flex-col items-center gap-1 pt-[16px] text-tag"
             >
               <Icon isActive={isActive} />
-              <span className={cn('text-gray-40', isActive && 'text-[#FB7E20]')}>{title}</span>
+              <span className={cn('text-gray-06', isActive && 'text-orange-06')}>{title}</span>
             </Link>
           )
         })}
@@ -129,7 +126,7 @@ function PowerUpIcon({ isActive }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      color={isActive ? '#FFAB40' : '#A2A6AB'}
+      color={isActive ? '#FFAB40' : '#D2D6DB'}
     >
       <g clipPath="url(#clip0_2028_62)">
         <path
@@ -163,7 +160,7 @@ function ReviewCheckIcon({ isActive }: IconProps) {
       viewBox="0 0 24 22"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      color={isActive ? '#FFAB40' : '#A2A6AB'}
+      color={isActive ? '#FFAB40' : '#D2D6DB'}
     >
       <g clipPath="url(#clip0_2028_9)">
         <path
@@ -197,7 +194,7 @@ function StudyRepositoryIcon({ isActive }: IconProps) {
       viewBox="0 0 20 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      color={isActive ? '#FFAB40' : '#A2A6AB'}
+      color={isActive ? '#FFAB40' : '#D2D6DB'}
     >
       <g clipPath="url(#clip0_2028_36)">
         <path
