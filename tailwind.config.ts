@@ -143,6 +143,14 @@ const config = {
             letterSpacing: '0.02em',
           },
         ],
+        'text-bold': [
+          '14px',
+          {
+            lineHeight: '150%',
+            fontWeight: 'bold',
+            letterSpacing: '0.02em',
+          },
+        ],
         'text-regular': [
           '14px',
           {
@@ -208,7 +216,7 @@ const config = {
         },
         notice: {
           red: '#F66444',
-          green: '63CF75',
+          green: '#63CF75',
         },
         blue: {
           '01': '#F0F4FF',
