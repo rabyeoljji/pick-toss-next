@@ -36,6 +36,19 @@ export const API_ENDPOINT = {
       url: `/documents`,
       method: HttpMethod.POST,
     }),
+
+    getDocumentsForCategory: (
+      categoryId: number,
+      sortOption?: 'createdAt' | 'name' | 'updatedAt'
+    ) => ({
+      url: `/categories/${categoryId}/documents?${sortOption && `sort-option=${sortOption}`}`,
+      method: HttpMethod.GET,
+    }),
+
+    deleteDocument: (documentId: number) => ({
+      url: `/documents/${documentId}`,
+      method: HttpMethod.DELETE,
+    }),
   },
 
   // 카테고리 관련 API
@@ -48,6 +61,11 @@ export const API_ENDPOINT = {
     createCategory: () => ({
       url: `/categories`,
       method: HttpMethod.POST,
+    }),
+
+    deleteCategory: (categoryId: number) => ({
+      url: `/categories/${categoryId}`,
+      method: HttpMethod.DELETE,
     }),
   },
 
@@ -64,6 +82,10 @@ export const API_ENDPOINT = {
     getUser: () => ({
       url: `/members/info`,
       method: HttpMethod.GET,
+    }),
+    updateUserName: () => ({
+      url: `/members/update-name`,
+      method: HttpMethod.PATCH,
     }),
   },
 
