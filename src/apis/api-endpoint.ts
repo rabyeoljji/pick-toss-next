@@ -27,6 +27,10 @@ export const API_ENDPOINT = {
       url: `/bookmark/${quizId}`,
       method: HttpMethod.DELETE,
     }),
+    postQuizzes: () => ({
+      url: `/quizzes`,
+      method: HttpMethod.POST,
+    }),
   },
 
   // 문서 관련 API
@@ -53,10 +57,47 @@ export const API_ENDPOINT = {
       url: `/documents/${documentId}`,
       method: HttpMethod.DELETE,
     }),
+
+    postAiPick: (documentId: number) => ({
+      url: `/documents/${documentId}/ai-pick`,
+      method: HttpMethod.POST,
+    }),
+
+    updateDocumentName: (documentId: number) => ({
+      url: `/documents/${documentId}/update-name`,
+      method: HttpMethod.PATCH,
+    }),
+
+    reorderDocument: () => ({
+      url: `/documents/reorder`,
+      method: HttpMethod.PATCH,
+    }),
+  },
+
+  keypoint: {
+    getBookmark: () => ({
+      url: `/key-point/bookmark`,
+      method: HttpMethod.GET,
+    }),
+
+    getPickPointsById: (documentId: number) => ({
+      url: `/documents/${documentId}/key-point`,
+      method: HttpMethod.GET,
+    }),
+
+    patchBookmark: (keypointId: number) => ({
+      url: `/key-point/${keypointId}/bookmark`,
+      method: HttpMethod.PATCH,
+    }),
   },
 
   // 카테고리 관련 API
   category: {
+    getCategory: (categoryId: number) => ({
+      url: `/categories/${categoryId}`,
+      method: HttpMethod.GET,
+    }),
+
     getCategories: () => ({
       url: `/categories`,
       method: HttpMethod.GET,
@@ -70,6 +111,16 @@ export const API_ENDPOINT = {
     deleteCategory: (categoryId: number) => ({
       url: `/categories/${categoryId}`,
       method: HttpMethod.DELETE,
+    }),
+
+    updateCategory: (categoryId: number) => ({
+      url: `/categories/info/${categoryId}`,
+      method: HttpMethod.PATCH,
+    }),
+
+    reorderCategory: () => ({
+      url: `/categories/reorder`,
+      method: HttpMethod.PATCH,
     }),
   },
 

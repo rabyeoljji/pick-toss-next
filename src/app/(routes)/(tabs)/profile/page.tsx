@@ -14,7 +14,7 @@ export default async function Profile() {
   if (!session) throw new Error('로그인이 필요합니다.')
 
   const { name, documentUsage } = session.user.dto
-  const { possibleUploadedDocumentCount, possessDocumentCount, freePlanMaxPossessDocumentCount } =
+  const { availableAiPickCount, possessDocumentCount, freePlanMaxPossessDocumentCount } =
     documentUsage
 
   const uploadableCount = freePlanMaxPossessDocumentCount - possessDocumentCount
@@ -43,7 +43,7 @@ export default async function Profile() {
                   <span className="text-small1-regular text-gray-07">남은 AI pick 생성 횟수</span>
                   <Image src={icons.circleQuestion} width={16} height={16} alt="" />
                 </div>
-                <div className="text-h4-bold text-orange-05">{possibleUploadedDocumentCount}회</div>
+                <div className="text-h4-bold text-orange-05">{availableAiPickCount}회</div>
               </div>
               <div className="relative flex flex-col gap-[8px]">
                 <div className="text-small1-regular text-gray-07">나의 노트 창고</div>
@@ -86,7 +86,7 @@ export default async function Profile() {
                   <span>{item.label}</span>
                   {item.disabled && <ComingSoon />}
                 </div>
-                <Image src={icons.chevronRight} width={16} height={16} alt="" />
+                <Image src={icons.chevronRight} width={6} height={10} alt="" />
               </Link>
             ))}
           </div>
@@ -108,27 +108,7 @@ export default async function Profile() {
                   <span>{item.label}</span>
                   {item.disabled && <ComingSoon />}
                 </div>
-                <Image src={icons.chevronRight} width={16} height={16} alt="" />
-              </Link>
-            ))}
-          </div>
-        }
-      />
-
-      <Section
-        className="mb-[18px]"
-        content={
-          <div className="flex flex-col rounded-[12px] bg-white py-[12px] text-gray-08 *:px-[20px]">
-            {profileConfig.appConfig.items.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className="flex items-center justify-between py-[12px]"
-              >
-                <div className="flex items-start gap-[8px]">
-                  <span>{item.label}</span>
-                  <Image src={icons.link} width={16} height={16} alt="" />
-                </div>
+                <Image src={icons.chevronRight} width={6} height={10} alt="" />
               </Link>
             ))}
           </div>

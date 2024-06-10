@@ -5,22 +5,26 @@ interface GetCategoriesParams extends NextFetchRequestConfig {
   accessToken: string
 }
 
-export type CategoryTagType =
-  | 'IT'
-  | 'ECONOMY'
-  | 'HISTORY'
-  | 'LANGUAGE'
-  | 'MATH'
-  | 'ETC'
-  | 'ART'
-  | 'MEDICINE'
+export const CATEGORY_TAG_TYPE = [
+  'IT',
+  'ECONOMY',
+  'HISTORY',
+  'LANGUAGE',
+  'MATH',
+  'ART',
+  'MEDICINE',
+  'ETC',
+  'DEFAULT',
+] as const
+
+export type CategoryTagType = (typeof CATEGORY_TAG_TYPE)[number]
 
 export interface Category {
   id: number
   name: string
   tag: CategoryTagType
   order: number
-  emoji: string
+  emoji?: string
   documents: {
     id: number
     name: string

@@ -5,25 +5,35 @@ import CategoryItem from './category-item'
 import {
   DndContext,
   closestCenter,
-  PointerSensor,
   useSensor,
   useSensors,
   DragEndEvent,
   DragStartEvent,
   DragOverlay,
+  TouchSensor,
+  MouseSensor,
 } from '@dnd-kit/core'
-import { useState } from 'react'
+import { ButtonHTMLAttributes, HTMLAttributes, useState } from 'react'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Category, getCategories } from '@/apis/fetchers/category/get-categories'
 import { useSession } from 'next-auth/react'
 import CreateCategoryModal from './create-category-modal'
+import icons from '@/constants/icons'
+import { reorderCategory } from '@/apis/fetchers/category/reorder-category'
+import { cn } from '@/lib/utils'
 
-export default function CategoryList() {
-  const [draggedItem, setDraggedItem] = useState<Category | null>(null)
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
+export default function CategoryList({ className }: Props) {
   const { data: session } = useSession()
-  const { data: categories } = useQuery({
+  const queryClient = useQueryClient()
+
+  const {
+    data: categories,
+    isError,
+    isPending,
+  } = useQuery({
     queryKey: ['categories'],
     queryFn: () =>
       getCategories({ accessToken: session?.user.accessToken || '' }).then((res) => res.categories),
@@ -31,17 +41,29 @@ export default function CategoryList() {
     staleTime: Infinity,
     gcTime: Infinity,
   })
-  const queryClient = useQueryClient()
+  const { mutate: mutateReorder } = useMutation({
+    mutationFn: reorderCategory,
+  })
+
+  const [draggedItem, setDraggedItem] = useState<Category | null>(null)
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
         distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        tolerance: 10,
+        delay: 300,
       },
     })
   )
 
-  if (categories === undefined) return <div>loading</div>
+  if (isPending) return <div>loading</div>
+
+  if (isError) return <div>error</div>
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event
@@ -57,6 +79,13 @@ export default function CategoryList() {
       const oldIndex = categories.findIndex((category) => category.id === active.id)
       const newIndex = categories.findIndex((category) => category.id === over?.id)
 
+      mutateReorder({
+        categoryId: Number(active.id),
+        preDragCategoryOrder: oldIndex + 1,
+        afterDragCategoryOrder: newIndex + 1,
+        accessToken: session?.user.accessToken || '',
+      })
+
       queryClient.setQueryData(['categories'], (prevCategories: Category[]) =>
         arrayMove(prevCategories, oldIndex, newIndex)
       )
@@ -66,35 +95,80 @@ export default function CategoryList() {
   }
 
   return (
-    <>
-      <p className="mb-[16px] text-body1-medium text-gray-08">
-        공부 폴더 <span className="font-bold text-orange-06">{categories.length}</span>개
-      </p>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={categories}>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
-            {categories.map((studyCategory) => (
-              <CategoryItem key={studyCategory.id} {...studyCategory} />
-            ))}
+    <div className={className}>
+      {categories.length === 0 ? (
+        <div className="flex h-[70vh] flex-col items-center justify-center">
+          <Image className="mb-[20px]" src={icons.folderEmpty} alt="" />
+          <h3 className="mb-[8px] text-h3-bold text-gray-08">아직 폴더가 없어요</h3>
+          <p className="mb-[30px] text-body2-medium text-gray-07">
+            폴더를 만들고 노트를 추가해보세요
+          </p>
+          <AddCategoryButton />
+        </div>
+      ) : (
+        <>
+          <div className="mb-[24px] hidden items-center gap-4 rounded-full bg-gray-02 px-8 py-3 lg:flex">
+            <Image src={icons.search} alt="search" width={16} height={16} />
+            <input
+              className="w-full bg-transparent focus:outline-none"
+              placeholder="노트명, 노트 내용 검색"
+            />
+          </div>
+          <div className="mb-[16px] flex items-center justify-between">
+            <p className="text-body2-medium text-gray-08 lg:text-body1-medium">
+              폴더 <span className="font-bold text-orange-06">{categories.length}</span>개
+            </p>
             <CreateCategoryModal
               trigger={
-                <button className="flex min-h-[120px] items-center justify-center gap-2 rounded-xl border-2 border-dashed text-body2-bold text-gray-08">
-                  폴더 추가하기
-                  <div className="rounded-full bg-gray-02 p-2">
-                    <Image src="/icons/plus.svg" alt="" width={18} height={18} />
+                <button className="flex items-center gap-[8px] text-body2-medium text-gray-08 lg:hidden lg:text-body1-medium">
+                  폴더 추가
+                  <div className="flex size-[24px] items-center justify-center rounded-full bg-gray-02">
+                    <Image src={icons.plus} alt="" width={11} height={11} />
                   </div>
                 </button>
               }
             />
           </div>
-        </SortableContext>
-        <DragOverlay>{draggedItem && <CategoryItem {...draggedItem} />}</DragOverlay>
-      </DndContext>
-    </>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={categories}>
+              <div className="flex gap-3 overflow-x-scroll scrollbar-hide lg:grid lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] lg:gap-4">
+                {categories.map((studyCategory) => (
+                  <CategoryItem key={studyCategory.id} {...studyCategory} />
+                ))}
+                <AddCategoryButton className="hidden lg:flex" />
+              </div>
+            </SortableContext>
+            <DragOverlay>{draggedItem && <CategoryItem {...draggedItem} />}</DragOverlay>
+          </DndContext>
+        </>
+      )}
+    </div>
+  )
+}
+
+interface AddCategoryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+
+function AddCategoryButton({ className }: AddCategoryButtonProps) {
+  return (
+    <CreateCategoryModal
+      trigger={
+        <button
+          className={cn(
+            'flex min-h-[120px] min-w-[240px] items-center justify-center gap-2 rounded-xl border-2 border-dashed !text-body2-bold text-gray-08',
+            className
+          )}
+        >
+          폴더 추가하기
+          <div className="rounded-full bg-gray-02 p-2">
+            <Image src="/icons/plus.svg" alt="" width={18} height={18} />
+          </div>
+        </button>
+      }
+    />
   )
 }

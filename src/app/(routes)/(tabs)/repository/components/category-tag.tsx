@@ -14,6 +14,7 @@ const tagVariant: {
     ART: 'bg-[#EFDBFF] text-[#B663DD]',
     MEDICINE: 'bg-[#E7FFDB] text-[#5F9F0D]',
     ETC: 'bg-[#D9D9D9] text-[#000000]',
+    DEFAULT: 'bg-[#D9D9D9] text-[#000000]',
   },
   text: {
     IT: 'IT·개발',
@@ -24,6 +25,7 @@ const tagVariant: {
     ART: '예술',
     MEDICINE: '의료·과학',
     ETC: '기타',
+    DEFAULT: '기본',
   },
 }
 
@@ -34,7 +36,13 @@ interface Props {
 
 export default function CategoryTag({ tag, className }: Props) {
   return (
-    <span className={cn('rounded-md px-2 py-1 text-[10px]', tagVariant.style[tag], className)}>
+    <span
+      className={cn(
+        'whitespace-nowrap flex justify-center items-center h-[19px] rounded-[4px] px-2 text-[10px]',
+        tagVariant.style[tag],
+        className
+      )}
+    >
       {tagVariant.text[tag]}
     </span>
   )
