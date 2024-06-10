@@ -21,6 +21,9 @@ const config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
+        suit: ['var(--font-suit)'],
+        'dm-sans': ['var(--font-dm-sans'],
+        'dm-suit': ['var(--font-dm-sans)', 'var(--font-suit)'],
       },
       fontSize: {
         h1: [
@@ -145,6 +148,14 @@ const config = {
         ],
         'text-bold': [
           '14px',
+          {
+            lineHeight: '150%',
+            fontWeight: 'bold',
+            letterSpacing: '0.02em',
+          },
+        ],
+        'text2-bold': [
+          '16px',
           {
             lineHeight: '150%',
             fontWeight: 'bold',

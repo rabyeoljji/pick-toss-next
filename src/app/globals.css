@@ -66,9 +66,18 @@
   }
 }
 
+.list-line-clamp-1 {
+  overflow-x: hidden;
+  flex-shrink: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
 @layer base {
   * {
     @apply border-border;
+    font-synthesis: none !important;
   }
   body {
     @apply bg-background text-foreground;
