@@ -18,10 +18,11 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Category, getCategories } from '@/apis/fetchers/category/get-categories'
 import { useSession } from 'next-auth/react'
-import CreateCategoryModal from './create-category-modal'
 import icons from '@/constants/icons'
 import { reorderCategory } from '@/apis/fetchers/category/reorder-category'
 import { cn } from '@/lib/utils'
+import CreateCategoryDialog from '@/components/create-category-dialog'
+import Loading from '@/components/loading'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -59,7 +60,12 @@ export default function CategoryList({ className }: Props) {
     })
   )
 
-  if (isPending) return <div>loading</div>
+  if (isPending)
+    return (
+      <div className="relative min-h-[205.7px]">
+        <Loading size="small" center />
+      </div>
+    )
 
   if (isError) return <div>error</div>
 
@@ -116,7 +122,7 @@ export default function CategoryList({ className }: Props) {
             <p className="text-body2-medium text-gray-08 lg:text-body1-medium">
               폴더 <span className="font-bold text-orange-06">{categories.length}</span>개
             </p>
-            <CreateCategoryModal
+            <CreateCategoryDialog
               trigger={
                 <button className="flex items-center gap-[8px] text-body2-medium text-gray-08 lg:hidden lg:text-body1-medium">
                   폴더 추가
@@ -134,7 +140,7 @@ export default function CategoryList({ className }: Props) {
             onDragEnd={handleDragEnd}
           >
             <SortableContext items={categories}>
-              <div className="flex gap-3 overflow-x-scroll scrollbar-hide lg:grid lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] lg:gap-4">
+              <div className="m-[-20px] flex gap-3 overflow-x-scroll p-[20px] scrollbar-hide lg:grid lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] lg:gap-4">
                 {categories.map((studyCategory) => (
                   <CategoryItem key={studyCategory.id} {...studyCategory} />
                 ))}
@@ -153,7 +159,7 @@ interface AddCategoryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 
 function AddCategoryButton({ className }: AddCategoryButtonProps) {
   return (
-    <CreateCategoryModal
+    <CreateCategoryDialog
       trigger={
         <button
           className={cn(

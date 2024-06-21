@@ -35,6 +35,8 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
   const { totalElapsedTime, runTimer, stopTimer } = useTimer()
   const [solvingData, setSolvingData] = useState<SolvingData>([])
 
+  const [reward, setReward] = useState<null | number>(null)
+
   const { mutate: patchQuizResultMutate } = useMutation({
     mutationKey: ['patchQuizResult'],
     mutationFn: (solvingData: SolvingData) =>
@@ -104,17 +106,18 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
         elapsedTime: totalElapsedTime,
       },
     ]
+    setSolvingData(newSolvingData)
 
     if (quizProgress.quizIndex === quizzes.length - 1) {
       patchQuizResultMutate(newSolvingData, {
-        onSuccess: () => {
+        onSuccess: ({ reward }) => {
+          setReward(reward)
           setState('end')
         },
       })
       return
     }
 
-    setSolvingData(newSolvingData)
     setQuizProgress((prev) => ({
       quizIndex: prev.quizIndex + 1,
       selectedMultipleQuizAnswer: null,
@@ -229,7 +232,17 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
             />
           </>
         ),
-        end: <QuizResult totalElapsedTime={totalElapsedTime} isTodayQuiz={isTodayQuiz} />,
+        end: (
+          <QuizResult
+            totalElapsedTime={totalElapsedTime}
+            isTodayQuiz={isTodayQuiz}
+            reward={reward}
+            results={solvingData.map((data) => ({
+              ...data,
+              category: quizzes.find((quiz) => quiz.id === data.id)!.category,
+            }))}
+          />
+        ),
       }}
     />
   )

@@ -42,6 +42,14 @@ const config = {
             letterSpacing: '0.02em',
           },
         ],
+        'h2-bold-eng': [
+          '32px',
+          {
+            lineHeight: 'normal',
+            fontWeight: 'bold',
+            letterSpacing: '-0.02em',
+          },
+        ],
         'h2-medium': [
           '32px',
           {
@@ -55,7 +63,15 @@ const config = {
           {
             lineHeight: 'normal',
             fontWeight: 'bold',
-            letterSpacing: '0.02em',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        'h3-bold-eng': [
+          '24px',
+          {
+            lineHeight: 'normal',
+            fontWeight: 'bold',
+            letterSpacing: '-0.02em',
           },
         ],
         'h3-medium': [
@@ -71,6 +87,14 @@ const config = {
           {
             lineHeight: 'normal',
             fontWeight: 'bold',
+            letterSpacing: '0.02em',
+          },
+        ],
+        'h4-medium': [
+          '20px',
+          {
+            lineHeight: '150%',
+            fontWeight: 'normal',
             letterSpacing: '0.02em',
           },
         ],
@@ -274,6 +298,7 @@ const config = {
       },
       boxShadow: {
         modal: '0px 4px 12px 0px #00000040',
+        'custom-shadow': '2px 2.5px 12.5px rgba(93, 99, 110, 0.15)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -293,6 +318,9 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      backgroundImage: {
+        'orange-gradient': 'linear-gradient(to bottom, #FFFFFF 0%, #FFF7EA 40%, #FFFFFF 60%)',
       },
     },
   },

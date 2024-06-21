@@ -1,20 +1,30 @@
 'use client'
 
-import { TodayQuizSetType } from '@/apis/fetchers/quiz/get-today-quiz-set-id'
+import { getTodayQuizSetId } from '@/apis/fetchers/quiz/get-today-quiz-set-id'
+import { CategoryProtector } from '@/components/category-protector'
 import { SwitchCase } from '@/components/react/switch-case'
 import { Button } from '@/components/ui/button'
 import icons from '@/constants/icons'
 import { cn } from '@/lib/utils'
+import { useQuery } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-interface QuizBannerProps {
-  type: TodayQuizSetType
-  quizSetId: string | null
-}
-
-export default function QuizBanner({ type = 'NOT_READY', quizSetId }: QuizBannerProps) {
+export default function QuizBanner() {
+  const { data: session } = useSession()
   const router = useRouter()
+
+  const { data } = useQuery({
+    queryKey: ['today-quiz-set-id'],
+    queryFn: () =>
+      getTodayQuizSetId({
+        accessToken: session?.user.accessToken || '',
+      }),
+  })
+
+  const type = data?.type ?? 'NOT_READY'
+  const quizSetId = data?.quizSetId ?? null
 
   return (
     <div
@@ -90,13 +100,15 @@ export default function QuizBanner({ type = 'NOT_READY', quizSetId }: QuizBanner
             </Button>
           ),
           NOT_READY: (
-            <Button
-              className="flex w-full gap-[8px] rounded-[8px]"
-              onClick={() => router.push('/create')}
-            >
-              <div>노트 추가하러 가기</div>
-              <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
-            </Button>
+            <CategoryProtector>
+              <Button
+                className="flex w-full gap-[8px] rounded-[8px]"
+                onClick={() => router.push('/create')}
+              >
+                <div>노트 추가하러 가기</div>
+                <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
+              </Button>
+            </CategoryProtector>
           ),
           DONE: (
             <Button className="flex w-full cursor-default gap-[8px] rounded-[8px] bg-blue-03 text-blue-06 hover:bg-blue-03">
