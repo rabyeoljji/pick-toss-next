@@ -11,10 +11,12 @@ import { TitleInput } from '../components/title-input'
 import VisualEditor from '../components/visual-editor'
 import { updateDocumentContent } from '@/apis/fetchers/document/update-document-content'
 import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
 
 export default function Modify() {
   const { data: session } = useSession()
   const { documentId } = useParams()
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -65,6 +67,7 @@ export default function Modify() {
       },
       {
         onSuccess: () => {
+          toast({ description: '노트가 수정되었습니다' })
           router.push(`/document/${Number(documentId)}`)
         },
       }
