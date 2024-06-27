@@ -6,7 +6,7 @@ import { useDocumentDetailContext } from '../contexts/document-detail-context'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SwitchCase } from '@/components/react/switch-case'
@@ -63,6 +63,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
   const documentId = useParams().documentId as string
   const queryClient = useQueryClient()
   const { toast } = useToast()
+  const prevStatusRef = useRef<DocumentStatus>()
 
   const {
     data: { documentStatus: status, keyPoints },
@@ -79,24 +80,9 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
     },
   })
 
-  useEffect(() => {
-    if (status !== 'PROCESSING') return
-
-    const refetchKeyPoints = async () => {
-      await queryClient.refetchQueries({ queryKey: [GET_KEY_POINTS_BY_ID_QUERY_KEY, documentId] })
-      if (status === 'PROCESSING') {
-        timerId = setTimeout(refetchKeyPoints, 4000)
-      }
-    }
-
-    let timerId = setTimeout(refetchKeyPoints, 4000)
-
-    return () => clearTimeout(timerId)
-  }, [status, queryClient, documentId])
-
   const { mutate: mutateCreateAiPick } = useMutation({
     mutationKey: ['create-ai-pick'],
-    mutationFn: () => {
+    mutationFn: ({ rePick }: { rePick: boolean }) => {
       queryClient.setQueryData<GetKeyPointsByIdResponse>(
         [GET_KEY_POINTS_BY_ID_QUERY_KEY, documentId],
         (oldData) => {
@@ -105,9 +91,11 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
           return {
             ...oldData,
             documentStatus: 'PROCESSING',
+            keyPoints: rePick ? [] : oldData.keyPoints,
           }
         }
       )
+      prevStatusRef.current = 'PROCESSING'
 
       return createAiPick({
         documentId: Number(documentId),
@@ -155,6 +143,37 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
       /** TODO: 실패 안내 */
     },
   })
+
+  const rePick = () => {
+    mutateCreateAiPick({ rePick: true })
+  }
+
+  useEffect(() => {
+    // 문서 생성 polling이 완료 된 후 View 컴포넌트의 document refetch
+    if (prevStatusRef.current === 'PROCESSING' && status === 'PROCESSED') {
+      const refetchDocument = async () => {
+        prevStatusRef.current === 'PROCESSED'
+        await queryClient.refetchQueries({ queryKey: ['document', documentId] })
+      }
+
+      void refetchDocument()
+    }
+  }, [status, documentId, queryClient])
+
+  useEffect(() => {
+    if (status !== 'PROCESSING') return
+
+    const refetchKeyPoints = async () => {
+      await queryClient.refetchQueries({ queryKey: [GET_KEY_POINTS_BY_ID_QUERY_KEY, documentId] })
+      if (status === 'PROCESSING') {
+        timerId = setTimeout(refetchKeyPoints, 4000)
+      }
+    }
+
+    let timerId = setTimeout(refetchKeyPoints, 4000)
+
+    return () => clearTimeout(timerId)
+  }, [status, queryClient, documentId])
 
   useEffect(() => {
     if (isDesktop) {
@@ -210,11 +229,13 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
             >
               <div className="mb-[20px] flex flex-col gap-[15px] pt-[23px]">
                 <div className="flex h-[48px] items-center px-[19px]">
-                  <h3 className="text-h3-bold text-gray-08">AI pick</h3>
+                  <h3 className="text-h3-bold text-gray-08">
+                    A<i>I</i> pick
+                  </h3>
                 </div>
 
                 <div className="px-[10px]">
-                  <PickBanner status={status} />
+                  <PickBanner status={status} rePick={rePick} />
                 </div>
               </div>
 
@@ -231,7 +252,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
                         variant="gradation"
                         size="sm"
                         className="w-fit gap-[4px]"
-                        onClick={() => mutateCreateAiPick()}
+                        onClick={() => mutateCreateAiPick({ rePick: false })}
                       >
                         <StarsIcon />
                         pick 시작
@@ -272,7 +293,9 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
         ) : (
           <Button className="absolute bottom-[50px] right-1/2 flex h-[40px] w-[144px] translate-x-1/2 gap-[8px] rounded-full bg-blue-06 !text-body2-bold hover:bg-blue-06">
             <Image src={icons.pin} width={16.6} height={20.4} alt="" />
-            AI pick 보기
+            <span>
+              AI <i>p</i>ick 보기
+            </span>
           </Button>
         )}
       </DrawerTrigger>
@@ -280,10 +303,12 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
       <DrawerContent className="rounded-t-[20px]">
         <div className="mt-[10px] flex h-[90vh] flex-col">
           <div className="flex flex-col gap-[15px]">
-            <h3 className="pl-[24px] text-h3-bold text-gray-08">AI pick</h3>
+            <h3 className="pl-[24px] text-h3-bold text-gray-08">
+              AI <i>p</i>ick
+            </h3>
 
             <div className="px-[15px]">
-              <PickBanner status={status} />
+              <PickBanner status={status} rePick={rePick} />
             </div>
           </div>
 
@@ -298,7 +323,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
                 variant="gradation"
                 size="sm"
                 className="w-fit gap-[4px]"
-                onClick={() => mutateCreateAiPick()}
+                onClick={() => mutateCreateAiPick({ rePick: false })}
               >
                 <StarsIcon />
                 pick 시작
@@ -308,9 +333,10 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
             <div className="mt-[12px] flex flex-col gap-[40px] overflow-auto pb-[60px] pl-[16px] pr-[24px]">
               <PickAccordion
                 keyPoints={keyPoints}
-                mutateToggleBookmark={(data: { keypointId: number; bookmark: boolean }) =>
+                mutateToggleBookmark={(data: { keypointId: number; bookmark: boolean }) => {
+                  prevStatusRef.current = 'PROCESSING'
                   mutateToggleBookmark(data)
-                }
+                }}
               />
               {status === 'PROCESSING' && <GeneratingPicks />}
             </div>
