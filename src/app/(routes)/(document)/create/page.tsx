@@ -1,17 +1,16 @@
 'use client'
 
-import { getCategories } from '@/apis/fetchers/category/get-categories'
 import Loading from '@/components/loading'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { CreateDocumentProvider } from './contexts/create-document-context'
 import { Header } from './components/header'
 import { TitleInput } from './components/title-input'
-import { createDocument } from '@/apis/fetchers/document/create-document'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
+import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import { useCreateDocumentMutation } from '@/apis/fetchers/document/create-document/mutation'
+import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 
 const VisualEditor = dynamic(() => import('./components/visual-editor'), {
   ssr: false,
@@ -19,24 +18,15 @@ const VisualEditor = dynamic(() => import('./components/visual-editor'), {
 })
 
 export default function CreateDocument() {
-  const { data: session } = useSession()
   const router = useRouter()
   const { toast } = useToast()
+  const searchParams = useSearchParams()
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () =>
-      getCategories({
-        accessToken: session?.user.accessToken || '',
-      }).then((res) => res.categories),
-    enabled: !!session?.user.accessToken,
-  })
+  const { data: categories } = useGetCategoriesQuery()
 
-  const { mutateAsync } = useMutation({
-    mutationFn: createDocument,
-  })
+  const { mutateAsync } = useCreateDocumentMutation()
 
   const handleSubmit = async ({
     categoryId,
@@ -50,6 +40,14 @@ export default function CreateDocument() {
     if (isLoading || !categoryId || !documentName || !editorContent) {
       return
     }
+    if (editorContent.length < MIN_CONTENT_LENGTH) {
+      alert('최소 150자 이상의 본문을 입력해주세요.')
+      return
+    } else if (editorContent.length > MAX_CONTENT_LENGTH) {
+      alert('본문의 길이는 15,000자를 넘길 수 없습니다.')
+      return
+    }
+
     setIsLoading(true)
 
     const documentBlob = new Blob([editorContent], { type: 'text/markdown' })
@@ -57,7 +55,6 @@ export default function CreateDocument() {
 
     await mutateAsync(
       {
-        accessToken: session?.user.accessToken || '',
         documentName: documentName,
         file,
         categoryId,
@@ -75,8 +72,12 @@ export default function CreateDocument() {
     return null
   }
 
+  const defaultCategoryId =
+    categories.find((category) => category.id === Number(searchParams.get('default')))?.id ||
+    categories[0].id
+
   return (
-    <CreateDocumentProvider initCategoryId={categories[0].id}>
+    <CreateDocumentProvider initCategoryId={Number(defaultCategoryId) || categories[0].id}>
       <Header categories={categories} handleSubmit={handleSubmit} />
       <div className="mt-[22px] min-h-screen rounded-t-[20px] bg-white shadow-sm">
         <TitleInput />

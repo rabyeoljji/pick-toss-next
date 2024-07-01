@@ -10,30 +10,20 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import icons from '@/constants/icons'
-import { getCategories } from '@/apis/fetchers/category/get-categories'
-import { useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import { ChevronRight } from 'lucide-react'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import BarLoader from 'react-spinners/BarLoader'
+import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
 
 export const SidebarCategoryAccordion = () => {
   const segments = useSelectedLayoutSegments()
-  const { data: session } = useSession()
 
   const [accordionValue, setAccordionValue] = useState<string[]>([])
   const prevCategoryId = useRef<number | null>(null)
 
-  const { data: categories, isPending } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const res = await getCategories({ accessToken: session?.user.accessToken || '' })
-      return res.categories
-    },
-    enabled: !!session?.user.accessToken,
-  })
+  const { data: categories, isPending } = useGetCategoriesQuery()
 
   const currentCategoryId = useMemo(() => {
     if (segments[0] === 'repository' && segments.length === 2) {
@@ -88,7 +78,7 @@ export const SidebarCategoryAccordion = () => {
             <span className="truncate">{category.name}</span>
           </AccordionTrigger>
           <AccordionContent>
-            <div>
+            <div className="flex flex-col gap-[2px]">
               {category.documents.map((document) => (
                 <Link
                   key={document.id}

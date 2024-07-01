@@ -9,12 +9,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ButtonHTMLAttributes, HTMLAttributes, useState } from 'react'
 import DocumentItem from './document-item'
-import { getDocumentsForCategory } from '@/apis/fetchers/document/get-documents-for-category'
-import { useSession } from 'next-auth/react'
-import { useQuery } from '@tanstack/react-query'
 import icons from '@/constants/icons'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { useGetDocumentsForCategoryQuery } from '@/apis/fetchers/document/get-documents-for-category/query'
 
 const SORT_OPTION_TYPE = ['createdAt', 'name', 'updatedAt'] as const
 
@@ -30,23 +28,15 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 export default function DocumentList({ categoryId, className }: Props) {
-  const { data: session } = useSession()
-
   const [sortOption, setSortOption] = useState<SortOption>('createdAt')
 
   const {
     data: documents,
     isError,
     isPending,
-  } = useQuery({
-    queryKey: ['documents', categoryId, sortOption],
-    queryFn: () =>
-      getDocumentsForCategory({
-        accessToken: session?.user.accessToken || '',
-        categoryId,
-        sortOption,
-      }).then((res) => res.documents),
-    enabled: !!session,
+  } = useGetDocumentsForCategoryQuery({
+    categoryId,
+    sortOption,
   })
 
   const handleSortOptionClick = (option: SortOption) => {
@@ -60,7 +50,7 @@ export default function DocumentList({ categoryId, className }: Props) {
   return (
     <div className={className}>
       {documents.length === 0 ? (
-        <NoContent />
+        <NoContent categoryId={categoryId} />
       ) : (
         <>
           <div className="flex items-center justify-between">
@@ -91,7 +81,7 @@ export default function DocumentList({ categoryId, className }: Props) {
             {documents.map((document) => (
               <DocumentItem key={document.id} sortOption={sortOption} {...document} />
             ))}
-            <AddNoteButton className="hidden lg:flex" />
+            <AddNoteButton className="hidden lg:flex" categoryId={categoryId} />
           </div>
         </>
       )}
@@ -99,23 +89,25 @@ export default function DocumentList({ categoryId, className }: Props) {
   )
 }
 
-function NoContent() {
+function NoContent({ categoryId }: { categoryId: number }) {
   return (
     <div className="flex h-[70vh] flex-col items-center justify-center">
       <Image className="mb-[20px]" src={icons.noteEmpty} alt="" />
       <h3 className="mb-[8px] text-h3-bold text-gray-08">아직 노트가 없어요</h3>
       <p className="mb-[30px] text-body2-medium text-gray-07">내가 공부하는 노트를 추가해보세요</p>
-      <AddNoteButton />
+      <AddNoteButton categoryId={categoryId} />
     </div>
   )
 }
 
-interface AddNoteButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+interface AddNoteButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  categoryId: number
+}
 
-function AddNoteButton({ className }: AddNoteButtonProps) {
+function AddNoteButton({ className, categoryId }: AddNoteButtonProps) {
   return (
     <Link
-      href="/create"
+      href={`/create?default=${categoryId}`}
       className={cn(
         'flex h-[78px] w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed !text-body2-bold text-gray-08',
         className

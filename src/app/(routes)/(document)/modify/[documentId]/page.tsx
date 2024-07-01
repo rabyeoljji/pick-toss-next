@@ -1,7 +1,6 @@
 'use client'
 
-import { getDocument } from '@/apis/fetchers/document/get-document'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useParams, useRouter } from 'next/navigation'
 import { EditDocumentProvider } from '../contexts/edit-document-context'
@@ -9,10 +8,12 @@ import { Header } from '../components/header'
 import Loading from '@/components/loading'
 import { TitleInput } from '../components/title-input'
 import VisualEditor from '../components/visual-editor'
-import { updateDocumentContent } from '@/apis/fetchers/document/update-document-content'
+import { updateDocumentContent } from '@/apis/fetchers/document/update-document-content/fetcher'
 import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { ToastAction } from '@/components/ui/toast'
+import { useGetDocumentQuery } from '@/apis/fetchers/document/get-document/query'
+import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 
 export default function Modify() {
   const { data: session } = useSession()
@@ -21,14 +22,7 @@ export default function Modify() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const { data: modifyTargetDocument } = useQuery({
-    queryKey: ['document', Number(documentId)],
-    queryFn: () =>
-      getDocument({
-        accessToken: session?.user.accessToken || '',
-        documentId: Number(documentId),
-      }),
-  })
+  const { data: modifyTargetDocument } = useGetDocumentQuery({ documentId: Number(documentId) })
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: { name: string; file: File }) =>
@@ -56,6 +50,15 @@ export default function Modify() {
     if (isLoading || !documentName || !editorContent) {
       return
     }
+
+    if (editorContent.length < MIN_CONTENT_LENGTH) {
+      alert('최소 150자 이상의 본문을 입력해주세요.')
+      return
+    } else if (editorContent.length > MAX_CONTENT_LENGTH) {
+      alert('본문의 길이는 15,000자를 넘길 수 없습니다.')
+      return
+    }
+
     setIsLoading(true)
 
     const documentBlob = new Blob([editorContent], { type: 'text/markdown' })
@@ -76,7 +79,7 @@ export default function Modify() {
             description: '노트가 수정되었습니다',
             action: (
               <ToastAction altText="AI Pick 다시 생성하기" onClick={handleActionClick}>
-                AI Pick 다시 생성하기
+                AI <i>p</i>ick 다시 생성하기
               </ToastAction>
             ),
           })

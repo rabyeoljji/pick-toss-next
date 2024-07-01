@@ -1,26 +1,16 @@
 'use client'
 
-import { getTopFive } from '@/apis/fetchers/document/get-top-five'
+import { useGetTopFiveQuery } from '@/apis/fetchers/document/get-top-five/query'
 import Loading from '@/components/loading'
 import icons from '@/constants/icons'
-import { useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function TopFive() {
-  const { data: session } = useSession()
-
-  const { data: documents, isLoading } = useQuery({
-    queryKey: ['top-five'],
-    queryFn: () =>
-      getTopFive({
-        accessToken: session?.user.accessToken || '',
-      }).then((res) => res.documents),
-  })
+  const { data: documents, isLoading } = useGetTopFiveQuery()
 
   return (
-    <section className="relative flex min-h-[400px] flex-col gap-[24px] rounded-none bg-white p-[20px] pb-[17px] lg:rounded-[12px]">
+    <section className="relative flex min-h-[400px] flex-col gap-[24px] rounded-none bg-white p-[20px] pb-[17px] xl:rounded-[12px]">
       <h2 className="text-h4-bold text-gray-09">내가 자주 틀린 노트 TOP5</h2>
       {isLoading ? (
         <Loading size="small" center />

@@ -99,6 +99,10 @@ export const API_ENDPOINT = {
       url: `/documents/search`,
       method: HttpMethod.POST,
     }),
+    quizCount: () => ({
+      url: `/documents/quiz-count`,
+      method: HttpMethod.POST,
+    }),
   },
 
   keypoint: {
@@ -192,6 +196,22 @@ export const API_ENDPOINT = {
     }),
     verifyEmailCheck: () => ({
       url: `/auth/verification/check`,
+      method: HttpMethod.POST,
+    }),
+  },
+
+  // test
+  test: {
+    changePoint: () => ({
+      url: `/test/change-point`,
+      method: HttpMethod.PATCH,
+    }),
+    changeAiPick: () => ({
+      url: `/test/change-ai-pick`,
+      method: HttpMethod.PATCH,
+    }),
+    createTodayQuiz: () => ({
+      url: `/test/create-today-quiz`,
       method: HttpMethod.POST,
     }),
   },

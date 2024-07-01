@@ -2,7 +2,7 @@ import CategoryTag from '../components/category-tag'
 import DocumentList from './components/document-list'
 import { CommonLayout } from '@/components/common-layout'
 import { auth } from '@/app/api/auth/[...nextauth]/auth'
-import { getCategory } from '@/apis/fetchers/category/get-category'
+import { getCategory } from '@/apis/fetchers/category/get-category/fetcher'
 
 interface Props {
   params: {
@@ -32,7 +32,7 @@ export default async function Category({ params: { categoryId } }: Props) {
         </h2>
         <CategoryTag tag={tag} />
       </div>
-      <DocumentList className="px-[20px]" categoryId={Number(categoryId)} />
+      <DocumentList className="px-[20px] pb-[80px]" categoryId={Number(categoryId)} />
     </CommonLayout>
   )
 }

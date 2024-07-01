@@ -1,69 +1,69 @@
 'use client'
 
 import { CommonLayout } from '@/components/common-layout'
-import { GetBookmarksResponse, getBookmarks } from '@/apis/fetchers/key-point/get-bookmarks'
-import { useSession } from 'next-auth/react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { toggleBookmark } from '@/apis/fetchers/key-point/toggle-bookmark'
+import { GetBookmarksResponse } from '@/apis/fetchers/key-point/get-bookmarks/fetcher'
+import { useQueryClient } from '@tanstack/react-query'
 import Loading from '@/components/loading'
 import { NoPicks } from './components/no-picks'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { searchKeyPoints } from '@/apis/fetchers/key-point/search-key-points'
 import { SearchResult } from './components/search-result'
 import { KeyPointCard } from './components/key-point-card'
+import {
+  GET_BOOKMARKS_KEY,
+  useGetBookmarksQuery,
+} from '@/apis/fetchers/key-point/get-bookmarks/query'
+import { useToggleBookmarkMutation } from '@/apis/fetchers/key-point/toggle-bookmark/mutation'
+import { useSearchKeyPointsQuery } from '@/apis/fetchers/key-point/search-key-points/query'
+import { LOCAL_KEY } from '@/constants/recent-search-term'
 // import { CategorySelect } from './components/category-select'
 
 export default function Picks() {
-  const { data: session } = useSession()
   const queryClient = useQueryClient()
   const router = useRouter()
   const pathname = usePathname()
   const term = useSearchParams().get('term')
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['bookmarks'],
-    queryFn: () =>
-      getBookmarks({
-        accessToken: session?.user.accessToken || '',
-      }),
-    enabled: session?.user.accessToken != null,
-  })
+  const { data: keyPoints, isLoading } = useGetBookmarksQuery()
 
-  const { mutate: deleteBookmark } = useMutation({
-    mutationKey: ['patch-toggle-bookmark'],
-    mutationFn: (keyPointId: number) =>
-      toggleBookmark({
-        keypointId: keyPointId,
-        bookmark: false,
-        accessToken: session?.user.accessToken || '',
-      }),
-    onError: () => {
-      /** TODO: 에러 Toast, set back optimistic */
-    },
-  })
+  const { mutate: deleteBookmark } = useToggleBookmarkMutation()
 
   const handleDeleteBookmark = (keyPointId: number) => {
-    queryClient.setQueryData<GetBookmarksResponse>(['bookmarks'], (oldData) => {
-      if (!oldData) return oldData
+    queryClient.setQueryData<GetBookmarksResponse['keyPoints']>(
+      [GET_BOOKMARKS_KEY],
+      (keyPoints) => {
+        if (!keyPoints) return keyPoints
 
-      return {
-        ...oldData,
-        keyPoints: oldData?.keyPoints.filter((keypoint) => keypoint.id !== keyPointId),
+        return keyPoints?.filter((keypoint) => keypoint.id !== keyPointId)
       }
-    })
+    )
 
-    deleteBookmark(keyPointId)
+    deleteBookmark({ keyPointId, bookmark: false })
   }
 
-  const { data: searchData } = useQuery({
-    queryKey: ['search-picks', term],
-    queryFn: () =>
-      searchKeyPoints({
-        term: term!,
-        accessToken: session?.user.accessToken || '',
-      }),
-    enabled: term != null && session?.user.accessToken != null,
-  })
+  const { data: searchData } = useSearchKeyPointsQuery(
+    { term: term! },
+    {
+      enabled: term != null,
+    }
+  )
+
+  const handleSubmit = (data: { term: string }) => {
+    const trimTerm = data.term.trim()
+
+    if (trimTerm === '') return
+
+    const localItem = localStorage.getItem(LOCAL_KEY.SEARCH_PICK)
+    const prevRecentTerms = localItem
+      ? (JSON.parse(localItem) as unknown as string[])
+      : ([] as string[])
+
+    localStorage.setItem(
+      LOCAL_KEY.SEARCH_PICK,
+      JSON.stringify([trimTerm, ...prevRecentTerms].slice(0, 5))
+    )
+
+    router.push(`${pathname}/?term=${trimTerm}`)
+  }
 
   const showSearchResult = term != null
 
@@ -74,13 +74,7 @@ export default function Picks() {
           {!searchData ? (
             <Loading center />
           ) : (
-            <SearchResult
-              term={term}
-              keyPoints={searchData.keyPoints}
-              onReSearch={({ term }: { term: string }) => {
-                router.push(`${pathname}/?term=${term}`)
-              }}
-            />
+            <SearchResult term={term} keyPoints={searchData.keyPoints} onReSearch={handleSubmit} />
           )}
         </div>
       ) : (
@@ -92,10 +86,8 @@ export default function Picks() {
           }}
           searchOptions={{
             placeholder: '노트명, pick 내용을 입력하세요',
-            recentTerms: ['식물기반 단백질', '제품', '최근 이슈'],
-            onSubmit: ({ term }) => {
-              router.push(`${pathname}/?term=${term}`)
-            },
+            onSubmit: handleSubmit,
+            recentTermsLocalKey: LOCAL_KEY.SEARCH_PICK,
           }}
         >
           {isLoading ? (
@@ -104,7 +96,7 @@ export default function Picks() {
             </div>
           ) : (
             <>
-              {data?.keyPoints.length ? (
+              {keyPoints?.length ? (
                 <div className="mt-[18px] px-[20px] pb-[70px] lg:mt-[48px]">
                   <div className="flex items-center justify-between">
                     {/** TODO: 폴더 별 북마크 */}
@@ -113,11 +105,11 @@ export default function Picks() {
                       모든 문서
                     </div>
                     <div className="text-text-medium text-gray-06">
-                      {data?.keyPoints.length}개 저장됨
+                      {keyPoints?.length}개 저장됨
                     </div>
                   </div>
                   <div className="mt-[16px] flex flex-col gap-[24px] lg:grid lg:grid-cols-2 lg:gap-[16px]">
-                    {data?.keyPoints.map((keyPoint) => (
+                    {keyPoints?.map((keyPoint) => (
                       <KeyPointCard
                         key={keyPoint.id}
                         keyPoint={keyPoint}

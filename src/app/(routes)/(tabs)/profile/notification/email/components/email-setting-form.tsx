@@ -1,8 +1,8 @@
 'use client'
 
 import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { verifyEmail } from '@/apis/fetchers/auth/verify-email'
-import { verifyEmailCheck } from '@/apis/fetchers/auth/verify-email-check'
+import { verifyEmail } from '@/apis/fetchers/auth/verify-email/fetcher'
+import { verifyEmailCheck } from '@/apis/fetchers/auth/verify-email-check/fetcher'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import { actionRevalidatePath } from '@/lib/revalidate'
@@ -46,7 +46,7 @@ export default function EmailSettingForm() {
       const description = isFirstEmail.current
         ? '알림 받을 이메일이 등록되었습니다'
         : '알림 받을 이메일이 변경되었습니다'
-      await Promise.all([update(), actionRevalidatePath(API_ENDPOINT.user.getUser().url)])
+      await Promise.all([update({}), actionRevalidatePath(API_ENDPOINT.user.getUser().url)])
       toast({ description: description })
       router.push('/profile/notification')
     },

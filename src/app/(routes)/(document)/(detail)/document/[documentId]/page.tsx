@@ -1,10 +1,13 @@
-import { getDocument } from '@/apis/fetchers/document/get-document'
-import { auth } from '@/app/api/auth/[...nextauth]/auth'
+'use client'
+
 import { CommonLayout } from '@/components/common-layout'
 import VisualViewport from '@/components/react/visual-viewport'
 import { Viewer } from './components/viewer'
 import { DocumentDetailProvider } from './contexts/document-detail-context'
 import { AiPick } from './components/ai-pick'
+import Loading from '@/components/loading'
+import { useGetDocumentQuery } from '@/apis/fetchers/document/get-document/query'
+import { notFound } from 'next/navigation'
 
 interface Props {
   params: {
@@ -12,12 +15,25 @@ interface Props {
   }
 }
 
-export default async function Document({ params: { documentId } }: Props) {
-  const session = await auth()
-  const { documentName, createdAt, content, keyPoints, status } = await getDocument({
-    accessToken: session?.user.accessToken || '',
-    documentId: Number(documentId),
-  })
+export default function Document({ params: { documentId } }: Props) {
+  const { data: document, isError } = useGetDocumentQuery({ documentId: Number(documentId) })
+
+  if (isError) {
+    notFound()
+  }
+
+  if (!document)
+    return (
+      <div className="relative size-full h-screen">
+        <Loading center />
+      </div>
+    )
+
+  if (isError) {
+    notFound()
+  }
+
+  const { documentName, status, createdAt, content, keyPoints } = document
 
   return (
     <VisualViewport hideYScrollbar>
@@ -29,7 +45,12 @@ export default async function Document({ params: { documentId } }: Props) {
       >
         <DocumentDetailProvider>
           <main className="flex h-screen justify-center">
-            <Viewer documentName={documentName} createdAt={createdAt} content={content} />
+            <Viewer
+              documentName={documentName}
+              status={status}
+              createdAt={createdAt}
+              content={content}
+            />
 
             <AiPick initKeyPoints={keyPoints} initStatus={status} />
           </main>
