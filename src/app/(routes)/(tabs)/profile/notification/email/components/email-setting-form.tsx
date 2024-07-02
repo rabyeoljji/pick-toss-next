@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { ChangeEvent, useRef, useState } from 'react'
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const codeRegex = /^[a-zA-Z0-9]{6}$/
+const codeRegex = /^[0-9]{6}$/
 
 export default function EmailSettingForm() {
   const { data: session, update } = useSession()
@@ -62,6 +62,8 @@ export default function EmailSettingForm() {
     const input = e.target.value
 
     if (input.length > 6) return
+
+    if (isNaN(Number(input))) return
 
     setCodeInput(input)
   }
@@ -124,14 +126,12 @@ export default function EmailSettingForm() {
         <div>
           <label className="mb-[8px] text-small1-regular text-gray-07">인증 코드</label>
           <div className="flex items-center gap-[24px]">
-            <div className="flex h-[48px] w-[180px] rounded-sm border border-gray-01 bg-gray-01 px-[10px] focus-within:border-blue-05">
-              <input
-                className="flex-1 bg-gray-01 outline-none"
-                placeholder="6자리 입력"
-                value={codeInput}
-                onChange={handleCodeChange}
-              />
-            </div>
+            <input
+              className="h-[48px] w-[180px] rounded-sm border border-gray-01 bg-gray-01 px-[10px] outline-none focus:border-blue-05"
+              placeholder="6자리 숫자 입력"
+              value={codeInput}
+              onChange={handleCodeChange}
+            />
             <Button size="lg" disabled={!isValidateCode} onClick={handleVerifyCodeClick}>
               완료
             </Button>
