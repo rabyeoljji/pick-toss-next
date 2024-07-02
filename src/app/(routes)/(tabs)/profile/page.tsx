@@ -12,7 +12,7 @@ export default async function Profile() {
   const session = await auth()
 
   if (!session) throw new Error('로그인이 필요합니다.')
-
+  const { provider } = session.user.account
   const { name, documentUsage } = session.user.dto
   const { availableAiPickCount, possessDocumentCount, freePlanMaxPossessDocumentCount } =
     documentUsage
@@ -25,9 +25,8 @@ export default async function Profile() {
       <Section
         className="mb-[52px] mt-[55px]"
         content={
-          <div className="relative bg-white px-[20px]">
+          <div className="relative rounded-[12px] bg-white px-[20px]">
             <div>
-              <div className="absolute left-[16px] top-[-40px] size-[80px] rounded-full bg-orange-03" />
               <Link href="/profile/edit">
                 <button className="absolute right-[18px] top-[15px] flex h-[32px] w-[120px] items-center justify-center gap-[8px] rounded-[4px] bg-orange-01 text-small1-bold text-orange-06 hover:bg-orange-02/80">
                   <EditPencilIcon />
@@ -35,8 +34,20 @@ export default async function Profile() {
                 </button>
               </Link>
             </div>
-            <div className="flex flex-col gap-[24px] pb-[33px] pt-[55px]">
-              <div className="px-[4px] text-h4-bold text-gray-09">{name}</div>
+            <div className="flex flex-col gap-[24px] pb-[33px] pt-[22px]">
+              <div className="flex gap-[4px]">
+                <div className="px-[4px] text-h4-bold text-gray-09">{name}</div>
+                {provider === 'google' && (
+                  <div className="flex size-[24px] items-center justify-center rounded-full border bg-gray-01">
+                    <Image src={icons.google} alt="" width={15} />
+                  </div>
+                )}
+                {provider === 'kakao' && (
+                  <div className="flex size-[24px] items-center justify-center rounded-full border border-[#f5d948] bg-[#fbe44d]">
+                    <Image src={icons.kakao} alt="" width={15} />
+                  </div>
+                )}
+              </div>
               <div className="h-px w-full rounded-full bg-gray-02" />
               <div className="flex flex-col gap-[8px]">
                 <div className="flex gap-[7px]">
