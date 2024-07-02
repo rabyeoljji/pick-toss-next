@@ -23,6 +23,8 @@ import {
 import { GetKeyPointsByIdResponse } from '@/apis/fetchers/key-point/get-key-points-by-id/fetcher'
 import { useCreateAIPickMutation } from '@/apis/fetchers/document/create-ai-pick/mutation'
 import { useToggleBookmarkMutation } from '@/apis/fetchers/key-point/toggle-bookmark/mutation'
+import { useSession } from 'next-auth/react'
+import { AIPickDialog } from '@/components/ai-pick-dialog'
 
 interface Props {
   initKeyPoints: {
@@ -59,6 +61,9 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
   const documentId = Number(useParams().documentId as string)
   const queryClient = useQueryClient()
   const prevStatusRef = useRef<DocumentStatus>()
+  const { data: session } = useSession()
+
+  const availableAiPickCount = session?.user.dto.documentUsage.availableAiPickCount || 0
 
   const {
     data: { documentStatus: status, keyPoints },
@@ -73,6 +78,11 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
   const { mutate: mutateCreateAiPick } = useCreateAIPickMutation()
 
   const handleCreateAiPick = (option?: { rePick: boolean }) => {
+    if (availableAiPickCount < 1) {
+      alert('AI Pick 가능 횟수를 초과했습니다.')
+      return
+    }
+
     prevStatusRef.current = 'PROCESSING'
 
     queryClient.setQueryData<GetKeyPointsByIdResponse>(
@@ -204,7 +214,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
                 </div>
 
                 <div className="px-[10px]">
-                  <PickBanner status={status} rePick={() => handleCreateAiPick()} />
+                  <PickBanner status={status} rePick={() => handleCreateAiPick({ rePick: true })} />
                 </div>
               </div>
 
@@ -217,15 +227,15 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
                         <br />
                         노트 요약을 확인해보세요
                       </p>
-                      <Button
-                        variant="gradation"
-                        size="sm"
-                        className="w-fit gap-[4px]"
-                        onClick={() => handleCreateAiPick()}
-                      >
-                        <StarsIcon />
-                        pick 시작
-                      </Button>
+                      <AIPickDialog
+                        trigger={
+                          <Button variant="gradation" size="sm" className="w-fit gap-[4px]">
+                            <StarsIcon />
+                            pick 시작
+                          </Button>
+                        }
+                        confirm={() => handleCreateAiPick()}
+                      />
                     </div>
                   </div>
                 ) : (
@@ -277,7 +287,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
             </h3>
 
             <div className="px-[15px]">
-              <PickBanner status={status} rePick={() => handleCreateAiPick()} />
+              <PickBanner status={status} rePick={() => handleCreateAiPick({ rePick: true })} />
             </div>
           </div>
 
@@ -288,15 +298,15 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
                 <br />
                 노트 요약을 확인해보세요
               </p>
-              <Button
-                variant="gradation"
-                size="sm"
-                className="w-fit gap-[4px]"
-                onClick={() => handleCreateAiPick()}
-              >
-                <StarsIcon />
-                pick 시작
-              </Button>
+              <AIPickDialog
+                trigger={
+                  <Button variant="gradation" size="sm" className="w-fit gap-[4px]">
+                    <StarsIcon />
+                    pick 시작
+                  </Button>
+                }
+                confirm={() => handleCreateAiPick()}
+              />
             </div>
           ) : (
             <div className="mt-[12px] flex flex-col gap-[40px] overflow-auto pb-[60px] pl-[16px] pr-[24px]">

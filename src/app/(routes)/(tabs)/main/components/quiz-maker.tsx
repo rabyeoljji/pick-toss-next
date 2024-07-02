@@ -6,9 +6,10 @@ import { BlackLottie, MultipleLottie, OXLottie } from './lotties'
 import { ReactNode, forwardRef } from 'react'
 import MakeQuizDrawerDialog from './make-quiz-drawer-dialog'
 import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import Loading from '@/components/loading'
 
 export default function QuizMaker() {
-  const { data: categories } = useGetCategoriesQuery()
+  const { data: categories, isLoading } = useGetCategoriesQuery()
 
   return (
     <section className="flex flex-col gap-[24px]">
@@ -17,45 +18,60 @@ export default function QuizMaker() {
           <div className="text-h4-bold text-gray-08">퀴즈 만들기</div>
           <Image src={icons.circleQuestion} width={20} height={20} alt="" />
         </div>
-        <div className="text-body2-regular text-gray-07">
+        <div className="mt-[8px] text-body2-regular text-gray-07">
           원하는 노트에서 퀴즈를 만들고 풀어보세요
         </div>
       </div>
 
       <div className="flex flex-col gap-[16px] lg:flex-row">
-        <MakeQuizDrawerDialog
-          categories={categories ?? []}
-          quizType="MULTIPLE_CHOICE"
-          trigger={
-            <MakerTrigger
-              title="객관식"
-              description="4가지 선택지 중 정답을 고르는 퀴즈"
-              lottie={<MultipleLottie />}
+        {isLoading ? (
+          <>
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="relative h-[200px] flex-1 rounded-[12px] bg-white lg:h-[280px]"
+              >
+                <Loading center />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <MakeQuizDrawerDialog
+              categories={categories ?? []}
+              quizType="MULTIPLE_CHOICE"
+              trigger={
+                <MakerTrigger
+                  title="객관식"
+                  description="4가지 선택지 중 정답을 고르는 퀴즈"
+                  lottie={<MultipleLottie />}
+                />
+              }
             />
-          }
-        />
-        <MakeQuizDrawerDialog
-          categories={categories ?? []}
-          quizType="MIX_UP"
-          trigger={
-            <MakerTrigger
-              title="O/X"
-              description="참인지 거짓인지 판단하는 양자택일 퀴즈"
-              lottie={<OXLottie />}
+            <MakeQuizDrawerDialog
+              categories={categories ?? []}
+              quizType="MIX_UP"
+              trigger={
+                <MakerTrigger
+                  title="O/X"
+                  description="참인지 거짓인지 판단하는 양자택일 퀴즈"
+                  lottie={<OXLottie />}
+                />
+              }
             />
-          }
-        />
-        <MakeQuizDrawerDialog
-          categories={categories ?? []}
-          trigger={
-            <MakerTrigger
-              title="빈칸 채우기"
-              description="주어진 문장의 빈 곳을 채우는 퀴즈"
-              comingSoon
-              lottie={<BlackLottie />}
+            <MakeQuizDrawerDialog
+              categories={categories ?? []}
+              trigger={
+                <MakerTrigger
+                  title="빈칸 채우기"
+                  description="주어진 문장의 빈 곳을 채우는 퀴즈"
+                  comingSoon
+                  lottie={<BlackLottie />}
+                />
+              }
             />
-          }
-        />
+          </>
+        )}
       </div>
     </section>
   )
