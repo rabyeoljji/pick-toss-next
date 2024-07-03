@@ -11,7 +11,6 @@ import VisualEditor from '../components/visual-editor'
 import { updateDocumentContent } from '@/apis/fetchers/document/update-document-content/fetcher'
 import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
-import { ToastAction } from '@/components/ui/toast'
 import { useGetDocumentQuery } from '@/apis/fetchers/document/get-document/query'
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 
@@ -71,17 +70,8 @@ export default function Modify() {
       },
       {
         onSuccess: () => {
-          const handleActionClick = () => {
-            // TODO: AI Pick 다시 생성하기 로직 구현 필요
-          }
-
           toast({
             description: '노트가 수정되었습니다',
-            action: (
-              <ToastAction altText="AI Pick 다시 생성하기" onClick={handleActionClick}>
-                AI <i>p</i>ick 다시 생성하기
-              </ToastAction>
-            ),
           })
           router.push(`/document/${Number(documentId)}`)
         },
