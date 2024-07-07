@@ -21,6 +21,6 @@ export function useCreateDocumentMutation() {
         documentName,
         categoryId,
       }),
-    onSuccess: async () => await update({}),
+    onSuccess: () => update({}),
   })
 }

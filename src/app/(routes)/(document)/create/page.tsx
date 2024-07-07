@@ -24,6 +24,7 @@ export default function CreateDocument() {
   const { toast } = useToast()
   const searchParams = useSearchParams()
   const { data: session } = useSession()
+  const [protectLimit, setProtectLimit] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -51,6 +52,7 @@ export default function CreateDocument() {
       return
     }
 
+    setProtectLimit(true)
     setIsLoading(true)
 
     const documentBlob = new Blob([editorContent], { type: 'text/markdown' })
@@ -97,7 +99,7 @@ export default function CreateDocument() {
           <VisualEditor />
         </div>
         {isLoading && <Loading center />}
-        {isLimited && (
+        {isLimited && !protectLimit && (
           <LimitDocumentDialog defaultOpen={true} confirm={() => router.replace('/main')} />
         )}
       </CreateDocumentProvider>
