@@ -44,10 +44,10 @@ export default function CreateDocument() {
       return
     }
     if (editorContent.length < MIN_CONTENT_LENGTH) {
-      alert('최소 150자 이상의 본문을 입력해주세요.')
+      alert(`최소 ${MIN_CONTENT_LENGTH.toLocaleString('ko-kr')}자 이상의 본문을 입력해주세요.`)
       return
     } else if (editorContent.length > MAX_CONTENT_LENGTH) {
-      alert('본문의 길이는 15,000자를 넘길 수 없습니다.')
+      alert(`본문의 길이는 ${MAX_CONTENT_LENGTH.toLocaleString('ko-kr')}자를 넘길 수 없습니다.`)
       return
     }
 

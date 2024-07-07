@@ -104,7 +104,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
       {
         id: curQuiz.id,
         answer: isCorrect,
-        elapsedTime: totalElapsedTime,
+        elapsedTime: totalElapsedTime - solvingData.reduce((acc, cur) => acc + cur.elapsedTime, 0),
       },
     ]
     setSolvingData(newSolvingData)
