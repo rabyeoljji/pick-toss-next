@@ -79,6 +79,18 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
   const handleCreateAiPick = () => {
     prevStatusRef.current = 'PROCESSING'
 
+    queryClient.setQueryData<GetKeyPointsByIdResponse>(
+      [GET_KEY_POINTS_BY_ID_KEY, documentId],
+      (oldData) => {
+        if (!oldData) return oldData
+
+        return {
+          ...oldData,
+          documentStatus: 'PROCESSING',
+        }
+      }
+    )
+
     mutateCreateAiPick({
       documentId,
     })
@@ -266,7 +278,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
           <Button
             variant="gradation"
             size="sm"
-            className="absolute bottom-[50px] right-1/2 flex h-[40px] w-[144px] translate-x-1/2 gap-[4px] rounded-full !text-body2-bold text-white"
+            className="absolute bottom-[50px] right-1/2 flex h-[40px] w-[144px] translate-x-1/2 gap-[4px] rounded-full !text-body2-bold text-white shadow-lg"
           >
             <StarsIcon />
             pick 시작

@@ -14,9 +14,14 @@ export function ChoiceReact({ duration, condition, isCorrect }: Props) {
     <>
       {isCorrect && <QuizFireworks duration={duration} />}
       {condition && (
-        <div className="center absolute flex size-[80px] items-center justify-center overflow-hidden">
+        <div className="center absolute flex items-center justify-center overflow-hidden">
           {isCorrect ? (
-            <Lottie animationData={rightData} play={condition && isCorrect} speed={1.2} />
+            <Lottie
+              animationData={rightData}
+              play={isCorrect}
+              speed={1.2}
+              className="size-[117px]"
+            />
           ) : (
             <InCorrectIcon className="size-[80px]" />
           )}
@@ -31,10 +36,10 @@ function InCorrectIcon({ className }: { className?: HTMLAttributes<HTMLElement>[
     <svg
       width="80"
       height="80"
-      className={className}
       viewBox="0 0 80 80"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <circle cx="40" cy="40" r="40" fill="#F66444" />
       <path

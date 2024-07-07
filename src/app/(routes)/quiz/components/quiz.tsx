@@ -35,6 +35,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
   const [state, setState] = useState<'intro' | 'solving' | 'end'>('intro')
   const { totalElapsedTime, runTimer, stopTimer } = useTimer()
   const [solvingData, setSolvingData] = useState<SolvingData>([])
+  const [isLoadingResult, setIsLoadingResult] = useState(false)
 
   const [reward, setReward] = useState<null | number>(null)
 
@@ -109,6 +110,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
     setSolvingData(newSolvingData)
 
     if (quizProgress.quizIndex === quizzes.length - 1) {
+      setIsLoadingResult(true)
       patchQuizResultMutate(
         { quizSetId, solvingData: newSolvingData },
         {
@@ -141,6 +143,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
       {
         onSettled: () => {
           if (quizProgress.quizIndex === quizzes.length - 1) {
+            setIsLoadingResult(true)
             patchQuizResultMutate(
               { quizSetId, solvingData },
               {
@@ -173,7 +176,14 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
     <SwitchCase
       value={state}
       caseBy={{
-        intro: <QuizIntro quizzes={quizzes} className="mx-[20px] mt-[43px]" />,
+        intro: (
+          <QuizIntro
+            isTodayQuiz={isTodayQuiz}
+            quizType={curQuiz.quizType}
+            quizzes={quizzes}
+            className="mx-[20px] mt-[43px]"
+          />
+        ),
         solving: (
           <>
             <div className="pt-[12px]">
@@ -245,6 +255,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
                 explanation={curQuiz.explanation}
                 next={next}
                 className="mt-[48px] lg:mx-[20px] lg:mt-0"
+                isLoadingResult={isLoadingResult}
               />
             ) : null}
 

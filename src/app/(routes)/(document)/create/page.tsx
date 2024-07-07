@@ -12,6 +12,7 @@ import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/q
 import { useCreateDocumentMutation } from '@/apis/fetchers/document/create-document/mutation'
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 import { useSession } from 'next-auth/react'
+import { LimitDocumentDialog } from '@/components/limit-document-dialog'
 
 const VisualEditor = dynamic(() => import('./components/visual-editor'), {
   ssr: false,
@@ -87,19 +88,18 @@ export default function CreateDocument() {
       session.user.dto.documentUsage.possessDocumentCount ===
     0
 
-  if (isLimited) {
-    return <div>리미트 Dialog</div>
-  }
-
   if (session)
     return (
       <CreateDocumentProvider initCategoryId={Number(defaultCategoryId) || categories[0].id}>
-        <Header categories={categories} handleSubmit={handleSubmit} />
+        <Header categories={categories} handleSubmit={handleSubmit} isLoading={isLoading} />
         <div className="mt-[22px] min-h-screen rounded-t-[20px] bg-white shadow-sm">
           <TitleInput />
           <VisualEditor />
         </div>
         {isLoading && <Loading center />}
+        {isLimited && (
+          <LimitDocumentDialog defaultOpen={true} confirm={() => router.replace('/main')} />
+        )}
       </CreateDocumentProvider>
     )
 }

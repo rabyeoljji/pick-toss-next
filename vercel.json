@@ -1,0 +1,11 @@
+{
+  "routes": [
+    {
+      "src": "/images/(.*)",
+      "headers": {
+        "Content-Type": "image/png"
+      },
+      "dest": "/images/$1"
+    }
+  ]
+}
