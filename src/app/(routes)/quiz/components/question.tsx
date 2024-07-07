@@ -36,9 +36,9 @@ export default function Question({
         className="hidden lg:flex"
       />
       <div className="lg:flex lg:justify-center lg:bg-white">
-        <div className="rounded-b-[12px] bg-white px-[20px] pb-[40px] pt-[32px] lg:pb-0 lg:pt-[39px]">
+        <div className="flex w-full rounded-b-[12px] bg-white px-[20px] pb-[40px] pt-[32px] lg:justify-center lg:pb-0 lg:pt-[39px]">
           <motion.div
-            className="flex flex-col gap-[8px]"
+            className="flex w-full max-w-[680px] flex-col gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -46,8 +46,10 @@ export default function Question({
             <div className="text-small1-regular text-gray-07 lg:text-body2-regular">
               {categoryName} {'>'} {documentName}
             </div>
-            <div className="flex items-center gap-[8px]">
-              <div className="text-h3-bold text-orange-06 lg:text-h2-bold-eng">Q</div>
+            <div className="flex items-start gap-[8px]">
+              <div className="mt-[-4px] text-h3-bold text-orange-06 lg:mt-[-5px] lg:text-h2-bold-eng">
+                Q
+              </div>
               <div className="text-h4-bold text-gray-09 lg:text-h3-bold">{question}</div>
             </div>
           </motion.div>
