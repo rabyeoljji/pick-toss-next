@@ -25,7 +25,7 @@ export default async function Profile() {
   return (
     <main className="px-[20px] pb-[66px]">
       <Section
-        className="mb-[52px] mt-[55px]"
+        className="mb-[52px] mt-[45px]"
         content={
           <div className="relative rounded-[12px] bg-white px-[20px]">
             <div>

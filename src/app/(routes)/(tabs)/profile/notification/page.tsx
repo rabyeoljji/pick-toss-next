@@ -40,6 +40,7 @@ export default async function ProfileNotification() {
             </Link>
           </div>
         </div>
+        {/* // NOTE: 모바일 앱 출시 후 추가
         <div className="flex h-[64px] w-full items-center gap-[13.7px] overflow-hidden rounded-[8px] bg-blue-01 px-[11px]">
           <div className="relative h-full w-[50.32px]">
             <Image src={icons.mobileApp} alt="" fill />
@@ -52,7 +53,7 @@ export default async function ProfileNotification() {
               픽토스 앱 다운로드
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
     </main>
   )
