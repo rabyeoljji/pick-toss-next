@@ -18,7 +18,7 @@ interface Props extends Document {
 
 export default function DeleteDocumentModal({ id, sortOption, name, open, onOpenChange }: Props) {
   const { categoryId } = useParams<{ categoryId: string }>()
-  const { data: session } = useSession()
+  const { data: session, update } = useSession()
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
@@ -47,11 +47,13 @@ export default function DeleteDocumentModal({ id, sortOption, name, open, onOpen
         context
       )
     },
-    onSuccess: () =>
-      Promise.all([
+    onSuccess: async () => {
+      await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['documents'] }),
         queryClient.invalidateQueries({ queryKey: ['categories'] }),
-      ]),
+      ])
+      await update({})
+    },
   })
 
   const handleDeleteDocument = () => {
