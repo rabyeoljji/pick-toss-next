@@ -27,7 +27,10 @@ export default function MyStarsDrawerDialog({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="min-w-[560px] pb-[80px] pt-[26px]">
-          <MyStarsContent stars={stars} continuousQuizDatesCount={continuousQuizDatesCount} />
+          <MyStarsContent
+            stars={stars}
+            continuousQuizDatesCount={((continuousQuizDatesCount - 1) % 5) + 1}
+          />
         </DialogContent>
       </Dialog>
     )
@@ -39,7 +42,10 @@ export default function MyStarsDrawerDialog({
         {trigger}
       </DrawerTrigger>
       <DrawerContent className="min-h-[500px]">
-        <MyStarsContent stars={stars} continuousQuizDatesCount={continuousQuizDatesCount} />
+        <MyStarsContent
+          stars={stars}
+          continuousQuizDatesCount={((continuousQuizDatesCount - 1) % 5) + 1}
+        />
       </DrawerContent>
     </Drawer>
   )
