@@ -294,7 +294,7 @@ export function AiPick({ initKeyPoints, initStatus }: Props) {
       </DrawerTrigger>
 
       <DrawerContent className="rounded-t-[20px]">
-        <div className="mt-[10px] flex h-[90vh] flex-col">
+        <div className="mt-[10px] flex h-[90dvh] flex-col">
           <div className="flex flex-col gap-[15px]">
             <h3 className="pl-[24px] text-h3-bold text-gray-08">
               AI <i>p</i>ick
