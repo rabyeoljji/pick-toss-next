@@ -10,8 +10,10 @@ import { SavedPicksLink } from './components/saved-picks-link'
 import TopFive from './components/top-five'
 import { QuizAnalysis } from './components/quiz-analysis'
 import ProDialogTriggerWrapper from '@/components/pro-dialog-trigger-wrapper'
+import { getCurrentDate } from '@/utils/date'
 
 export default function Review() {
+  const curMonth = getCurrentDate({ month: true })
   return (
     <CommonLayout
       title={
@@ -57,11 +59,30 @@ export default function Review() {
             </div>
 
             <div className="flex gap-[8px] overflow-auto scrollbar-hide">
-              <QuizReviewSet redirectUrl="#" dateString="5월 1주차" quizCount={21} isDone={false} />
-              <QuizReviewSet redirectUrl="#" dateString="4월 4주차" quizCount={24} isDone={true} />
-              <QuizReviewSet redirectUrl="#" dateString="4월 3주차" quizCount={14} isDone={true} />
-              <QuizReviewSet redirectUrl="#" dateString="4월 2주차" quizCount={22} isDone={true} />
-              <QuizReviewSet redirectUrl="#" dateString="4월 1주차" quizCount={31} isDone={true} />
+              <QuizReviewSet
+                redirectUrl="#"
+                dateString={`${curMonth} 1주차`}
+                quizCount={20}
+                isDone={false}
+              />
+              <QuizReviewSet
+                redirectUrl="#"
+                dateString={`${curMonth} 2주차`}
+                quizCount={20}
+                isDone={true}
+              />
+              <QuizReviewSet
+                redirectUrl="#"
+                dateString={`${curMonth} 3주차`}
+                quizCount={20}
+                isDone={true}
+              />
+              <QuizReviewSet
+                redirectUrl="#"
+                dateString={`${curMonth} 4주차`}
+                quizCount={20}
+                isDone={true}
+              />
             </div>
           </section>
 
