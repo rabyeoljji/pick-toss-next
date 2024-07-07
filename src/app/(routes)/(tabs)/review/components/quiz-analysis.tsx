@@ -87,9 +87,9 @@ export function QuizAnalysis() {
                   correctAnswerCount={rateData.totalQuizCount - rateData.incorrectAnswerCount}
                 />
                 <QuizTypeChart
-                  oxRate={Math.round((rateData.multipleQuizCount / rateData.totalQuizCount) * 100)}
+                  oxRate={Math.round((rateData.mixUpQuizCount / rateData.totalQuizCount) * 100)}
                   multipleRate={Math.round(
-                    (rateData.mixUpQuizCount / rateData.totalQuizCount) * 100
+                    (rateData.multipleQuizCount / rateData.totalQuizCount) * 100
                   )}
                 />
                 <HistoryChart quizzes={rateData.quizzes} periodType={period.type} />
