@@ -31,8 +31,8 @@ export default function AddNoteFloatingButton({ categoryId }: Props) {
 function PlusIcon() {
   return (
     <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6.49902 0V12" stroke="white" stroke-width="1.54011" />
-      <path d="M12.5 6L0.5 6" stroke="white" stroke-width="1.54011" />
+      <path d="M6.49902 0V12" stroke="white" strokeWidth="1.54011" />
+      <path d="M12.5 6L0.5 6" stroke="white" strokeWidth="1.54011" />
     </svg>
   )
 }

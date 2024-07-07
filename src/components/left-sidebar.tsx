@@ -39,7 +39,14 @@ export default function LeftSidebar() {
         </Link>
       </div>
       <div className="mb-[35px]">
-        <CreateDocumentProtector skeleton={<AddNoteButton />}>
+        <CreateDocumentProtector
+          skeleton={
+            <Button className="h-[47px] w-[151px] gap-[13px] rounded-[16px] bg-orange-05 hover:bg-orange-05/90">
+              <span className="text-body2-bold">노트 추가하기</span>
+              <PlusIcon />
+            </Button>
+          }
+        >
           <CategoryProtector>
             <Link href="/create">
               <AddNoteButton />

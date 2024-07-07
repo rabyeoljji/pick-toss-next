@@ -122,30 +122,30 @@ function NoAnalysisIcon() {
       <path
         d="M21.6543 20.4707H51.9059"
         stroke="#F5F7F9"
-        stroke-width="2.32704"
-        stroke-linecap="round"
+        strokeWidth="2.32704"
+        strokeLinecap="round"
       />
       <path
         d="M22.2383 26.2891H52.4899"
         stroke="#F5F7F9"
-        stroke-width="2.32704"
-        stroke-linecap="round"
+        strokeWidth="2.32704"
+        strokeLinecap="round"
       />
       <path
         d="M22.2383 32.1074H52.4899"
         stroke="#F5F7F9"
-        stroke-width="2.32704"
-        stroke-linecap="round"
+        strokeWidth="2.32704"
+        strokeLinecap="round"
       />
       <path
         d="M22.2383 37.9248H36.2005"
         stroke="#F5F7F9"
-        stroke-width="2.32704"
-        stroke-linecap="round"
+        strokeWidth="2.32704"
+        strokeLinecap="round"
       />
       <rect x="63" y="52.002" width="4" height="4" rx="0.833333" fill="#797D81" />
       <circle cx="65" cy="69.916" r="15" fill="#EAECEF" />
-      <circle cx="65" cy="69.916" r="13.9583" stroke="#A2A6AB" stroke-width="2.08333" />
+      <circle cx="65" cy="69.916" r="13.9583" stroke="#A2A6AB" strokeWidth="2.08333" />
       <path
         d="M77.4123 56.1144C76.6312 55.3334 75.3649 55.3334 74.5838 56.1144L72.7071 57.9911L76.3153 61.5993L78.192 59.7226C78.973 58.9415 78.973 57.6752 78.192 56.8941L77.4123 56.1144Z"
         fill="#A2A6AB"
