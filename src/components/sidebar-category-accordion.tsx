@@ -70,12 +70,19 @@ export const SidebarCategoryAccordion = () => {
       {categories?.map((category) => (
         <AccordionItem key={category.id} value={category.id.toString()}>
           <AccordionTrigger
-            className="group overflow-hidden rounded-[8px] py-[7px] pl-[42px] text-body2-medium text-gray-08 hover:bg-gray-01 [&[data-state=open]>svg]:rotate-90"
+            className="overflow-hidden rounded-[8px] py-0 pl-[42px] text-body2-medium text-gray-08 hover:bg-gray-01 [&[data-state=open]_svg]:rotate-90"
             showChevron={false}
           >
-            <ChevronRight className="mr-[6px] hidden size-4 shrink-0 transition-transform duration-200 group-hover:block" />
-            <span className="mr-[8px] group-hover:hidden">{category.emoji || '📁'}</span>
-            <span className="truncate">{category.name}</span>
+            <div className="group">
+              <ChevronRight className="mr-[6px] hidden size-4 shrink-0 transition-transform duration-200 group-hover:block" />
+              <span className="mr-[8px] group-hover:hidden">{category.emoji || '📁'}</span>
+            </div>
+            <Link
+              href={`/repository/${category.id}`}
+              className="flex-1 truncate py-[7px] text-start"
+            >
+              {category.name}
+            </Link>
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-[2px]">
