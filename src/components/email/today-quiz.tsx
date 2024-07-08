@@ -5,46 +5,19 @@ export default function TodayQuizEmail() {
     <Html>
       <Body
         style={{
-          backgroundColor: '#ffffff',
           maxWidth: 500,
           textAlign: 'center',
           color: '#292B2C',
+          backgroundColor: '#F5F7F9',
         }}
       >
-        <Img
-          src="https://picktoss-dev-bucket.s3.amazonaws.com/today-quiz-background.png"
-          width="100%"
-        />
+        <Img src="/images/mail-today-quiz.png" width="100%" />
         <Container
           style={{
-            marginTop: '-100%',
+            marginTop: '-50px',
           }}
         >
           <Container>
-            <Img
-              src="https://picktoss-dev-bucket.s3.amazonaws.com/logo-icon.png"
-              alt=""
-              width="100px"
-              style={{
-                paddingTop: '110px',
-                margin: '0 auto',
-              }}
-            />
-            <Text
-              style={{
-                color: '#ffffff',
-                fontSize: '11px',
-                marginTop: '6px',
-              }}
-            >
-              나의 노트에서 출발해 매일 도착하는 퀴즈
-            </Text>
-          </Container>
-          <Container
-            style={{
-              marginTop: '45px',
-            }}
-          >
             <Text
               style={{
                 fontWeight: 700,
