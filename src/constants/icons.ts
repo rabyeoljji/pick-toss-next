@@ -33,6 +33,7 @@ import noteEmpty from '../../public/icons/note-empty.svg'
 import deleteFolder from '../../public/icons/delete-folder.svg'
 import logo from '../../public/icons/logo.svg'
 import logoTitle from '../../public/icons/logo-title.svg'
+import document from '../../public/icons/document.svg'
 
 const icons = {
   check,
@@ -68,6 +69,7 @@ const icons = {
   logo,
   logoTitle,
   quizCreating,
+  document,
 }
 
 export default icons as Record<keyof typeof icons, StaticImport>

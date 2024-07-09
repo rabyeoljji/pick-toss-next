@@ -70,6 +70,12 @@ export default function DocumentItem({ sortOption, ...document }: Props) {
                   <span className="text-gray-09">이름 바꾸기</span>
                 </div>
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/modify/${id}`} className="flex gap-4">
+                  <Image src="/icons/document.svg" alt="" width={16} height={16} />
+                  <span className="text-gray-09">문서 수정하기</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(event) => {
                   event.stopPropagation()

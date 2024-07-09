@@ -93,9 +93,15 @@ function DocumentDropdown({ documentId }: { documentId: string }) {
       <DropdownMenuContent>
         <DropdownMenuItem>
           <Link href={`/modify/${documentId}`} className="flex gap-4">
-            <Image src="/icons/modify-pencil.svg" alt="" width={16} height={16} />
+            <Image src="/icons/document.svg" alt="" width={16} height={16} />
             <span className="text-gray-09">문서 수정하기</span>
           </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <div className="flex gap-4">
+            <Image src="/icons/trashcan-red.svg" alt="" width={16} height={16} />
+            <span className="text-notice-red">노트 삭제하기</span>
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
