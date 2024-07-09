@@ -3,7 +3,7 @@
 import icons from '@/constants/icons'
 import { formatDateKorean } from '@/utils/date'
 import Image from 'next/image'
-import { ClassAttributes, HTMLAttributes } from 'react'
+import { ClassAttributes, HTMLAttributes, useState } from 'react'
 import Markdown, { ExtraProps } from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -16,10 +16,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { StatusTag } from '../ui/status-tag'
 import { DocumentStatus } from '@/apis/types/dto/document.dto'
+import DeleteDocumentModal from '@/app/(routes)/(tabs)/repository/[categoryId]/components/delete-document.modal'
 
 interface Props {
   documentName: string
@@ -51,7 +52,7 @@ export function Viewer({ documentName, createdAt, content, status }: Props) {
             </div>
           </div>
 
-          <DocumentDropdown documentId={documentId as string} />
+          <DocumentDropdown documentId={documentId as string} documentName={documentName} />
         </div>
 
         <div className="prose max-w-none pb-[80px] lg:pb-0">
@@ -82,28 +83,53 @@ const handleMarkDownCodeBlock = (
   )
 }
 
-function DocumentDropdown({ documentId }: { documentId: string }) {
+function DocumentDropdown({
+  documentId,
+  documentName,
+}: {
+  documentId: string
+  documentName: string
+}) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const router = useRouter()
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="focus:outline-none">
-        <div className="ml-[10px] flex size-[25px] items-center justify-center rounded-full hover:bg-gray-02">
-          <Image src={icons.kebab} alt="" width={15} height={3} />
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>
-          <Link href={`/modify/${documentId}`} className="flex gap-4">
-            <Image src="/icons/document.svg" alt="" width={16} height={16} />
-            <span className="text-gray-09">문서 수정하기</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <div className="flex gap-4">
-            <Image src="/icons/trashcan-red.svg" alt="" width={16} height={16} />
-            <span className="text-notice-red">노트 삭제하기</span>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="focus:outline-none">
+          <div className="ml-[10px] flex size-[25px] items-center justify-center rounded-full hover:bg-gray-02">
+            <Image src={icons.kebab} alt="" width={15} height={3} />
           </div>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>
+            <Link href={`/modify/${documentId}`} className="flex gap-4">
+              <Image src="/icons/document.svg" alt="" width={16} height={16} />
+              <span className="text-gray-09">문서 수정하기</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(event) => {
+              event.stopPropagation()
+              setDeleteDialogOpen(true)
+            }}
+          >
+            <div className="flex gap-4">
+              <Image src="/icons/trashcan-red.svg" alt="" width={16} height={16} />
+              <span className="text-notice-red">노트 삭제하기</span>
+            </div>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DeleteDocumentModal
+        id={Number(documentId)}
+        name={documentName}
+        sortOption="updatedAt"
+        open={deleteDialogOpen}
+        setOpen={setDeleteDialogOpen}
+        onSuccess={() => router.back()}
+        showLoading={true}
+      />
+    </>
   )
 }

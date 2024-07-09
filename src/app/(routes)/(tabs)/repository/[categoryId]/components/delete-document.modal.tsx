@@ -9,21 +9,36 @@ import Image from 'next/image'
 import { SortOption } from './document-list'
 import { useParams } from 'next/navigation'
 import { GET_DOCUMENTS_FOR_CATEGORY_KEY } from '@/apis/fetchers/document/get-documents-for-category/query'
+import { useState } from 'react'
+import Loading from '@/components/loading'
 
-interface Props extends Document {
+interface Props extends Pick<Document, 'id' | 'name'> {
   open: boolean
-  onOpenChange: (open: boolean) => void
+  setOpen: (open: boolean) => void
   sortOption: SortOption
+  onSuccess?: () => void
+  showLoading?: boolean
 }
 
-export default function DeleteDocumentModal({ id, sortOption, name, open, onOpenChange }: Props) {
+export default function DeleteDocumentModal({
+  id,
+  sortOption,
+  name,
+  open,
+  setOpen,
+  onSuccess,
+  showLoading = false,
+}: Props) {
   const { categoryId } = useParams<{ categoryId: string }>()
   const { data: session, update } = useSession()
   const queryClient = useQueryClient()
+  const [isLoading, setIsLoading] = useState(false)
 
   const { mutate } = useMutation({
     mutationFn: deleteDocument,
     onMutate: async () => {
+      setIsLoading(true)
+
       await queryClient.cancelQueries({
         queryKey: [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
       })
@@ -34,10 +49,12 @@ export default function DeleteDocumentModal({ id, sortOption, name, open, onOpen
         sortOption,
       ])
 
-      queryClient.setQueryData(
-        [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
-        (prevDocuments: Document[]) => prevDocuments.filter((document) => document.id !== id)
-      )
+      if (categoryId) {
+        queryClient.setQueryData(
+          [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+          (prevDocuments: Document[]) => prevDocuments.filter((document) => document.id !== id)
+        )
+      }
 
       return prevDocuments
     },
@@ -53,6 +70,8 @@ export default function DeleteDocumentModal({ id, sortOption, name, open, onOpen
         queryClient.invalidateQueries({ queryKey: ['categories'] }),
       ])
       await update({})
+      setOpen(false)
+      onSuccess?.()
     },
   })
 
@@ -61,23 +80,38 @@ export default function DeleteDocumentModal({ id, sortOption, name, open, onOpen
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex w-[320px] flex-col items-center" displayCloseButton={false}>
-        <h4 className="mb-[20px] text-h4-bold text-gray-09">노트 삭제하기</h4>
-        <Image src={icons.deleteFolder} alt="" className="mb-[16px]" />
-        <p className="mb-[40px] text-text-medium text-gray-08">
-          <span className="text-orange-05">{name} 노트</span>를 삭제하시겠어요?
-        </p>
-        <DialogClose asChild>
-          <Button className="mb-[8px] h-[44px] w-full bg-orange-01 text-orange-05 hover:bg-orange-02">
-            노트 유지하기
-          </Button>
-        </DialogClose>
-        <DialogClose asChild>
-          <Button className="h-[44px] w-full" onClick={handleDeleteDocument}>
-            삭제하기
-          </Button>
-        </DialogClose>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent
+        className="flex h-[373px] w-[320px] flex-col items-center"
+        displayCloseButton={false}
+      >
+        {showLoading && isLoading ? (
+          <Loading center />
+        ) : (
+          <>
+            <h4 className="mb-[20px] text-h4-bold text-gray-09">노트 삭제하기</h4>
+            <Image src={icons.deleteFolder} alt="" className="mb-[16px]" />
+            <p className="mb-[40px] text-text-medium text-gray-08">
+              <span className="text-orange-05">{name} 노트</span>를 삭제하시겠어요?
+            </p>
+            <DialogClose asChild>
+              <Button className="mb-[8px] h-[44px] w-full bg-orange-01 text-orange-05 hover:bg-orange-02">
+                노트 유지하기
+              </Button>
+            </DialogClose>
+            {showLoading ? (
+              <Button className="h-[44px] w-full" onClick={handleDeleteDocument}>
+                삭제하기
+              </Button>
+            ) : (
+              <DialogClose asChild>
+                <Button className="h-[44px] w-full" onClick={handleDeleteDocument}>
+                  삭제하기
+                </Button>
+              </DialogClose>
+            )}
+          </>
+        )}
       </DialogContent>
     </Dialog>
   )

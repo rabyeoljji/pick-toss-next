@@ -100,7 +100,7 @@ export default function DocumentItem({ sortOption, ...document }: Props) {
       <DeleteDocumentModal
         sortOption={sortOption}
         open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
+        setOpen={setDeleteDialogOpen}
         {...document}
       />
     </>
