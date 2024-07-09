@@ -1,4 +1,4 @@
-import { Container, Text, Img, Body, Html, Link } from '@react-email/components'
+import { Container, Text, Body, Html, Link, Img } from '@react-email/components'
 
 export default function TodayQuizEmail() {
   return (
@@ -11,7 +11,7 @@ export default function TodayQuizEmail() {
           backgroundColor: '#F5F7F9',
         }}
       >
-        <Img src="/images/mail-today-quiz.png" width="100%" />
+        <Img src="https://www.picktoss.com/images/mail-today-quiz.png" width="100%" />
         <Container
           style={{
             marginTop: '-50px',
@@ -33,7 +33,7 @@ export default function TodayQuizEmail() {
                 marginTop: '-5px',
               }}
             >
-              --월 --일 오늘의 퀴즈
+              __TODAY_DATE__ 오늘의 퀴즈
             </Text>
             <Text
               style={{
@@ -41,7 +41,7 @@ export default function TodayQuizEmail() {
                 marginTop: '-12px',
               }}
             >
-              ---님을 위해 AI가 선별한 오늘의 퀴즈를 풀어보세요
+              __USER_NAME__님을 위해 AI가 선별한 오늘의 퀴즈를 풀어보세요
             </Text>
           </Container>
           <Container
@@ -50,7 +50,7 @@ export default function TodayQuizEmail() {
             }}
           >
             <Link
-              href=""
+              href="https://www.picktoss.com"
               target="_blank"
               rel="noreferrer noopener"
               style={{

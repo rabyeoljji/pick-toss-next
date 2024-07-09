@@ -60,7 +60,7 @@ export default function EmailVerificationEmail() {
                 color: '#FB7E20',
               }}
             >
-              978321
+              __VERIFICATION_CODE__
             </Text>
           </Container>
           <Container>
