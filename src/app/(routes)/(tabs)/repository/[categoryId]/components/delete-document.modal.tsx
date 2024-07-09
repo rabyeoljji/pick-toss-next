@@ -82,7 +82,7 @@ export default function DeleteDocumentModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className="flex h-[373px] w-[320px] flex-col items-center"
+        className="flex min-h-[373px] w-[320px] flex-col items-center"
         displayCloseButton={false}
       >
         {showLoading && isLoading ? (
