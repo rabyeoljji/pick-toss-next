@@ -78,6 +78,7 @@ class ApiClient {
 
   private async handleResponse<T extends ApiResponse>(params: FetchParams, res: Response) {
     if (!res.ok) {
+      console.error(await res.json())
       const url = this.getUrl(params)
       throw new ApiError(`${res.statusText}: [${params.method}] ${url}`, {
         status: res.status,
