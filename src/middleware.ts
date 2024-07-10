@@ -5,6 +5,10 @@ interface Routes {
   [key: string]: boolean
 }
 
+const publicUrls: Routes = {
+  '/quiz/practice': true,
+}
+
 const publicOnlyUrls: Routes = {
   '/': true,
   '/sign-in': true,
@@ -12,10 +16,11 @@ const publicOnlyUrls: Routes = {
 
 export async function middleware(request: NextRequest) {
   const session = await auth()
+  const publicExists = publicUrls[request.nextUrl.pathname]
   const exists = publicOnlyUrls[request.nextUrl.pathname]
   // 로그인 되어 있지 않은 상태
   if (!session?.user?.id) {
-    if (!exists) {
+    if (!exists && !publicExists) {
       return NextResponse.redirect(new URL('/', request.url))
     }
     // 로그인 상태
