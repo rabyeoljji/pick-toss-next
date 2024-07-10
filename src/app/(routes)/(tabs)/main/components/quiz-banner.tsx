@@ -18,6 +18,7 @@ import { calculateTimeUntilTomorrowMidnight, getCurrentDate } from '@/utils/date
 import { useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -107,7 +108,7 @@ export default function QuizBanner() {
       className={cn(
         'relative flex h-[240px] w-full flex-col justify-between rounded-[12px] p-[20px] lg:h-[248px] lg:max-w-[840px] text-body1-bold-eng lg:pl-[40px] lg:pt-[30px] lg:pb-[28px] overflow-hidden',
         type === 'READY' && 'bg-orange-02',
-        type === 'NOT_READY' && 'bg-gray-02',
+        type === 'NOT_READY' && 'bg-gray-02 h-[280px]',
         type === 'DONE' && 'bg-blue-02',
         type === 'CREATING' && 'bg-blue-02'
       )}
@@ -242,24 +243,35 @@ export default function QuizBanner() {
             </Button>
           ),
           NOT_READY: (
-            <CreateDocumentProtector
-              skeleton={
-                <Button className="absolute bottom-[16px] flex w-[calc(100%-40px)] gap-[8px] rounded-[32px] lg:relative lg:bottom-0 lg:w-[240px]">
-                  <div>노트 추가하러 가기</div>
-                  <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
-                </Button>
-              }
-            >
-              <CategoryProtector>
-                <Button
-                  className="absolute bottom-[16px] flex w-[calc(100%-40px)] gap-[8px] rounded-[32px] lg:relative lg:bottom-0 lg:w-[240px]"
-                  onClick={() => router.push('/create')}
+            <div className="absolute bottom-[16px] flex w-full flex-col gap-[24px] lg:flex-row lg:gap-[21px]">
+              <CreateDocumentProtector
+                skeleton={
+                  <Button className="flex w-[calc(100%-40px)] gap-[8px] rounded-[32px] lg:relative lg:bottom-0 lg:w-[240px]">
+                    <div>노트 추가하러 가기</div>
+                    <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
+                  </Button>
+                }
+              >
+                <CategoryProtector>
+                  <Button
+                    className="flex w-[calc(100%-40px)] gap-[8px] rounded-[32px] lg:relative lg:bottom-0 lg:w-[240px]"
+                    onClick={() => router.push('/create')}
+                  >
+                    <div>노트 추가하러 가기</div>
+                    <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
+                  </Button>
+                </CategoryProtector>
+              </CreateDocumentProtector>
+              <div className="flex items-center justify-center gap-[8px] text-small1-regular lg:text-text-medium">
+                <p className="text-gray-07">퀴즈가 어떤지 궁금하다면?</p>
+                <Link
+                  href="/quiz/practice"
+                  className="border-b border-blue-06 pb-[2px] text-blue-06"
                 >
-                  <div>노트 추가하러 가기</div>
-                  <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
-                </Button>
-              </CategoryProtector>
-            </CreateDocumentProtector>
+                  연습 문제 풀어보기
+                </Link>
+              </div>
+            </div>
           ),
           DONE: (
             <Button className="z-10 flex w-full cursor-default gap-[8px] rounded-[32px] bg-blue-03 text-blue-06 hover:bg-blue-03 lg:w-[240px]">
