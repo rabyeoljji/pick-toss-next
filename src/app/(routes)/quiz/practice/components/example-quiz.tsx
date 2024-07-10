@@ -81,6 +81,7 @@ export function ExampleQuiz({ quizzes }: Params) {
     setSolvingData(newSolvingData)
 
     if (quizProgress.quizIndex === quizzes.length - 1) {
+      stopTimer()
       setState('end')
       return
     }
