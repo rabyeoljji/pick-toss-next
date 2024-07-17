@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import Link from 'next/link'
 import { findActiveNavItem, navigationItems } from '@/constants/navigation-items'
 import { useMemo } from 'react'
-import { useSelectedLayoutSegments } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem } from './ui/accordion'
@@ -16,6 +16,7 @@ import { CategoryProtector } from './category-protector'
 import { useSession } from 'next-auth/react'
 import { AIPickDialog } from './ai-pick-dialog'
 import { CreateDocumentProtector } from './create-document-protector'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 export default function LeftSidebar() {
   const segments = useSelectedLayoutSegments()
@@ -136,8 +137,20 @@ export default function LeftSidebar() {
 }
 
 const AddNoteButton = () => {
+  const { clickedEvent } = useAmplitudeContext()
+  const pathname = usePathname()
+
   return (
-    <Button className="h-[47px] w-[151px] gap-[13px] rounded-[16px] bg-orange-05 hover:bg-orange-05/90">
+    <Button
+      className="h-[47px] w-[151px] gap-[13px] rounded-[16px] bg-orange-05 hover:bg-orange-05/90"
+      onClick={() =>
+        clickedEvent({
+          buttonType: 'addNote',
+          pathname,
+          buttonName: 'sidebar_add_document_button',
+        })
+      }
+    >
       <span className="text-body2-bold">노트 추가하기</span>
       <PlusIcon />
     </Button>

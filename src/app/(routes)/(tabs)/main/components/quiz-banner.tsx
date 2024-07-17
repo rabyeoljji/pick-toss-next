@@ -13,13 +13,14 @@ import { SwitchCase } from '@/components/react/switch-case'
 import { Button } from '@/components/ui/button'
 import icons from '@/constants/icons'
 import { LOCAL_KEY } from '@/constants/local-key'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 import { cn } from '@/lib/utils'
 import { calculateTimeUntilTomorrowMidnight, getCurrentDate } from '@/utils/date'
 import { useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function QuizBanner() {
@@ -35,6 +36,9 @@ export default function QuizBanner() {
   const quizSetId = data?.quizSetId ?? null
 
   const { mutate: getWeekQuizAnswerRate } = useGetWeekQuizAnswerRateMutation()
+
+  const { clickedEvent } = useAmplitudeContext()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (type !== 'DONE') {
@@ -255,7 +259,14 @@ export default function QuizBanner() {
                 <CategoryProtector>
                   <Button
                     className="flex w-[calc(100%-40px)] gap-[8px] rounded-[32px] lg:relative lg:bottom-0 lg:w-[240px]"
-                    onClick={() => router.push('/create')}
+                    onClick={() => {
+                      clickedEvent({
+                        buttonType: 'addNote',
+                        pathname,
+                        buttonName: 'banner_add_document_button',
+                      })
+                      router.push('/create')
+                    }}
                   >
                     <div>노트 추가하러 가기</div>
                     <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />

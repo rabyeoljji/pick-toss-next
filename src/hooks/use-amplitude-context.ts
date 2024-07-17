@@ -3,7 +3,7 @@ import { useContext } from 'react'
 
 const useAmplitudeContext = () => {
   const context = useContext(AmplitudeContext)
-  if (context === undefined)
+  if (context == null)
     throw new Error('useAmplitudeContext must be used within a AmplitudeContextProvider')
 
   return context
