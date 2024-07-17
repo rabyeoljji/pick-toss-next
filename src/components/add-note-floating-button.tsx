@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import { CreateDocumentProtector } from './create-document-protector'
 import useAmplitudeContext from '@/hooks/use-amplitude-context'
-import { usePathname } from 'next/navigation'
 
 interface Props {
   categoryId?: number
@@ -12,7 +11,6 @@ interface Props {
 
 export default function AddNoteFloatingButton({ categoryId }: Props) {
   const { clickedEvent } = useAmplitudeContext()
-  const pathname = usePathname()
 
   return (
     <CreateDocumentProtector
@@ -31,7 +29,6 @@ export default function AddNoteFloatingButton({ categoryId }: Props) {
             onClick={() =>
               clickedEvent({
                 buttonType: 'addNote',
-                pathname,
                 buttonName: 'add_document_floating_button',
               })
             }

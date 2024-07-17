@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, createContext, PropsWithChildren, useMemo } from 'react'
 import { init, track } from '@amplitude/analytics-browser'
+import { usePathname } from 'next/navigation'
 
 const AMPLITUDE_API_KEY = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || ''
 
@@ -11,17 +12,16 @@ export interface Values {
     buttonName: string
     buttonType:
       | 'todayQuiz'
-      | 'pro'
-      | 'makeQuiz'
-      | 'continuousQuizDates'
-      | 'myStar'
       | 'addNote'
-      | 'quizPractice'
-      | 'quizAnalysis'
-      | 'topFive'
       | 'aiPickTooltip'
+      | 'myStar'
+      | 'continuousQuizDates'
+      | 'quizPractice'
+      | 'topFive'
       | 'bookmark'
-    pathname: string
+      | 'makeQuiz'
+      | 'quizAnalysis'
+      | 'pro'
     failed?: boolean
   }) => void
   documentCreatedEvent: (props: { ableCount: number; length: number }) => void
@@ -38,6 +38,8 @@ export interface Values {
 export const AmplitudeContext = createContext<Values | null>(null)
 
 const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
+  const pathname = usePathname()
+
   useEffect(() => {
     // if (process.env.NODE_ENV === 'production') {
     init(AMPLITUDE_API_KEY, undefined, {
@@ -71,9 +73,8 @@ const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
           | 'topFive'
           | 'aiPickTooltip'
           | 'bookmark'
-        pathname: string
         failed?: boolean
-      }) => trackAmplitudeEvent('Clicked', props),
+      }) => trackAmplitudeEvent('Clicked', { ...props, pathname }),
 
       documentCreatedEvent: (props: { ableCount: number; length: number }) =>
         trackAmplitudeEvent('Document_Created', props),
@@ -93,7 +94,7 @@ const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
       quizMadeEvent: (props: { quizType: 'ox' | 'multiple'; count: number }) =>
         trackAmplitudeEvent('Quiz_Made', props),
     }),
-    []
+    [pathname]
   )
 
   return <AmplitudeContext.Provider value={value}>{children}</AmplitudeContext.Provider>

@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import Link from 'next/link'
 import { findActiveNavItem, navigationItems } from '@/constants/navigation-items'
 import { useMemo } from 'react'
-import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
+import { useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem } from './ui/accordion'
@@ -138,7 +138,6 @@ export default function LeftSidebar() {
 
 const AddNoteButton = () => {
   const { clickedEvent } = useAmplitudeContext()
-  const pathname = usePathname()
 
   return (
     <Button
@@ -146,7 +145,6 @@ const AddNoteButton = () => {
       onClick={() =>
         clickedEvent({
           buttonType: 'addNote',
-          pathname,
           buttonName: 'sidebar_add_document_button',
         })
       }

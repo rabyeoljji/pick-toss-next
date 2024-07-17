@@ -3,6 +3,7 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import icons from '@/constants/icons'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -22,10 +23,22 @@ export default function MyStarsDrawerDialog({
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 1024px)')
 
+  const { clickedEvent } = useAmplitudeContext()
+
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>{trigger}</DialogTrigger>
+        <DialogTrigger
+          asChild
+          onClick={() =>
+            clickedEvent({
+              buttonType: 'myStar',
+              buttonName: 'my_star_drawer_dialog_trigger',
+            })
+          }
+        >
+          {trigger}
+        </DialogTrigger>
         <DialogContent className="min-w-[560px] pb-[80px] pt-[26px]">
           <MyStarsContent
             stars={stars}
@@ -38,7 +51,16 @@ export default function MyStarsDrawerDialog({
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild className="cursor-pointer">
+      <DrawerTrigger
+        asChild
+        className="cursor-pointer"
+        onClick={() =>
+          clickedEvent({
+            buttonType: 'myStar',
+            buttonName: 'my_star_drawer_dialog_trigger',
+          })
+        }
+      >
         {trigger}
       </DrawerTrigger>
       <DrawerContent className="min-h-[500px]">

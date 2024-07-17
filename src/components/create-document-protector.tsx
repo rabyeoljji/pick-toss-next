@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react'
 import React, { isValidElement } from 'react'
 import { LimitDocumentDialog } from './limit-document-dialog'
 import useAmplitudeContext from '@/hooks/use-amplitude-context'
-import { usePathname } from 'next/navigation'
 
 interface Props {
   skeleton: React.ReactElement
@@ -17,7 +16,6 @@ export function CreateDocumentProtector({ skeleton, children }: Props) {
   }
 
   const { clickedEvent } = useAmplitudeContext()
-  const pathname = usePathname()
 
   const { data: session } = useSession()
   const user = session?.user.dto
@@ -37,7 +35,6 @@ export function CreateDocumentProtector({ skeleton, children }: Props) {
             onClick={() =>
               clickedEvent({
                 buttonType: 'addNote',
-                pathname,
                 buttonName: 'add_document_button',
                 failed: true,
               })

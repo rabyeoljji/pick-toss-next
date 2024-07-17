@@ -20,7 +20,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function QuizBanner() {
@@ -38,7 +38,6 @@ export default function QuizBanner() {
   const { mutate: getWeekQuizAnswerRate } = useGetWeekQuizAnswerRateMutation()
 
   const { clickedEvent } = useAmplitudeContext()
-  const pathname = usePathname()
 
   useEffect(() => {
     if (type !== 'DONE') {
@@ -240,7 +239,13 @@ export default function QuizBanner() {
           READY: (
             <Button
               className="flex w-full gap-[8px] rounded-[32px] lg:w-[240px]"
-              onClick={() => router.push(`/quiz?quizSetId=${quizSetId}`)}
+              onClick={() => {
+                clickedEvent({
+                  buttonType: 'todayQuiz',
+                  buttonName: 'banner_start_today_quiz_button',
+                })
+                router.push(`/quiz?quizSetId=${quizSetId}`)
+              }}
             >
               <div>오늘의 퀴즈 시작하기</div>
               <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
@@ -262,7 +267,6 @@ export default function QuizBanner() {
                     onClick={() => {
                       clickedEvent({
                         buttonType: 'addNote',
-                        pathname,
                         buttonName: 'banner_add_document_button',
                       })
                       router.push('/create')
@@ -278,6 +282,12 @@ export default function QuizBanner() {
                 <Link
                   href="/quiz/practice"
                   className="border-b border-blue-06 pb-[2px] text-blue-06"
+                  onClick={() =>
+                    clickedEvent({
+                      buttonType: 'quizPractice',
+                      buttonName: 'banner_start_example_quiz_button',
+                    })
+                  }
                 >
                   연습 문제 풀어보기
                 </Link>
