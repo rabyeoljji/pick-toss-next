@@ -17,6 +17,7 @@ import ExampleQuestion from './example-question'
 import type { ExampleQuizType } from '@/apis/fetchers/quiz/get-example-quizzes/fetcher'
 import ExampleMultipleOptions from './example-multiple-options'
 import ExampleMixUpOptions from './example-mix-up-options'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 export type ExampleSolvingData = (SolvingData[number] & { quizType: QuizType })[]
 
@@ -42,6 +43,8 @@ export function ExampleQuiz({ quizzes }: Params) {
     curQuiz.quizType === 'MULTIPLE_CHOICE'
       ? curQuiz.options[quizProgress.selectedMultipleQuizAnswer!] === curQuiz.answer
       : quizProgress.selectedMixUpQuizAnswer === curQuiz.answer
+
+  const { quizCompletedEvent } = useAmplitudeContext()
 
   const onSelectAnswer = async (answer: number | 'correct' | 'incorrect') => {
     stopTimer()
@@ -83,6 +86,9 @@ export function ExampleQuiz({ quizzes }: Params) {
     if (quizProgress.quizIndex === quizzes.length - 1) {
       stopTimer()
       setState('end')
+      quizCompletedEvent({
+        quizType: 'practice',
+      })
       return
     }
 

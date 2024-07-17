@@ -3,6 +3,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { reCreateAiPick } from './fetch'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 interface Params {
   documentId: number
@@ -10,6 +11,7 @@ interface Params {
 
 export function useReCreateAIPickMutation() {
   const { data: session, update } = useSession()
+  const { aiPickEvent } = useAmplitudeContext()
 
   return useMutation({
     mutationFn: ({ documentId }: Params) =>
@@ -17,6 +19,13 @@ export function useReCreateAIPickMutation() {
         accessToken: session?.user.accessToken || '',
         documentId,
       }),
-    onSuccess: async () => await update({}),
+    onSuccess: async () => {
+      aiPickEvent({
+        buttonName: 're_create_ai_pick_button',
+        isPickedAgain: true,
+      })
+
+      await update({})
+    },
   })
 }

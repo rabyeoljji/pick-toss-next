@@ -26,8 +26,8 @@ export function AIPickDialog({ trigger, confirm }: Props) {
         asChild
         onClick={() =>
           clickedEvent({
-            buttonType: 'aiPickTooltip',
-            buttonName: 'ai_pick_tool_tip_icon',
+            buttonType: 'aiPickDialog',
+            buttonName: 'ai_pick_dialog_trigger',
           })
         }
       >

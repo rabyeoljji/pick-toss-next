@@ -62,7 +62,7 @@ export default function MakeQuizDrawerDialog({ trigger, categories, quizType = '
 
   const userPoints = session?.user.dto.point || 0
 
-  const { clickedEvent } = useAmplitudeContext()
+  const { clickedEvent, quizMadeEvent } = useAmplitudeContext()
 
   const { mutate: mutateCreateQuizzes } = useCreateQuizzesMutation()
 
@@ -94,6 +94,10 @@ export default function MakeQuizDrawerDialog({ trigger, categories, quizType = '
       },
       {
         onSuccess: ({ quizSetId }) => {
+          quizMadeEvent({
+            quizType: quizType === 'MULTIPLE_CHOICE' ? 'multiple' : 'ox',
+            count,
+          })
           router.push(`/quiz?quizSetId=${quizSetId}`)
         },
       }

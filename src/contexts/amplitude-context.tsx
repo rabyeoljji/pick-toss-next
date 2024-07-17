@@ -13,7 +13,7 @@ export interface Values {
     buttonType:
       | 'todayQuiz'
       | 'addNote'
-      | 'aiPickTooltip'
+      | 'aiPickDialog'
       | 'myStar'
       | 'continuousQuizDates'
       | 'quizPractice'
@@ -24,12 +24,12 @@ export interface Values {
       | 'pro'
     failed?: boolean
   }) => void
-  documentCreatedEvent: (props: { ableCount: number; length: number }) => void
+  documentCreatedEvent: (props: { length: number }) => void
   documentEditedEvent: (props: { length: number }) => void
-  aiPickEvent: (props: { ableCount: number; buttonName: string; isPickedAgain: boolean }) => void
+  aiPickEvent: (props: { buttonName: string; isPickedAgain: boolean }) => void
   quizCompletedEvent: (props: {
-    continuousQuizDates: number
-    date: string
+    continuousQuizDates?: number
+    date?: string
     quizType: 'practice' | 'today' | 'ox' | 'multiple'
   }) => void
   quizMadeEvent: (props: { quizType: 'ox' | 'multiple'; count: number }) => void
@@ -71,23 +71,23 @@ const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
           | 'quizPractice'
           | 'quizAnalysis'
           | 'topFive'
-          | 'aiPickTooltip'
+          | 'aiPickDialog'
           | 'bookmark'
         failed?: boolean
       }) => trackAmplitudeEvent('Clicked', { ...props, pathname }),
 
-      documentCreatedEvent: (props: { ableCount: number; length: number }) =>
+      documentCreatedEvent: (props: { length: number }) =>
         trackAmplitudeEvent('Document_Created', props),
 
       documentEditedEvent: (props: { length: number }) =>
         trackAmplitudeEvent('Document_Edited', props),
 
-      aiPickEvent: (props: { ableCount: number; buttonName: string; isPickedAgain: boolean }) =>
+      aiPickEvent: (props: { buttonName: string; isPickedAgain: boolean }) =>
         trackAmplitudeEvent('AI_Pick', props),
 
       quizCompletedEvent: (props: {
-        continuousQuizDates: number
-        date: string
+        continuousQuizDates?: number
+        date?: string
         quizType: 'practice' | 'today' | 'ox' | 'multiple'
       }) => trackAmplitudeEvent('Quiz_Completed', props),
 

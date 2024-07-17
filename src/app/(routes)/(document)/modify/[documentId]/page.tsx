@@ -13,6 +13,7 @@ import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { useGetDocumentQuery } from '@/apis/fetchers/document/get-document/query'
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 export default function Modify() {
   const { data: session } = useSession()
@@ -22,6 +23,8 @@ export default function Modify() {
   const router = useRouter()
 
   const { data: modifyTargetDocument } = useGetDocumentQuery({ documentId: Number(documentId) })
+
+  const { documentEditedEvent } = useAmplitudeContext()
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: { name: string; file: File }) =>
@@ -70,6 +73,10 @@ export default function Modify() {
       },
       {
         onSuccess: () => {
+          documentEditedEvent({
+            length: editorContent.length,
+          })
+
           toast({
             description: '노트가 수정되었습니다',
           })
