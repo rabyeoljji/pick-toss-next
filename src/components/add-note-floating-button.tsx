@@ -1,12 +1,17 @@
+'use client'
+
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { CreateDocumentProtector } from './create-document-protector'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 interface Props {
   categoryId?: number
 }
 
 export default function AddNoteFloatingButton({ categoryId }: Props) {
+  const { clickedEvent } = useAmplitudeContext()
+
   return (
     <CreateDocumentProtector
       skeleton={
@@ -19,7 +24,15 @@ export default function AddNoteFloatingButton({ categoryId }: Props) {
     >
       <div className="fixed bottom-[120px] right-[20px] drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)] lg:hidden">
         <Link href={`/create${categoryId ? `?default=${categoryId}` : ''}`}>
-          <Button className="flex h-[48px] w-[136px] items-center gap-[8px] text-body2-bold text-white ">
+          <Button
+            className="flex h-[48px] w-[136px] items-center gap-[8px] text-body2-bold text-white"
+            onClick={() =>
+              clickedEvent({
+                buttonType: 'addNote',
+                buttonName: 'add_document_floating_button',
+              })
+            }
+          >
             노트 추가하기 <PlusIcon />
           </Button>
         </Link>

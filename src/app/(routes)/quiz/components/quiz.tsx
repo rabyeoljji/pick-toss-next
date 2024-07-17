@@ -22,6 +22,8 @@ import { ReportQuizError } from './report-quiz-error'
 import { deleteQuiz } from '@/apis/fetchers/quiz/delete-quiz/fetcher'
 import { cn } from '@/lib/utils'
 import { usePatchQuizResultMutation } from '@/apis/fetchers/quiz/patch-quiz-result/mutation'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
+import { getCurrentTime } from '@/utils/date'
 
 interface QuizProps {
   quizzes: QuizDTO[]
@@ -31,6 +33,7 @@ interface QuizProps {
 export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
   const quizSetId = useSearchParams().get('quizSetId') || ''
   const session = useSession()
+  const { quizCompletedEvent } = useAmplitudeContext()
 
   const [state, setState] = useState<'intro' | 'solving' | 'end'>('intro')
   const { totalElapsedTime, runTimer, stopTimer } = useTimer()
@@ -115,6 +118,15 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
         { quizSetId, solvingData: newSolvingData },
         {
           onSuccess: ({ reward }) => {
+            quizCompletedEvent({
+              continuousQuizDates: session.data?.user.dto.continuousQuizDatesCount,
+              quizType: isTodayQuiz
+                ? 'today'
+                : curQuiz.quizType === 'MULTIPLE_CHOICE'
+                ? 'multiple'
+                : 'ox',
+              date: isTodayQuiz ? getCurrentTime() : undefined,
+            })
             setReward(reward)
             setState('end')
           },

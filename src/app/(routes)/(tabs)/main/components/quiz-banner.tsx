@@ -13,6 +13,7 @@ import { SwitchCase } from '@/components/react/switch-case'
 import { Button } from '@/components/ui/button'
 import icons from '@/constants/icons'
 import { LOCAL_KEY } from '@/constants/local-key'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 import { cn } from '@/lib/utils'
 import { calculateTimeUntilTomorrowMidnight, getCurrentDate } from '@/utils/date'
 import { useQueryClient } from '@tanstack/react-query'
@@ -35,6 +36,8 @@ export default function QuizBanner() {
   const quizSetId = data?.quizSetId ?? null
 
   const { mutate: getWeekQuizAnswerRate } = useGetWeekQuizAnswerRateMutation()
+
+  const { clickedEvent } = useAmplitudeContext()
 
   useEffect(() => {
     if (type !== 'DONE') {
@@ -236,7 +239,13 @@ export default function QuizBanner() {
           READY: (
             <Button
               className="flex w-full gap-[8px] rounded-[32px] lg:w-[240px]"
-              onClick={() => router.push(`/quiz?quizSetId=${quizSetId}`)}
+              onClick={() => {
+                clickedEvent({
+                  buttonType: 'todayQuiz',
+                  buttonName: 'banner_start_today_quiz_button',
+                })
+                router.push(`/quiz?quizSetId=${quizSetId}`)
+              }}
             >
               <div>오늘의 퀴즈 시작하기</div>
               <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
@@ -255,7 +264,13 @@ export default function QuizBanner() {
                 <CategoryProtector>
                   <Button
                     className="flex w-[calc(100%-40px)] gap-[8px] rounded-[32px] lg:relative lg:bottom-0 lg:w-[240px]"
-                    onClick={() => router.push('/create')}
+                    onClick={() => {
+                      clickedEvent({
+                        buttonType: 'addNote',
+                        buttonName: 'banner_add_document_button',
+                      })
+                      router.push('/create')
+                    }}
                   >
                     <div>노트 추가하러 가기</div>
                     <Image src={icons.arrowRight} width={20.25} height={13.5} alt="" />
@@ -267,6 +282,12 @@ export default function QuizBanner() {
                 <Link
                   href="/quiz/practice"
                   className="border-b border-blue-06 pb-[2px] text-blue-06"
+                  onClick={() =>
+                    clickedEvent({
+                      buttonType: 'quizPractice',
+                      buttonName: 'banner_start_example_quiz_button',
+                    })
+                  }
                 >
                   연습 문제 풀어보기
                 </Link>

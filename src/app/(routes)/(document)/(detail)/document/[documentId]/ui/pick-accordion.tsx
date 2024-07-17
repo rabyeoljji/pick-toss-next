@@ -1,9 +1,12 @@
+'use client'
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 import { cn } from '@/lib/utils'
 import { ChevronDown } from 'lucide-react'
 
@@ -19,6 +22,8 @@ export function PickAccordion({
   }[]
   handleToggleBookmark: (data: { keyPointId: number; bookmark: boolean }) => void
 }) {
+  const { clickedEvent } = useAmplitudeContext()
+
   return (
     <Accordion type="multiple" className="flex flex-col gap-[19px]">
       {keyPoints.map((keyPoint, index) => (
@@ -57,12 +62,28 @@ export function PickAccordion({
                 )}
               >
                 {keyPoint.bookmark ? (
-                  <div className="flex items-center gap-[4px]">
+                  <div
+                    className="flex items-center gap-[4px]"
+                    onClick={() =>
+                      clickedEvent({
+                        buttonType: 'bookmark',
+                        buttonName: 'remove_bookmark_button',
+                      })
+                    }
+                  >
                     <FilledBookMarkIcon />
                     <span>저장됨</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-[4px]">
+                  <div
+                    className="flex items-center gap-[4px]"
+                    onClick={() =>
+                      clickedEvent({
+                        buttonType: 'bookmark',
+                        buttonName: 'add_bookmark_button',
+                      })
+                    }
+                  >
                     <AddBookMarkIcon />
                     <span>저장</span>
                   </div>

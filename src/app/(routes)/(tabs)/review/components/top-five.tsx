@@ -3,6 +3,7 @@
 import { useGetTopFiveQuery } from '@/apis/fetchers/document/get-top-five/query'
 import Loading from '@/components/loading'
 import icons from '@/constants/icons'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -56,10 +57,18 @@ function FrequentlyWrongNoteItem({
   categoryName: string
   wrongCount: number
 }) {
+  const { clickedEvent } = useAmplitudeContext()
+
   return (
     <Link
       href={redirectUrl}
       className="flex h-[62px] items-center justify-between last:border-none"
+      onClick={() =>
+        clickedEvent({
+          buttonType: 'topFive',
+          buttonName: 'top_five_list_item',
+        })
+      }
     >
       <div className="flex items-center gap-[16px]">
         <span className="text-body2-bold text-orange-06">{rank}</span>

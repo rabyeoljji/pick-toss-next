@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils'
 import { useGetDocumentsForCategoryQuery } from '@/apis/fetchers/document/get-documents-for-category/query'
 import Loading from '@/components/loading'
 import { CreateDocumentProtector } from '@/components/create-document-protector'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 const SORT_OPTION_TYPE = ['createdAt', 'name', 'updatedAt'] as const
 
@@ -112,6 +113,8 @@ interface AddNoteButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 function AddNoteButton({ className, categoryId }: AddNoteButtonProps) {
+  const { clickedEvent } = useAmplitudeContext()
+
   return (
     <CreateDocumentProtector
       skeleton={
@@ -135,6 +138,12 @@ function AddNoteButton({ className, categoryId }: AddNoteButtonProps) {
           'flex h-[78px] w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed !text-body2-bold text-gray-08',
           className
         )}
+        onClick={() =>
+          clickedEvent({
+            buttonType: 'addNote',
+            buttonName: 'add_document_dotted_button',
+          })
+        }
       >
         노트 추가하기
         <div className="rounded-full bg-gray-02 p-2">

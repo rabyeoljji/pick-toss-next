@@ -34,6 +34,7 @@ import { CategoryProtector } from '@/components/category-protector'
 import Div100vh from 'react-div-100vh'
 import { useCreateQuizzesMutation } from '@/apis/fetchers/quiz/create-quizzes/mutation'
 import { useQuizCountMutation } from '@/apis/fetchers/document/quiz-count/mutation'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 const QUIZ_COUNT_OPTIONS = [3, 5, 10, 15, 20]
 const DEFAULT_QUIZ_COUNT = QUIZ_COUNT_OPTIONS[0]
@@ -60,6 +61,8 @@ export default function MakeQuizDrawerDialog({ trigger, categories, quizType = '
   const [startedCreate, setStartedState] = useState(false)
 
   const userPoints = session?.user.dto.point || 0
+
+  const { clickedEvent, quizMadeEvent } = useAmplitudeContext()
 
   const { mutate: mutateCreateQuizzes } = useCreateQuizzesMutation()
 
@@ -91,6 +94,10 @@ export default function MakeQuizDrawerDialog({ trigger, categories, quizType = '
       },
       {
         onSuccess: ({ quizSetId }) => {
+          quizMadeEvent({
+            quizType: quizType === 'MULTIPLE_CHOICE' ? 'multiple' : 'ox',
+            count,
+          })
           router.push(`/quiz?quizSetId=${quizSetId}`)
         },
       }
@@ -101,7 +108,17 @@ export default function MakeQuizDrawerDialog({ trigger, categories, quizType = '
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <CategoryProtector>
-          <DialogTrigger asChild>{trigger}</DialogTrigger>
+          <DialogTrigger
+            asChild
+            onClick={() =>
+              clickedEvent({
+                buttonType: 'makeQuiz',
+                buttonName: `${quizType}_drawer_dialog_button`,
+              })
+            }
+          >
+            {trigger}
+          </DialogTrigger>
         </CategoryProtector>
         <DialogContent className="min-h-[480px] min-w-[560px] rounded-[12px] border-none py-[26px]">
           {startedCreate ? (
@@ -121,7 +138,16 @@ export default function MakeQuizDrawerDialog({ trigger, categories, quizType = '
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <CategoryProtector>
-        <DrawerTrigger asChild className="cursor-pointer">
+        <DrawerTrigger
+          asChild
+          className="cursor-pointer"
+          onClick={() =>
+            clickedEvent({
+              buttonType: 'makeQuiz',
+              buttonName: `${quizType}_drawer_dialog_button`,
+            })
+          }
+        >
           {trigger}
         </DrawerTrigger>
       </CategoryProtector>

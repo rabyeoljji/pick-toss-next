@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { cn } from '@/lib/utils'
 import { useSession } from 'next-auth/react'
 import { Button } from './ui/button'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 interface Props {
   trigger: ReactNode
@@ -15,11 +16,23 @@ export function AIPickDialog({ trigger, confirm }: Props) {
   const [open, setOpen] = useState(false)
   const { data: session } = useSession()
 
+  const { clickedEvent } = useAmplitudeContext()
+
   const availableAiPickCount = session?.user.dto.documentUsage.availableAiPickCount || 0
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger
+        asChild
+        onClick={() =>
+          clickedEvent({
+            buttonType: 'aiPickDialog',
+            buttonName: 'ai_pick_dialog_trigger',
+          })
+        }
+      >
+        {trigger}
+      </DialogTrigger>
       <DialogContent
         displayCloseButton={confirm == null}
         className={cn(

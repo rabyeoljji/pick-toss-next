@@ -13,6 +13,7 @@ import { useCreateDocumentMutation } from '@/apis/fetchers/document/create-docum
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 import { useSession } from 'next-auth/react'
 import { LimitDocumentDialog } from '@/components/limit-document-dialog'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 const VisualEditor = dynamic(() => import('./components/visual-editor'), {
   ssr: false,
@@ -31,6 +32,7 @@ export default function CreateDocument() {
   const { data: categories } = useGetCategoriesQuery()
 
   const { mutateAsync } = useCreateDocumentMutation()
+  const { documentCreatedEvent } = useAmplitudeContext()
 
   const handleSubmit = async ({
     categoryId,
@@ -66,6 +68,9 @@ export default function CreateDocument() {
       },
       {
         onSuccess: (data) => {
+          documentCreatedEvent({
+            length: editorContent.length,
+          })
           toast({ description: '노트가 등록되었습니다' })
           router.push(`/document/${data.id}`)
         },

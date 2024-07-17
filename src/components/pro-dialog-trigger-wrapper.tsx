@@ -1,9 +1,12 @@
+'use client'
+
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import Image from 'next/image'
 import icons from '@/constants/icons'
 import ProTag from './pro-tag'
 import { DialogTriggerProps } from '@radix-ui/react-alert-dialog'
+import useAmplitudeContext from '@/hooks/use-amplitude-context'
 
 interface Props extends DialogTriggerProps, React.RefAttributes<HTMLButtonElement> {
   open?: boolean
@@ -11,9 +14,20 @@ interface Props extends DialogTriggerProps, React.RefAttributes<HTMLButtonElemen
 }
 
 export default function ProDialogTriggerWrapper({ open, onOpenChange, children, ...props }: Props) {
+  const { clickedEvent } = useAmplitudeContext()
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger {...props} asChild>
+      <DialogTrigger
+        {...props}
+        asChild
+        onClick={() =>
+          clickedEvent({
+            buttonType: 'pro',
+            buttonName: 'pro_dialog_trigger',
+          })
+        }
+      >
         {children}
       </DialogTrigger>
       <DialogContent className="w-[320px] lg:w-[448px]" displayCloseButton={false}>
