@@ -35,6 +35,7 @@ import Div100vh from 'react-div-100vh'
 import { useCreateQuizzesMutation } from '@/apis/fetchers/quiz/create-quizzes/mutation'
 import { useQuizCountMutation } from '@/apis/fetchers/document/quiz-count/mutation'
 import useAmplitudeContext from '@/hooks/use-amplitude-context'
+import { X } from 'lucide-react'
 
 const QUIZ_COUNT_OPTIONS = [3, 5, 10, 15, 20]
 const DEFAULT_QUIZ_COUNT = QUIZ_COUNT_OPTIONS[0]
@@ -467,7 +468,7 @@ function MakeQuizDrawerContent({
     <div className="px-[20px]">
       <div className="relative h-[48px]">
         <Button variant="ghost" size="icon" className="ml-[-12px]" onClick={() => closeDrawer()}>
-          <ChevronDownIcon />
+          <X />
         </Button>
         <div className="center text-body1-bold text-gray-09">
           {quizType === 'MIX_UP' ? 'O/X 퀴즈' : '객관식 퀴즈'}
@@ -810,19 +811,5 @@ function SelectCheckItems(props: {
         </>
       )}
     </div>
-  )
-}
-
-function ChevronDownIcon() {
-  return (
-    <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M1 1L9 9L17 1"
-        stroke="#4B4F54"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   )
 }

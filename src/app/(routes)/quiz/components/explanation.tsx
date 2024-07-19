@@ -56,7 +56,7 @@ export default function Explanation({
             {isCorrect ? '정답이에요!' : '오답이에요'}
           </div>
         </div>
-        <div className="mb-[48px] flex flex-col text-gray-08 lg:gap-[8px] lg:pl-[40px] lg:pr-[178px]">
+        <div className="mb-[48px] flex flex-col gap-[8px] text-gray-08 lg:pl-[40px] lg:pr-[178px]">
           <div className="text-body1-bold">정답: {correctItem}</div>
           <div className="text-text-regular">{explanation}</div>
         </div>

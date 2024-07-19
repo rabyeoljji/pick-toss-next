@@ -73,9 +73,9 @@ export function ReportQuizError({ handlePassQuiz }: Props) {
           ))}
         </RadioGroup>
 
-        <DialogFooter className="flex !justify-center">
+        <DialogFooter>
           <Button
-            className="w-[280px] disabled:bg-gray-02 disabled:text-gray-06"
+            className="mx-auto w-[280px] disabled:bg-gray-02 disabled:text-gray-06"
             disabled={selectedOption == null}
             onClick={() => {
               handlePassQuiz()

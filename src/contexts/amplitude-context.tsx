@@ -41,13 +41,13 @@ const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname()
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'production') {
-    init(AMPLITUDE_API_KEY, undefined, {
-      defaultTracking: {
-        sessions: true,
-      },
-    })
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      init(AMPLITUDE_API_KEY, undefined, {
+        defaultTracking: {
+          sessions: true,
+        },
+      })
+    }
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
