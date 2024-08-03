@@ -71,7 +71,7 @@ export default function MultipleOptions({
   return (
     <div className={className} key={curQuiz.id}>
       <motion.ul
-        className="flex flex-col gap-[20px] px-[20px] lg:gap-[12px] lg:px-0"
+        className="flex flex-col gap-[12px] px-[20px] lg:gap-[12px] lg:px-0"
         variants={container}
         initial="hidden"
         animate="visible"
