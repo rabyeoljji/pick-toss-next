@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react'
 import CreateCategoryDialog from './create-category-dialog'
-import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
 
 interface Props extends PropsWithChildren {}
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { CommonLayout } from '@/shared/components/common-layout'
-import { GetBookmarksResponse } from '@/apis/fetchers/key-point/get-bookmarks/fetcher'
+import { GetBookmarksResponse } from '@/actions/fetchers/key-point/get-bookmarks'
 import { useQueryClient } from '@tanstack/react-query'
 import Loading from '@/shared/components/loading'
 import { NoPicks } from './components/no-picks'
@@ -11,9 +11,9 @@ import { KeyPointCard } from './components/key-point-card'
 import {
   GET_BOOKMARKS_KEY,
   useGetBookmarksQuery,
-} from '@/apis/fetchers/key-point/get-bookmarks/query'
-import { useToggleBookmarkMutation } from '@/apis/fetchers/key-point/toggle-bookmark/mutation'
-import { useSearchKeyPointsQuery } from '@/apis/fetchers/key-point/search-key-points/query'
+} from '@/actions/fetchers/key-point/get-bookmarks/query'
+import { useToggleBookmarkMutation } from '@/actions/fetchers/key-point/toggle-bookmark/mutation'
+import { useSearchKeyPointsQuery } from '@/actions/fetchers/key-point/search-key-points/query'
 import { LOCAL_KEY } from '@/constants/local-key'
 // import { CategorySelect } from './components/category-select'
 

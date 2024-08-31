@@ -1,9 +1,9 @@
 'use client'
 
-import { changeAiPick } from '@/apis/fetchers/admin/test-change-ai-pick'
-import { changePoint } from '@/apis/fetchers/admin/test-change-point'
-import { createTodayQuiz } from '@/apis/fetchers/admin/test-create-today-quiz'
-import { useGetTodayQuizSetId } from '@/apis/fetchers/quiz/get-today-quiz-set-id/query'
+import { changeAiPick } from '@/actions/fetchers/admin/test-change-ai-pick'
+import { changePoint } from '@/actions/fetchers/admin/test-change-point'
+import { createTodayQuiz } from '@/actions/fetchers/admin/test-create-today-quiz'
+import { useGetTodayQuizSetId } from '@/actions/fetchers/quiz/get-today-quiz-set-id/query'
 import Loading from '@/shared/components/loading'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'

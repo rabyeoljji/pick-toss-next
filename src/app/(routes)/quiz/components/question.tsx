@@ -3,7 +3,7 @@ import ProgressBar from './progress-bar'
 import { motion } from 'framer-motion'
 import { msToElapsedTime } from '@/utils/time'
 import { cn } from '@/shared/lib/utils'
-import { QuizType } from '@/apis/types/dto/quiz.dto'
+import { QuizType } from '@/actions/types/dto/quiz.dto'
 
 interface QuestionProps {
   categoryName: string

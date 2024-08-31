@@ -1,6 +1,6 @@
 'use client'
 
-import { QuizDTO } from '@/apis/types/dto/quiz.dto'
+import { QuizDTO } from '@/actions/types/dto/quiz.dto'
 import MixUpOption from './components/option'
 import { HTMLAttributes } from 'react'
 import { QuizProgress } from '../../types'

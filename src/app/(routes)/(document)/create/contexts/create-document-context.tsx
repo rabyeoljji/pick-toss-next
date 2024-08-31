@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoryDTO } from '@/apis/types/dto/category.dto'
+import { CategoryDTO } from '@/actions/types/dto/category.dto'
 import { PropsWithChildren, createContext, useCallback, useContext, useMemo, useState } from 'react'
 
 interface CreateDocumentContextValues {

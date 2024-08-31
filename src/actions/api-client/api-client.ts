@@ -1,0 +1,89 @@
+import QS from 'qs'
+import { EndPoint } from '../endpoints/types'
+import { ApiResponse } from './types'
+import { ApiError } from './api-error'
+import { ServerEnv } from './server-env'
+
+interface Config {
+  baseUrl: string
+  revalidate: number
+}
+
+interface FetchParams {
+  endpoint: EndPoint
+  headers?: HeadersInit
+  query?: object
+  body?: object
+  next?: {
+    revalidate: number
+  }
+}
+
+class ApiClient {
+  constructor(private readonly config: Config) {}
+
+  async fetch<T extends ApiResponse>(params: FetchParams): Promise<T> {
+    const response = await fetch(this.getUrl(params), {
+      headers: this.getHeaders(params.headers, params.body),
+      next: this.getNextOptions(params.next),
+      body: this.getBody(params.body),
+      method: params.endpoint.method,
+    })
+
+    return await this.handleResponse<T>(params, response)
+  }
+
+  private getUrl({ endpoint, query }: Pick<FetchParams, 'endpoint' | 'query'>): string {
+    const searchParamsUrl = query ? `?${QS.stringify(query)}` : ''
+    return `${this.config.baseUrl}${endpoint.url}${searchParamsUrl}`
+  }
+
+  private getHeaders(headers?: FetchParams['headers'], body?: FetchParams['body']): HeadersInit {
+    if (body instanceof FormData) {
+      return {
+        ...(headers || {}),
+      }
+    }
+
+    return {
+      'Content-Type': 'application/json',
+      ...(headers || {}),
+    }
+  }
+
+  private getNextOptions(next: FetchParams['next']): NextFetchRequestConfig | undefined {
+    return {
+      revalidate: next?.revalidate ?? this.config.revalidate,
+      ...next,
+    }
+  }
+
+  private getBody(body?: FetchParams['body']): string | FormData | undefined {
+    if (!body) {
+      return undefined
+    }
+    if (body instanceof FormData) {
+      return body
+    }
+    return JSON.stringify(body)
+  }
+
+  private async handleResponse<T extends ApiResponse>(params: FetchParams, res: Response) {
+    if (!res.ok) {
+      console.error(await res.json())
+      const url = this.getUrl(params)
+      throw new ApiError(`${res.statusText}: [${params.endpoint.method}] ${url}`, {
+        status: res.status,
+        url,
+      })
+    }
+
+    const data = (await res.json().catch(() => ({}))) as T
+    return data
+  }
+}
+
+export const apiClient = new ApiClient({
+  baseUrl: ServerEnv.apiUrl(),
+  revalidate: 0,
+})

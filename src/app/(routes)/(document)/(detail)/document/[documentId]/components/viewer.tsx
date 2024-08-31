@@ -19,7 +19,7 @@ import {
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { StatusTag } from '../ui/status-tag'
-import { DocumentStatus } from '@/apis/types/dto/document.dto'
+import { DocumentStatus } from '@/actions/types/dto/document.dto'
 import DeleteDocumentModal from '@/app/(routes)/(tabs)/repository/[categoryId]/components/delete-document.modal'
 
 interface Props {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetTopFiveQuery } from '@/apis/fetchers/document/get-top-five/query'
+import { useGetTopFiveQuery } from '@/actions/fetchers/document/get-top-five/query'
 import Loading from '@/shared/components/loading'
 import icons from '@/constants/icons'
 import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'

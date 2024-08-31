@@ -1,4 +1,4 @@
-import { CategoryDTO } from '@/apis/types/dto/category.dto'
+import { CategoryDTO } from '@/actions/types/dto/category.dto'
 import {
   Select,
   SelectContent,

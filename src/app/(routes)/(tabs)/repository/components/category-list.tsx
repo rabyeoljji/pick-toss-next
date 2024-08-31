@@ -16,20 +16,20 @@ import {
 import { ButtonHTMLAttributes, HTMLAttributes, useState } from 'react'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Category } from '@/apis/fetchers/category/get-categories/fetcher'
-import { useSession } from 'next-auth/react'
+import { Category } from '@/actions/fetchers/category/get-categories'
 import icons from '@/constants/icons'
-import { reorderCategory } from '@/apis/fetchers/category/reorder-category/fetcher'
+import { reorderCategory } from '@/actions/fetchers/category/reorder-category'
 import { cn } from '@/shared/lib/utils'
 import CreateCategoryDialog from '@/shared/components/create-category-dialog'
 import Loading from '@/shared/components/loading'
-import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
+import { useSession } from 'next-auth/react'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 export default function CategoryList({ className }: Props) {
-  const { data: session } = useSession()
   const queryClient = useQueryClient()
+  const { data: session } = useSession()
 
   const { data: categories, isError, isPending } = useGetCategoriesQuery()
   const { mutate: mutateReorder } = useMutation({

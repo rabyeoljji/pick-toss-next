@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select'
 import { useCreateDocumentContext } from '../contexts/create-document-context'
-import { CategoryDTO } from '@/apis/types/dto/category.dto'
+import { CategoryDTO } from '@/actions/types/dto/category.dto'
 
 interface Props {
   categories: CategoryDTO[]

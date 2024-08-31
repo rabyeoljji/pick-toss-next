@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetMonthQuizAnswerRateQuery } from '@/apis/fetchers/quiz/get-month-quiz-answer-rate/query'
+import { useGetMonthQuizAnswerRateQuery } from '@/actions/fetchers/quiz/get-month-quiz-answer-rate/query'
 import Loading from '@/shared/components/loading'
 import { Dialog, DialogContent, DialogTrigger } from '@/shared/components/ui/dialog'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/components/ui/drawer'

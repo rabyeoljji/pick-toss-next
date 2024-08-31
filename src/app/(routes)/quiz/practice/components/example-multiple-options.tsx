@@ -4,7 +4,7 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { VariantProps } from 'class-variance-authority'
 import { QuizProgress } from '../../types'
 import { motion } from 'framer-motion'
-import { ExampleQuizType } from '@/apis/fetchers/quiz/get-example-quizzes/fetcher'
+import { ExampleQuizType } from '@/actions/fetchers/quiz/get-example-quizzes'
 import MultipleOption, { optionVariants } from '../../components/multiple-options/components/option'
 
 const container = {

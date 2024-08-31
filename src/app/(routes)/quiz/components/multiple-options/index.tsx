@@ -1,6 +1,6 @@
 'use client'
 
-import { QuizDTO } from '@/apis/types/dto/quiz.dto'
+import { QuizDTO } from '@/actions/types/dto/quiz.dto'
 import MultipleOption, { optionVariants } from './components/option'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { VariantProps } from 'class-variance-authority'

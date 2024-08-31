@@ -1,9 +1,9 @@
 import NextAuth, { Account, DefaultSession, NextAuthResult } from 'next-auth'
-import { signIn as signInAPI } from '@/apis/fetchers/auth/sign-in/fetcher'
+import { signIn as signInAPI } from '@/actions/fetchers/auth/sign-in'
 import Kakao from 'next-auth/providers/kakao'
 import Google from 'next-auth/providers/google'
-import { getUser } from '@/apis/fetchers/user/get-user/fetcher'
-import { UserDTO } from '@/apis/types/dto/user.dto'
+import { getUser } from '@/actions/fetchers/user/get-user'
+import { UserDTO } from '@/actions/types/dto/user.dto'
 
 declare module 'next-auth' {
   interface Session {
@@ -39,8 +39,9 @@ export const {
         }
         // 회원가입 했을 때만 첫 사용자인지 알 수 있다
         try {
+          const session = await auth()
           const user = await getUser({
-            accessToken: token.accessToken as string,
+            accessToken: session?.user.accessToken || '',
           })
           token.userDTO = user
         } catch (error) {
@@ -57,8 +58,9 @@ export const {
 
       if (trigger === 'update') {
         try {
+          const session = await auth()
           const user = await getUser({
-            accessToken: token.accessToken as string,
+            accessToken: session?.user.accessToken || '',
           })
           token.userDTO = user
         } catch (error) {

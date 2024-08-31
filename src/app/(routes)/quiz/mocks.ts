@@ -1,4 +1,4 @@
-import { QuizDTO } from '@/apis/types/dto/quiz.dto'
+import { QuizDTO } from '@/actions/types/dto/quiz.dto'
 
 export const quizzes: QuizDTO[] = [
   {

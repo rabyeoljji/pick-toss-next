@@ -1,4 +1,4 @@
-import { getExampleQuizSets } from '@/apis/fetchers/quiz/get-example-quizzes/fetcher'
+import { getExampleQuizSets } from '@/actions/fetchers/quiz/get-example-quizzes'
 import { ExampleQuiz } from './components/example-quiz'
 
 export default async function QuizPractice() {

@@ -1,6 +1,6 @@
 'use client'
 
-import { QuizDTO } from '@/apis/types/dto/quiz.dto'
+import { QuizDTO } from '@/actions/types/dto/quiz.dto'
 import QuizIntro from './quiz-intro'
 import { useEffect, useState } from 'react'
 import QuizHeader from './quiz-header'
@@ -19,9 +19,9 @@ import { useSession } from 'next-auth/react'
 import QuizResult from './quiz-result'
 import { ChoiceReact } from './choice-react'
 import { ReportQuizError } from './report-quiz-error'
-import { deleteQuiz } from '@/apis/fetchers/quiz/delete-quiz/fetcher'
+import { deleteQuiz } from '@/actions/fetchers/quiz/delete-quiz'
 import { cn } from '@/shared/lib/utils'
-import { usePatchQuizResultMutation } from '@/apis/fetchers/quiz/patch-quiz-result/mutation'
+import { usePatchQuizResultMutation } from '@/actions/fetchers/quiz/patch-quiz-result/mutation'
 import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
 import { getCurrentTime } from '@/utils/date'
 
@@ -32,7 +32,7 @@ interface QuizProps {
 
 export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
   const quizSetId = useSearchParams().get('quizSetId') || ''
-  const session = useSession()
+  const { data: session } = useSession()
   const { quizCompletedEvent } = useAmplitudeContext()
 
   const [state, setState] = useState<'intro' | 'solving' | 'end'>('intro')
@@ -59,7 +59,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
         documentId,
         quizSetId,
         quizId,
-        accessToken: session.data?.user.accessToken || '',
+        accessToken: session?.user.accessToken || '',
       }),
   })
 
@@ -119,7 +119,7 @@ export default function Quiz({ quizzes, isTodayQuiz }: QuizProps) {
         {
           onSuccess: ({ reward }) => {
             quizCompletedEvent({
-              continuousQuizDates: session.data?.user.dto.continuousQuizDatesCount,
+              continuousQuizDates: session?.user.dto.continuousQuizDatesCount,
               quizType: isTodayQuiz
                 ? 'today'
                 : curQuiz.quizType === 'MULTIPLE_CHOICE'

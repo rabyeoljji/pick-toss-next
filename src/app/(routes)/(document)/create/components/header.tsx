@@ -1,6 +1,6 @@
 'use client'
 
-import { CategoryDTO } from '@/apis/types/dto/category.dto'
+import { CategoryDTO } from '@/actions/types/dto/category.dto'
 import { Button } from '@/shared/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { CategorySelect } from './category-select'
