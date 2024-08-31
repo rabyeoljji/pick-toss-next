@@ -8,9 +8,9 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { SortOption } from './document-list'
 import { useParams } from 'next/navigation'
-import { GET_DOCUMENTS_FOR_CATEGORY_KEY } from '@/actions/fetchers/document/get-documents-for-category/query'
 import { useState } from 'react'
 import Loading from '@/shared/components/loading'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 interface Props extends Pick<Document, 'id' | 'name'> {
   open: boolean
@@ -41,18 +41,16 @@ export default function DeleteDocumentModal({
       setIsLoading(true)
 
       await queryClient.cancelQueries({
-        queryKey: [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+        queryKey: queries.document.list(Number(categoryId), sortOption).queryKey,
       })
 
-      const prevDocuments = queryClient.getQueryData<Document[]>([
-        GET_DOCUMENTS_FOR_CATEGORY_KEY,
-        Number(categoryId),
-        sortOption,
-      ])
+      const prevDocuments = queryClient.getQueryData<Document[]>(
+        queries.document.list(Number(categoryId), sortOption).queryKey
+      )
 
       if (categoryId) {
         queryClient.setQueryData(
-          [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+          queries.document.list(Number(categoryId), sortOption).queryKey,
           (prevDocuments: Document[]) => prevDocuments.filter((document) => document.id !== id)
         )
       }
@@ -61,7 +59,7 @@ export default function DeleteDocumentModal({
     },
     onError: (_, __, context) => {
       queryClient.setQueryData(
-        [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+        queries.document.list(Number(categoryId), sortOption).queryKey,
         context
       )
     },

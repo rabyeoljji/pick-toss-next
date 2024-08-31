@@ -8,8 +8,8 @@ import { Document } from '@/actions/fetchers/document/get-documents-for-category
 import { updateDocumentName } from '@/actions/fetchers/document/update-document-name'
 import { useParams } from 'next/navigation'
 import { SortOption } from './document-list'
-import { GET_DOCUMENTS_FOR_CATEGORY_KEY } from '@/actions/fetchers/document/get-documents-for-category/query'
 import { useSession } from 'next-auth/react'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 interface Props extends Document {
   open: boolean
@@ -33,17 +33,15 @@ export default function ModifyDocumentNameModal({
     mutationFn: updateDocumentName,
     onMutate: async () => {
       await queryClient.cancelQueries({
-        queryKey: [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+        queryKey: queries.document.list(Number(categoryId), sortOption).queryKey,
       })
 
-      const prevDocuments = queryClient.getQueryData<Document[]>([
-        GET_DOCUMENTS_FOR_CATEGORY_KEY,
-        Number(categoryId),
-        sortOption,
-      ])
+      const prevDocuments = queryClient.getQueryData<Document[]>(
+        queries.document.list(Number(categoryId), sortOption).queryKey
+      )
 
       queryClient.setQueryData(
-        [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+        queries.document.list(Number(categoryId), sortOption).queryKey,
         (prevDocuments: Document[]) =>
           prevDocuments.map((document) => {
             if (id !== document.id) return document
@@ -59,7 +57,7 @@ export default function ModifyDocumentNameModal({
     },
     onError: (_, __, context) => {
       queryClient.setQueryData(
-        [GET_DOCUMENTS_FOR_CATEGORY_KEY, Number(categoryId), sortOption],
+        queries.document.list(Number(categoryId), sortOption).queryKey,
         context
       )
     },

@@ -3,8 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getDocument } from '.'
 import { useSession } from 'next-auth/react'
-
-export const GET_DOCUMENT_KEY = 'document'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 interface Params {
   documentId: number
@@ -14,7 +13,7 @@ export const useGetDocumentQuery = ({ documentId }: Params) => {
   const { data: session } = useSession()
 
   return useQuery({
-    queryKey: [GET_DOCUMENT_KEY, documentId],
+    ...queries.document.item(documentId),
     queryFn: () =>
       getDocument({
         documentId,

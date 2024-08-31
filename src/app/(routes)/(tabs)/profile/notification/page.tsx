@@ -1,12 +1,14 @@
-import { auth } from '@/app/api/auth/[...nextauth]/auth'
+'use client'
+
 import TitleHeader from '@/shared/components/title-header'
 import icons from '@/constants/icons'
 import Image from 'next/image'
 import QuizNotificationSwitch from './components/quiz-notification-switch'
 import Link from 'next/link'
+import { useUser } from '@/shared/hooks/use-user'
 
-export default async function ProfileNotification() {
-  const session = await auth()
+export default function ProfileNotification() {
+  const { user } = useUser()
 
   return (
     <main className="h-[calc(100vh-84px)] bg-white lg:h-screen">
@@ -27,15 +29,15 @@ export default async function ProfileNotification() {
             <Image src={icons.circleQuestion} width={16} height={16} alt="" />
           </div>
           <div className="flex items-center gap-[7px]">
-            {session?.user.dto.email ? (
-              <p className="text-text-regular text-gray-07">{session.user.dto.email}</p>
+            {user.email ? (
+              <p className="text-text-regular text-gray-07">{user.email}</p>
             ) : (
               <p className="text-text-regular text-gray-04">이메일을 추가해보세요</p>
             )}
 
             <Link href="/profile/notification/email">
               <button className="h-[24px] w-[66px] rounded-[4px] bg-orange-01 text-small1-bold text-orange-06 hover:bg-orange-02/80">
-                {session?.user.dto.email ? '변경하기' : '추가하기'}
+                {user.email ? '변경하기' : '추가하기'}
               </button>
             </Link>
           </div>
