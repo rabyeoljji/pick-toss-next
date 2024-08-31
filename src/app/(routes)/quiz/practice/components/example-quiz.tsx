@@ -4,7 +4,7 @@ import { QuizType } from '@/actions/types/dto/quiz.dto'
 import { useEffect, useState } from 'react'
 import { useTimer } from '../../hooks/use-timer'
 import { QuizProgress, SolvingData } from '../../types'
-import { delay } from '@/utils/delay'
+import { delay } from '@/shared/utils/delay'
 import { INTRO_DURATION, SHOW_RESULT_DURATION } from '../../constants'
 import { SwitchCase } from '@/shared/components/react/switch-case'
 import { cn } from '@/shared/lib/utils'
@@ -17,7 +17,7 @@ import ExampleQuestion from './example-question'
 import type { ExampleQuizType } from '@/actions/fetchers/quiz/get-example-quizzes'
 import ExampleMultipleOptions from './example-multiple-options'
 import ExampleMixUpOptions from './example-mix-up-options'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 export type ExampleSolvingData = (SolvingData[number] & { quizType: QuizType })[]
 

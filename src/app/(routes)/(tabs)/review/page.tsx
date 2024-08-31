@@ -10,7 +10,7 @@ import { SavedPicksLink } from './components/saved-picks-link'
 import TopFive from './components/top-five'
 import { QuizAnalysis } from './components/quiz-analysis'
 import ProDialogTriggerWrapper from '@/shared/components/pro-dialog-trigger-wrapper'
-import { getCurrentDate } from '@/utils/date'
+import { getCurrentDate } from '@/shared/utils/date'
 
 export default function Review() {
   const curMonth = getCurrentDate({ month: true })

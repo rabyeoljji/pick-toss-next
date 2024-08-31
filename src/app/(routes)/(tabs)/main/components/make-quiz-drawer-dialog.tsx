@@ -15,7 +15,7 @@ import { useCreateQuizzesMutation } from '@/actions/fetchers/quiz/create-quizzes
 import { useQuizCountMutation } from '@/actions/fetchers/document/quiz-count/mutation'
 import { X } from 'lucide-react'
 import { useMediaQuery } from '@/shared/hooks/use-media-query'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 import { Dialog, DialogContent, DialogTrigger } from '@/shared/components/ui/dialog'
 import { CategoryProtector } from '@/shared/components/category-protector'
 import Loading from '@/shared/components/loading'

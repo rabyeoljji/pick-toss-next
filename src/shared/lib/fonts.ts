@@ -2,7 +2,7 @@ import localFont from 'next/font/local'
 import { DM_Sans } from 'next/font/google'
 
 export const suit = localFont({
-  src: '../../public/fonts/SUIT-Variable.woff2',
+  src: '../../../public/fonts/SUIT-Variable.woff2',
   variable: '--font-suit',
 })
 

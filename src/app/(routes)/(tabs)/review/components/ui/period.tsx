@@ -1,4 +1,4 @@
-import { formatDateKorean } from '@/utils/date'
+import { formatDateKorean } from '@/shared/utils/date'
 
 interface Props {
   periodType: 'week' | 'month'

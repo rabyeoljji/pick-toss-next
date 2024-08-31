@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { CreateDocumentProtector } from './create-document-protector'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 interface Props {
   categoryId?: number

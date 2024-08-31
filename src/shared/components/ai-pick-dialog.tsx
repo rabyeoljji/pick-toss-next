@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { cn } from '@/shared/lib/utils'
 import { useSession } from 'next-auth/react'
 import { Button } from './ui/button'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 interface Props {
   trigger: ReactNode

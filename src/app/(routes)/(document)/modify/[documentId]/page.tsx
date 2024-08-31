@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { useToast } from '@/shared/hooks/use-toast'
 import { useGetDocumentQuery } from '@/actions/fetchers/document/get-document/query'
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 import { useSession } from 'next-auth/react'
 
 export default function Modify() {

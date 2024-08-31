@@ -1,6 +1,6 @@
 import { ExampleQuizType } from '@/actions/fetchers/quiz/get-example-quizzes'
 import { QuizType } from '@/actions/types/dto/quiz.dto'
-import { getCurrentDate } from '@/utils/date'
+import { getCurrentDate } from '@/shared/utils/date'
 import { motion } from 'framer-motion'
 import { HTMLAttributes } from 'react'
 

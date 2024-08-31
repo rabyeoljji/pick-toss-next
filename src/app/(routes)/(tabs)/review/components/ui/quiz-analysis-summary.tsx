@@ -1,4 +1,4 @@
-import { msToMin } from '@/utils/time'
+import { msToMin } from '@/shared/utils/time'
 
 interface Props {
   elapsedTime: number

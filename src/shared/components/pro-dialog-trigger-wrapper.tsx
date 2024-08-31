@@ -6,7 +6,7 @@ import Image from 'next/image'
 import icons from '@/constants/icons'
 import ProTag from './pro-tag'
 import { DialogTriggerProps } from '@radix-ui/react-alert-dialog'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 interface Props extends DialogTriggerProps, React.RefAttributes<HTMLButtonElement> {
   open?: boolean

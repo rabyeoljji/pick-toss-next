@@ -4,12 +4,10 @@ import { verifyEmail } from '@/actions/fetchers/auth/verify-email'
 import { verifyEmailCheck } from '@/actions/fetchers/auth/verify-email-check'
 import { Button } from '@/shared/components/ui/button'
 import { useToast } from '@/shared/hooks/use-toast'
-import { actionRevalidatePath } from '@/lib/revalidate'
 import { useMutation } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useRef, useState } from 'react'
-import { API_ENDPOINT } from '@/actions/endpoints'
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const codeRegex = /^[0-9]{6}$/
@@ -46,7 +44,7 @@ export default function EmailSettingForm() {
       const description = isFirstEmail.current
         ? '알림 받을 이메일이 등록되었습니다'
         : '알림 받을 이메일이 변경되었습니다'
-      await Promise.all([update({}), actionRevalidatePath(API_ENDPOINT.user.getUser().url)])
+      await update({})
       toast({ description: description })
       router.push('/profile/notification')
     },

@@ -1,7 +1,7 @@
 'use client'
 
 import icons from '@/constants/icons'
-import { formatDateKorean } from '@/utils/date'
+import { formatDateKorean } from '@/shared/utils/date'
 import Image from 'next/image'
 import { ClassAttributes, HTMLAttributes, useState } from 'react'
 import Markdown, { ExtraProps } from 'react-markdown'

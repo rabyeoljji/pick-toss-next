@@ -3,7 +3,7 @@
 import { useGetTopFiveQuery } from '@/actions/fetchers/document/get-top-five/query'
 import Loading from '@/shared/components/loading'
 import icons from '@/constants/icons'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 import Image from 'next/image'
 import Link from 'next/link'
 

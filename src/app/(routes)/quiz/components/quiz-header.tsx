@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/shared/components/ui/button'
-import { msToElapsedTime } from '@/utils/time'
+import { msToElapsedTime } from '@/shared/utils/time'
 import { HTMLAttributes } from 'react'
 import { QuizExitDialog } from './quiz-exit-dialog'
 

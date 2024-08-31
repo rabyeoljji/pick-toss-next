@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/shared/components/ui/accordion'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 import { cn } from '@/shared/lib/utils'
 import { ChevronDown } from 'lucide-react'
 

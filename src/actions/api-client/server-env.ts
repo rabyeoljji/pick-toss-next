@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@/shared/utils/assert'
 
 export const ServerEnv = {
   apiUrl: () => {
