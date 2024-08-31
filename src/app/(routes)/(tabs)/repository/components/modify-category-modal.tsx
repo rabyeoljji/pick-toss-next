@@ -18,8 +18,8 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu'
 import EmojiPicker from 'emoji-picker-react'
-import { GET_CATEGORIES_KEY } from '@/actions/fetchers/category/get-categories/query'
 import { useSession } from 'next-auth/react'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 interface Props extends Category {
   open: boolean
@@ -36,11 +36,11 @@ export default function ModifyCategoryModal({ id, name, emoji, tag, open, onOpen
   const { mutate } = useMutation({
     mutationFn: updateCategory,
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: [GET_CATEGORIES_KEY] })
+      await queryClient.cancelQueries({ queryKey: queries.category.list().queryKey })
 
-      const prevCategories = queryClient.getQueryData<Category[]>([GET_CATEGORIES_KEY])
+      const prevCategories = queryClient.getQueryData<Category[]>(queries.category.list().queryKey)
 
-      queryClient.setQueryData([GET_CATEGORIES_KEY], (prevCategories: Category[]) =>
+      queryClient.setQueryData(queries.category.list().queryKey, (prevCategories: Category[]) =>
         prevCategories.map((category) => {
           if (id !== category.id) return category
 
@@ -56,9 +56,9 @@ export default function ModifyCategoryModal({ id, name, emoji, tag, open, onOpen
       return prevCategories
     },
     onError: (_, __, context) => {
-      queryClient.setQueryData([GET_CATEGORIES_KEY], context)
+      queryClient.setQueryData(queries.category.list().queryKey, context)
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [GET_CATEGORIES_KEY] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queries.category.list().queryKey }),
   })
 
   const handleUpdateCategory = () => {

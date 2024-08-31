@@ -3,14 +3,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { getCategories } from '.'
 import { useSession } from 'next-auth/react'
-
-export const GET_CATEGORIES_KEY = 'categories'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 export const useGetCategoriesQuery = () => {
   const { data: session } = useSession()
 
   return useQuery({
-    queryKey: [GET_CATEGORIES_KEY],
+    ...queries.category.list(),
     queryFn: () =>
       getCategories({ accessToken: session?.user.accessToken || '' }).then((res) => res.categories),
   })
