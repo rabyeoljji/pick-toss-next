@@ -15,7 +15,7 @@ import { cn } from '@/shared/lib/utils'
 import { useGetDocumentsForCategoryQuery } from '@/actions/fetchers/document/get-documents-for-category/query'
 import Loading from '@/shared/components/loading'
 import { CreateDocumentProtector } from '@/shared/components/create-document-protector'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 const SORT_OPTION_TYPE = ['createdAt', 'name', 'updatedAt'] as const
 

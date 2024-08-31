@@ -12,7 +12,7 @@ import { Document } from '@/actions/fetchers/document/get-documents-for-category
 import { useState } from 'react'
 import DeleteDocumentModal from './delete-document.modal'
 import ModifyDocumentNameModal from './modify-document-name-modal'
-import { getRelativeTime } from '@/utils/date'
+import { getRelativeTime } from '@/shared/utils/date'
 import { SortOption } from './document-list'
 
 interface Props extends Document {

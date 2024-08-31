@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react'
 import React, { isValidElement } from 'react'
 import { LimitDocumentDialog } from './limit-document-dialog'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 interface Props {
   skeleton: React.ReactElement

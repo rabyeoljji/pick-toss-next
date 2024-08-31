@@ -1,12 +1,12 @@
 'use client'
 
 import { Button } from '@/shared/components/ui/button'
-import { msToElapsedTime } from '@/utils/time'
+import { msToElapsedTime } from '@/shared/utils/time'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { SolvingData } from '../types'
 import { useMemo } from 'react'
-import { getCurrentDate } from '@/utils/date'
+import { getCurrentDate } from '@/shared/utils/date'
 
 type Result = SolvingData[number] & { category: { id: number; name: string } }
 

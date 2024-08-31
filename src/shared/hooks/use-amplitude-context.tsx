@@ -1,4 +1,6 @@
 'use client'
+
+import { useContext } from 'react'
 import { useEffect, createContext, PropsWithChildren, useMemo } from 'react'
 import { init, track } from '@amplitude/analytics-browser'
 import { usePathname } from 'next/navigation'
@@ -37,7 +39,7 @@ export interface Values {
 
 export const AmplitudeContext = createContext<Values | null>(null)
 
-const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
+export const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname()
 
   useEffect(() => {
@@ -100,4 +102,10 @@ const AmplitudeContextProvider = ({ children }: PropsWithChildren) => {
   return <AmplitudeContext.Provider value={value}>{children}</AmplitudeContext.Provider>
 }
 
-export default AmplitudeContextProvider
+export const useAmplitudeContext = () => {
+  const context = useContext(AmplitudeContext)
+  if (context == null)
+    throw new Error('useAmplitudeContext must be used within a AmplitudeContextProvider')
+
+  return context
+}

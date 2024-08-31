@@ -16,7 +16,7 @@ import { CategoryProtector } from './category-protector'
 import { useSession } from 'next-auth/react'
 import { AIPickDialog } from './ai-pick-dialog'
 import { CreateDocumentProtector } from './create-document-protector'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 export default function LeftSidebar() {
   const segments = useSelectedLayoutSegments()

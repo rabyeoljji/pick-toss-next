@@ -13,7 +13,7 @@ import { useCreateDocumentMutation } from '@/actions/fetchers/document/create-do
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 import { useSession } from 'next-auth/react'
 import { LimitDocumentDialog } from '@/shared/components/limit-document-dialog'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 const VisualEditor = dynamic(() => import('./components/visual-editor'), {
   ssr: false,

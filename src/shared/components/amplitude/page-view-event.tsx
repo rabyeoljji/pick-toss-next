@@ -1,6 +1,6 @@
 'use client'
 
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { createAiPick } from '.'
 import { LOCAL_KEY } from '@/constants/local-key'
-import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 interface Params {
   documentId: number

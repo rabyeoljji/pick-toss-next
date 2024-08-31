@@ -1,6 +1,6 @@
-import { getCurrentDate } from '@/utils/date'
+import { getCurrentDate } from '@/shared/utils/date'
 import { motion } from 'framer-motion'
-import { msToElapsedTime } from '@/utils/time'
+import { msToElapsedTime } from '@/shared/utils/time'
 import { cn } from '@/shared/lib/utils'
 import { QuizType } from '@/actions/types/dto/quiz.dto'
 import ProgressBar from '../../components/progress-bar'
