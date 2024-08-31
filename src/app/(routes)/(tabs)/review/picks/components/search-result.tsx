@@ -1,10 +1,10 @@
-import { SearchKeyPointsResponse } from '@/apis/fetchers/key-point/search-key-points/fetcher'
+import { SearchKeyPointsResponse } from '@/actions/fetchers/key-point/search-key-points'
 import { CommonLayout } from '@/shared/components/common-layout'
 import { useQueryClient } from '@tanstack/react-query'
 import { SearchForm } from '@/shared/components/search-form'
 import { KeyPointCard } from './key-point-card'
-import { useToggleBookmarkMutation } from '@/apis/fetchers/key-point/toggle-bookmark/mutation'
-import { SEARCH_KEY_POINTS_KEY } from '@/apis/fetchers/key-point/search-key-points/query'
+import { useToggleBookmarkMutation } from '@/actions/fetchers/key-point/toggle-bookmark/mutation'
+import { SEARCH_KEY_POINTS_KEY } from '@/actions/fetchers/key-point/search-key-points/query'
 
 interface Props {
   term: string

@@ -1,26 +1,26 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import { useParams, useRouter } from 'next/navigation'
 import { EditDocumentProvider } from '../contexts/edit-document-context'
 import { Header } from '../components/header'
 import Loading from '@/shared/components/loading'
 import { TitleInput } from '../components/title-input'
 import VisualEditor from '../components/visual-editor'
-import { updateDocumentContent } from '@/apis/fetchers/document/update-document-content/fetcher'
+import { updateDocumentContent } from '@/actions/fetchers/document/update-document-content'
 import { useState } from 'react'
 import { useToast } from '@/shared/hooks/use-toast'
-import { useGetDocumentQuery } from '@/apis/fetchers/document/get-document/query'
+import { useGetDocumentQuery } from '@/actions/fetchers/document/get-document/query'
 import { MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH } from '@/constants/document'
 import useAmplitudeContext from '@/shared/hooks/use-amplitude-context'
+import { useSession } from 'next-auth/react'
 
 export default function Modify() {
-  const { data: session } = useSession()
   const { documentId } = useParams()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { data: session } = useSession()
 
   const { data: modifyTargetDocument } = useGetDocumentQuery({ documentId: Number(documentId) })
 
@@ -29,9 +29,9 @@ export default function Modify() {
   const { mutateAsync } = useMutation({
     mutationFn: (data: { name: string; file: File }) =>
       updateDocumentContent({
-        accessToken: session?.user.accessToken || '',
         documentId: Number(documentId),
         ...data,
+        accessToken: session?.user.accessToken || '',
       }),
   })
 

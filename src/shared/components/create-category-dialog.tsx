@@ -4,9 +4,8 @@ import Image from 'next/image'
 import icons from '@/constants/icons'
 import { Button } from '@/shared/components/ui/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createCategory } from '@/apis/fetchers/category/create-category/fetcher'
-import { useSession } from 'next-auth/react'
-import { CATEGORY_TAG_TYPE, CategoryTagType } from '@/apis/fetchers/category/get-categories/fetcher'
+import { createCategory } from '@/actions/fetchers/category/create-category'
+import { CATEGORY_TAG_TYPE, CategoryTagType } from '@/actions/fetchers/category/get-categories'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +16,7 @@ import EmojiPicker from 'emoji-picker-react'
 import CategoryTag from '@/app/(routes)/(tabs)/repository/components/category-tag'
 import Loading from './loading'
 import { cn } from '@/shared/lib/utils'
+import { useSession } from 'next-auth/react'
 
 interface Props {
   trigger: ReactNode
@@ -34,11 +34,11 @@ export default function CreateCategoryDialog({
   const [name, setName] = useState('')
   const [emoji, setEmoji] = useState('📁')
   const [tag, setTag] = useState<CategoryTagType>('IT')
+  const { data: session } = useSession()
 
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  const { data: session } = useSession()
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({

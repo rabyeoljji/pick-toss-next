@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react'
 import CategoryAccordionList from './components/category-accordion-list'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { searchDocument } from '@/apis/fetchers/document/search-document/fetcher'
+import { searchDocument } from '@/actions/fetchers/document/search-document'
 import Loading from '@/shared/components/loading'
 import { SearchResult } from './components/search-result'
 import { LOCAL_KEY } from '@/constants/local-key'
@@ -27,7 +27,7 @@ export default function Repository() {
         term: term!,
         accessToken: session?.user.accessToken || '',
       }),
-    enabled: term != null && session?.user.accessToken != null,
+    enabled: term != null,
   })
 
   const handleSubmit = (data: { term: string }, options?: { isResearch: boolean }) => {

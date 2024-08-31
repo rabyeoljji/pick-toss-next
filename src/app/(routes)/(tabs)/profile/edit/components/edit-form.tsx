@@ -1,6 +1,6 @@
 'use client'
 
-import { useUpdateUsernameMutation } from '@/apis/fetchers/user/update-user-name/mutation'
+import { useUpdateUsernameMutation } from '@/actions/fetchers/user/update-user-name/mutation'
 import { Button } from '@/shared/components/ui/button'
 import { useToast } from '@/shared/hooks/use-toast'
 import { useSession } from 'next-auth/react'

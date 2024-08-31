@@ -1,9 +1,8 @@
-import { ServerEnv } from '@/actions/api-client/server-env'
-import { ApiError } from './api-error'
 import QS from 'qs'
-import { EndPoint } from '@/actions/endpoints/types'
-import { auth } from '@/app/api/auth/[...nextauth]/auth'
+import { EndPoint } from '../endpoints/types'
 import { ApiResponse } from './types'
+import { ApiError } from './api-error'
+import { ServerEnv } from './server-env'
 
 interface Config {
   baseUrl: string
@@ -14,7 +13,7 @@ interface FetchParams {
   endpoint: EndPoint
   headers?: HeadersInit
   query?: object
-  body?: object | FormData
+  body?: object
   next?: {
     revalidate: number
   }
@@ -24,10 +23,8 @@ class ApiClient {
   constructor(private readonly config: Config) {}
 
   async fetch<T extends ApiResponse>(params: FetchParams): Promise<T> {
-    const headers = await this.getHeaders(params)
-
     const response = await fetch(this.getUrl(params), {
-      headers,
+      headers: this.getHeaders(params.headers, params.body),
       next: this.getNextOptions(params.next),
       body: this.getBody(params.body),
       method: params.endpoint.method,
@@ -41,25 +38,17 @@ class ApiClient {
     return `${this.config.baseUrl}${endpoint.url}${searchParamsUrl}`
   }
 
-  private async getHeaders(params: FetchParams): Promise<HeadersInit> {
-    const headers = new Headers(params.headers)
-
-    if (params.endpoint.auth && typeof window === 'undefined') {
-      if (typeof window === 'undefined') {
-        const session = await auth()
-        if (!session) {
-          throw new Error('Unauthorized')
-        }
-        headers.set('Authorization', `Bearer ${session.user.accessToken}`)
-      } else {
+  private getHeaders(headers?: FetchParams['headers'], body?: FetchParams['body']): HeadersInit {
+    if (body instanceof FormData) {
+      return {
+        ...(headers || {}),
       }
     }
 
-    if (!(params.body instanceof FormData)) {
-      headers.set('Content-Type', 'application/json')
+    return {
+      'Content-Type': 'application/json',
+      ...(headers || {}),
     }
-
-    return headers
   }
 
   private getNextOptions(next: FetchParams['next']): NextFetchRequestConfig | undefined {

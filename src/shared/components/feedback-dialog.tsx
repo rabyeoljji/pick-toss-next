@@ -10,7 +10,7 @@ import {
 import icons from '@/constants/icons'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { postFeedback } from '@/apis/fetchers/feedback/post-feedback/fetcher'
+import { postFeedback } from '@/actions/fetchers/feedback/post-feedback'
 import { useToast } from '@/shared/hooks/use-toast'
 import { useSession } from 'next-auth/react'
 
@@ -26,8 +26,8 @@ interface Props {
 }
 
 export default function FeedbackDialog({ open, onOpenChange }: Props) {
-  const { data: session } = useSession()
   const { toast } = useToast()
+  const { data: session } = useSession()
 
   const [typeOption, setTypeOption] = useState<(typeof feedbackOption)[number]>(feedbackOption[0])
   const [content, setContent] = useState('')

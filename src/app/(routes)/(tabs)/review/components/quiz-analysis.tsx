@@ -9,9 +9,9 @@ import { currentMonth } from '@/utils/date'
 import { Period } from './ui/period'
 import { PeriodTypeSelector } from './ui/period-type-selector'
 import { CategorySelect } from './ui/category-select'
-import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
-import { useGetMonthQuizAnswerRateQuery } from '@/apis/fetchers/quiz/get-month-quiz-answer-rate/query'
-import { useGetWeekQuizAnswerRateQuery } from '@/apis/fetchers/quiz/get-week-quiz-answer-rate/query'
+import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
+import { useGetMonthQuizAnswerRateQuery } from '@/actions/fetchers/quiz/get-month-quiz-answer-rate/query'
+import { useGetWeekQuizAnswerRateQuery } from '@/actions/fetchers/quiz/get-week-quiz-answer-rate/query'
 
 interface Period {
   type: 'week' | 'month'
@@ -165,9 +165,9 @@ function NoAnalysisIcon() {
           width="21.0713"
           height="24"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
           <feGaussianBlur stdDeviation="1" result="effect1_foregroundBlur_2873_6441" />
         </filter>

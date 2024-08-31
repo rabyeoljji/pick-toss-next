@@ -5,13 +5,12 @@ import Image from 'next/image'
 import icons from '@/constants/icons'
 import { Button } from '@/shared/components/ui/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import {
   CATEGORY_TAG_TYPE,
   Category,
   CategoryTagType,
-} from '@/apis/fetchers/category/get-categories/fetcher'
-import { updateCategory } from '@/apis/fetchers/category/update-category/fetcher'
+} from '@/actions/fetchers/category/get-categories'
+import { updateCategory } from '@/actions/fetchers/category/update-category'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +18,8 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu'
 import EmojiPicker from 'emoji-picker-react'
-import { GET_CATEGORIES_KEY } from '@/apis/fetchers/category/get-categories/query'
+import { GET_CATEGORIES_KEY } from '@/actions/fetchers/category/get-categories/query'
+import { useSession } from 'next-auth/react'
 
 interface Props extends Category {
   open: boolean
@@ -30,9 +30,8 @@ export default function ModifyCategoryModal({ id, name, emoji, tag, open, onOpen
   const [newName, setNewName] = useState(name)
   const [newEmoji, setNewEmoji] = useState(emoji || '📁')
   const [newTag, setNewTag] = useState<CategoryTagType>(tag)
-
-  const { data: session } = useSession()
   const queryClient = useQueryClient()
+  const { data: session } = useSession()
 
   const { mutate } = useMutation({
     mutationFn: updateCategory,

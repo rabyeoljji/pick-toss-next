@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { ArchiveLink } from './archive-link'
 import icons from '@/constants/icons'
-import { useGetBookmarksQuery } from '@/apis/fetchers/key-point/get-bookmarks/query'
+import { useGetBookmarksQuery } from '@/actions/fetchers/key-point/get-bookmarks/query'
 
 export function SavedPicksLink() {
   const { data: keyPoints } = useGetBookmarksQuery()

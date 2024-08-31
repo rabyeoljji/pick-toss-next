@@ -1,6 +1,6 @@
 'use client'
 
-import { useUpdateQuizNotificationMutation } from '@/apis/fetchers/user/update-quiz-notification/mutation'
+import { useUpdateQuizNotificationMutation } from '@/actions/fetchers/user/update-quiz-notification/mutation'
 import { Switch } from '@/shared/components/ui/switch'
 import { useSession } from 'next-auth/react'
 

@@ -1,11 +1,11 @@
 'use client'
 
-import { TodayQuizSetType } from '@/apis/fetchers/quiz/get-today-quiz-set-id/fetcher'
+import { TodayQuizSetType } from '@/actions/fetchers/quiz/get-today-quiz-set-id'
 import {
   GET_TODAY_QUIZ_SET_ID_KEY,
   useGetTodayQuizSetId,
-} from '@/apis/fetchers/quiz/get-today-quiz-set-id/query'
-import { useGetWeekQuizAnswerRateMutation } from '@/apis/fetchers/quiz/get-week-quiz-answer-rate/mutation'
+} from '@/actions/fetchers/quiz/get-today-quiz-set-id/query'
+import { useGetWeekQuizAnswerRateMutation } from '@/actions/fetchers/quiz/get-week-quiz-answer-rate/mutation'
 import icons from '@/constants/icons'
 import { LOCAL_KEY } from '@/constants/local-key'
 import { CategoryProtector } from '@/shared/components/category-protector'

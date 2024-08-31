@@ -1,9 +1,9 @@
 import CategoryTag from '../components/category-tag'
 import DocumentList from './components/document-list'
 import { CommonLayout } from '@/shared/components/common-layout'
-import { auth } from '@/app/api/auth/[...nextauth]/auth'
-import { getCategory } from '@/apis/fetchers/category/get-category/fetcher'
+import { getCategory } from '@/actions/fetchers/category/get-category'
 import AddNoteFloatingButton from '@/shared/components/add-note-floating-button'
+import { auth } from '@/app/api/auth/[...nextauth]/auth'
 
 interface Props {
   params: {
@@ -14,8 +14,8 @@ interface Props {
 export default async function Category({ params: { categoryId } }: Props) {
   const session = await auth()
   const category = await getCategory({
-    accessToken: session?.user.accessToken || '',
     categoryId: Number(categoryId),
+    accessToken: session?.user.accessToken || '',
   })
 
   const { emoji, name, tag } = category

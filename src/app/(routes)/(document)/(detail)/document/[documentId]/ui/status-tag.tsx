@@ -1,4 +1,4 @@
-import { DocumentStatus } from '@/apis/types/dto/document.dto'
+import { DocumentStatus } from '@/actions/types/dto/document.dto'
 import { SwitchCase } from '@/shared/components/react/switch-case'
 import { cn } from '@/shared/lib/utils'
 

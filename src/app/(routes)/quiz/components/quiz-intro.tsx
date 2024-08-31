@@ -1,4 +1,4 @@
-import { QuizDTO, QuizType } from '@/apis/types/dto/quiz.dto'
+import { QuizDTO, QuizType } from '@/actions/types/dto/quiz.dto'
 import { getCurrentDate } from '@/utils/date'
 import { motion } from 'framer-motion'
 import { HTMLAttributes } from 'react'

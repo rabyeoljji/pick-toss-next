@@ -1,4 +1,4 @@
-import { getQuizSets } from '@/apis/fetchers/quiz/get-quiz-sets/fetcher'
+import { getQuizSets } from '@/actions/fetchers/quiz/get-quiz-sets'
 import Quiz from './components/quiz'
 import { notFound } from 'next/navigation'
 import { auth } from '@/app/api/auth/[...nextauth]/auth'

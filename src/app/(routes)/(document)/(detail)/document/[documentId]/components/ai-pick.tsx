@@ -12,19 +12,19 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { SwitchCase } from '@/shared/components/react/switch-case'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { DocumentStatus } from '@/apis/types/dto/document.dto'
+import { DocumentStatus } from '@/actions/types/dto/document.dto'
 import { GeneratingPicks } from '../ui/generating-picks'
 import { PickBanner } from '../ui/pick-banner'
 import { PickAccordion } from '../ui/pick-accordion'
 import {
   GET_KEY_POINTS_BY_ID_KEY,
   useGetKeyPointsByIdQuery,
-} from '@/apis/fetchers/key-point/get-key-points-by-id/query'
-import { GetKeyPointsByIdResponse } from '@/apis/fetchers/key-point/get-key-points-by-id/fetcher'
-import { useCreateAIPickMutation } from '@/apis/fetchers/document/create-ai-pick/mutation'
-import { useToggleBookmarkMutation } from '@/apis/fetchers/key-point/toggle-bookmark/mutation'
+} from '@/actions/fetchers/key-point/get-key-points-by-id/query'
+import { GetKeyPointsByIdResponse } from '@/actions/fetchers/key-point/get-key-points-by-id'
+import { useCreateAIPickMutation } from '@/actions/fetchers/document/create-ai-pick/mutation'
+import { useToggleBookmarkMutation } from '@/actions/fetchers/key-point/toggle-bookmark/mutation'
+import { useReCreateAIPickMutation } from '@/actions/fetchers/document/re-create-ai-pick/mutation'
 import { AIPickDialog } from '@/shared/components/ai-pick-dialog'
-import { useReCreateAIPickMutation } from '@/apis/fetchers/document/re-create-ai-pick/mutation'
 
 interface Props {
   initKeyPoints: {

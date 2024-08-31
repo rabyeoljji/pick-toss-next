@@ -4,12 +4,12 @@ import Image from 'next/image'
 import icons from '@/constants/icons'
 import { Button } from '@/shared/components/ui/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
-import { Document } from '@/apis/fetchers/document/get-documents-for-category/fetcher'
-import { updateDocumentName } from '@/apis/fetchers/document/update-document-name/fetcher'
+import { Document } from '@/actions/fetchers/document/get-documents-for-category'
+import { updateDocumentName } from '@/actions/fetchers/document/update-document-name'
 import { useParams } from 'next/navigation'
 import { SortOption } from './document-list'
-import { GET_DOCUMENTS_FOR_CATEGORY_KEY } from '@/apis/fetchers/document/get-documents-for-category/query'
+import { GET_DOCUMENTS_FOR_CATEGORY_KEY } from '@/actions/fetchers/document/get-documents-for-category/query'
+import { useSession } from 'next-auth/react'
 
 interface Props extends Document {
   open: boolean
@@ -26,9 +26,8 @@ export default function ModifyDocumentNameModal({
 }: Props) {
   const { categoryId } = useParams<{ categoryId: string }>()
   const [documentName, setDocumentName] = useState(name)
-
-  const { data: session } = useSession()
   const queryClient = useQueryClient()
+  const { data: session } = useSession()
 
   const { mutate } = useMutation({
     mutationFn: updateDocumentName,

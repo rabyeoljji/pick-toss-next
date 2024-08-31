@@ -12,7 +12,7 @@ import Link from 'next/link'
 import icons from '@/constants/icons'
 import { ChevronRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
 
 interface CategoryAccordionProps extends HTMLAttributes<HTMLDivElement> {}
 

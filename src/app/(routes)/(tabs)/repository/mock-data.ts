@@ -1,5 +1,5 @@
-import { Category } from '@/apis/fetchers/category/get-categories/fetcher'
-import { DocumentStatus } from '@/apis/types/dto/document.dto'
+import { Category } from '@/actions/fetchers/category/get-categories'
+import { DocumentStatus } from '@/actions/types/dto/document.dto'
 
 // TODO: data interface 백엔드와 협의 필요
 export interface Document {

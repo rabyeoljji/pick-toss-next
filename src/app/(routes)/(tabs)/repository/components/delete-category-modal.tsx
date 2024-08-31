@@ -1,12 +1,12 @@
-import { deleteCategory } from '@/apis/fetchers/category/delete-category/fetcher'
-import { Category } from '@/apis/fetchers/category/get-categories/fetcher'
-import { GET_CATEGORIES_KEY } from '@/apis/fetchers/category/get-categories/query'
+import { deleteCategory } from '@/actions/fetchers/category/delete-category'
+import { Category } from '@/actions/fetchers/category/get-categories'
+import { GET_CATEGORIES_KEY } from '@/actions/fetchers/category/get-categories/query'
 import { Button } from '@/shared/components/ui/button'
 import { Dialog, DialogClose, DialogContent } from '@/shared/components/ui/dialog'
 import icons from '@/constants/icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
 
 interface Props extends Category {
   open: boolean
@@ -14,8 +14,8 @@ interface Props extends Category {
 }
 
 export default function DeleteCategoryModal({ id, name, documents, open, onOpenChange }: Props) {
-  const { data: session } = useSession()
   const queryClient = useQueryClient()
+  const { data: session } = useSession()
 
   const { mutate } = useMutation({
     mutationFn: deleteCategory,

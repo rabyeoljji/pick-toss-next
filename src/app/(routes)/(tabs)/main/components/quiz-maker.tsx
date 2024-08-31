@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { BlackLottie, MultipleLottie, OXLottie } from './lotties'
 import { ReactNode, forwardRef } from 'react'
 import MakeQuizDrawerDialog from './make-quiz-drawer-dialog'
-import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
 import Loading from '@/shared/components/loading'
 
 export default function QuizMaker() {

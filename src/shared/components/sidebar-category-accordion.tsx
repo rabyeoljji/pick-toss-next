@@ -15,7 +15,7 @@ import { useSelectedLayoutSegments } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '@/shared/lib/utils'
 import BarLoader from 'react-spinners/BarLoader'
-import { useGetCategoriesQuery } from '@/apis/fetchers/category/get-categories/query'
+import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
 
 export const SidebarCategoryAccordion = () => {
   const segments = useSelectedLayoutSegments()

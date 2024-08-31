@@ -1,4 +1,4 @@
-import { DocumentStatus } from '@/apis/types/dto/document.dto'
+import { DocumentStatus } from '@/actions/types/dto/document.dto'
 import { AIPickDialog } from '@/shared/components/ai-pick-dialog'
 import { SwitchCase } from '@/shared/components/react/switch-case'
 import icons from '@/constants/icons'

@@ -1,4 +1,4 @@
-import { KeyPointDTO } from '@/apis/types/dto/key-point.dto'
+import { KeyPointDTO } from '@/actions/types/dto/key-point.dto'
 import DeleteDropdown from './delete-dropdown'
 import Link from 'next/link'
 import { HTMLAttributes } from 'react'

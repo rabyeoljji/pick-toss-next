@@ -1,8 +1,7 @@
 'use client'
 
-import { API_ENDPOINT } from '@/apis/api-endpoint'
-import { verifyEmail } from '@/apis/fetchers/auth/verify-email/fetcher'
-import { verifyEmailCheck } from '@/apis/fetchers/auth/verify-email-check/fetcher'
+import { verifyEmail } from '@/actions/fetchers/auth/verify-email'
+import { verifyEmailCheck } from '@/actions/fetchers/auth/verify-email-check'
 import { Button } from '@/shared/components/ui/button'
 import { useToast } from '@/shared/hooks/use-toast'
 import { actionRevalidatePath } from '@/lib/revalidate'
@@ -10,6 +9,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useRef, useState } from 'react'
+import { API_ENDPOINT } from '@/actions/endpoints'
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const codeRegex = /^[0-9]{6}$/
@@ -29,7 +29,7 @@ export default function EmailSettingForm() {
     isSuccess: isSentEmail,
   } = useMutation({
     mutationFn: () =>
-      verifyEmail({ accessToken: session?.user.accessToken || '', email: emailInput }),
+      verifyEmail({ email: emailInput, accessToken: session?.user.accessToken || '' }),
   })
   const {
     mutate: mutateVerifyCode,
@@ -38,9 +38,9 @@ export default function EmailSettingForm() {
   } = useMutation({
     mutationFn: () =>
       verifyEmailCheck({
-        accessToken: session?.user.accessToken || '',
         email: emailInput,
         verificationCode: codeInput,
+        accessToken: session?.user.accessToken || '',
       }),
     onSuccess: async () => {
       const description = isFirstEmail.current

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select'
-import { CategoryDTO } from '@/apis/types/dto/category.dto'
+import { CategoryDTO } from '@/actions/types/dto/category.dto'
 import { useState } from 'react'
 
 interface Props {
