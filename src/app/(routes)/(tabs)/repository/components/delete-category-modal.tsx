@@ -1,12 +1,9 @@
-import { deleteCategory } from '@/actions/fetchers/category/delete-category'
 import { Category } from '@/actions/fetchers/category/get-categories'
 import { Button } from '@/shared/components/ui/button'
 import { Dialog, DialogClose, DialogContent } from '@/shared/components/ui/dialog'
 import icons from '@/constants/icons'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react'
-import { queries } from '@/shared/lib/tanstack-query/query-keys'
+import { useDeleteCategoryMutation } from '@/actions/fetchers/category/delete-category/mutation'
 
 interface Props extends Category {
   open: boolean
@@ -14,30 +11,10 @@ interface Props extends Category {
 }
 
 export default function DeleteCategoryModal({ id, name, documents, open, onOpenChange }: Props) {
-  const queryClient = useQueryClient()
-  const { data: session } = useSession()
-
-  const { mutate } = useMutation({
-    mutationFn: deleteCategory,
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: queries.category.list().queryKey })
-
-      const prevCategories = queryClient.getQueryData<Category[]>(queries.category.list().queryKey)
-
-      queryClient.setQueryData(queries.category.list().queryKey, (prevCategories: Category[]) =>
-        prevCategories.filter((category) => id !== category.id)
-      )
-
-      return prevCategories
-    },
-    onError: (_, __, context) => {
-      queryClient.setQueryData(queries.category.list().queryKey, context)
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: queries.category.list().queryKey }),
-  })
+  const { mutate: deleteCategoryMutate } = useDeleteCategoryMutation()
 
   const handleDeleteCategory = () => {
-    mutate({ categoryId: id, accessToken: session?.user.accessToken || '' })
+    deleteCategoryMutate({ categoryId: id })
   }
 
   return (

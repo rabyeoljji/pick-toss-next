@@ -2,7 +2,7 @@ import { apiClient } from '@/actions/api-client'
 import { API_ENDPOINT } from '@/actions/endpoints'
 import { PrivateRequest } from '@/actions/types'
 
-interface DeleteCategoryParams extends PrivateRequest {
+export interface DeleteCategoryParams extends PrivateRequest {
   categoryId: number
 }
 
