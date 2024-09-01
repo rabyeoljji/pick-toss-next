@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
+import { UpdateCategoryParams, updateCategory } from '.'
 import { queries } from '@/shared/lib/tanstack-query/query-keys'
-import { DeleteCategoryParams, deleteCategory } from '.'
 import { Category } from '../get-categories'
 
-export const useDeleteCategoryMutation = () => {
+export const useUpdateCategoryMutation = () => {
   const { data: session } = useSession()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: Omit<DeleteCategoryParams, 'accessToken' | 'revalidate' | 'tags'>) =>
-      deleteCategory({
+    mutationFn: (data: Omit<UpdateCategoryParams, 'accessToken' | 'revalidate' | 'tags'>) =>
+      updateCategory({
         ...data,
         accessToken: session?.user.accessToken || '',
       }),
@@ -20,7 +20,16 @@ export const useDeleteCategoryMutation = () => {
       const prevCategories = queryClient.getQueryData<Category[]>(queries.category.list().queryKey)
 
       queryClient.setQueryData(queries.category.list().queryKey, (prevCategories: Category[]) =>
-        prevCategories.filter((category) => data.categoryId !== category.id)
+        prevCategories.map((category) => {
+          if (data.categoryId !== category.id) return category
+
+          return {
+            ...category,
+            name: data.name,
+            emoji: data.emoji,
+            tag: data.tag,
+          }
+        })
       )
 
       return prevCategories

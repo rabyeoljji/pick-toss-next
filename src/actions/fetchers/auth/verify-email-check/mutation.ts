@@ -6,7 +6,7 @@ export const useVerifyEmailCheckMutation = () => {
   const { data: session, update } = useSession()
 
   return useMutation({
-    mutationFn: (data: Pick<VerifyEmailCheckParams, 'email' | 'verificationCode'>) =>
+    mutationFn: (data: Omit<VerifyEmailCheckParams, 'accessToken' | 'revalidate' | 'tags'>) =>
       verifyEmailCheck({
         ...data,
         accessToken: session?.user.accessToken || '',

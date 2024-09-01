@@ -8,7 +8,7 @@ export const useCreateCategoryMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: Pick<CreateCategoryParams, 'emoji' | 'name' | 'tag'>) =>
+    mutationFn: (data: Omit<CreateCategoryParams, 'accessToken' | 'revalidate' | 'tags'>) =>
       createCategory({
         ...data,
         accessToken: session?.user.accessToken || '',

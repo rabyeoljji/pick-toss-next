@@ -4,13 +4,11 @@ import CategoryTag from './category-tag'
 import Image from 'next/image'
 import icons from '@/constants/icons'
 import { Button } from '@/shared/components/ui/button'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   CATEGORY_TAG_TYPE,
   Category,
   CategoryTagType,
 } from '@/actions/fetchers/category/get-categories'
-import { updateCategory } from '@/actions/fetchers/category/update-category'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,8 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu'
 import EmojiPicker from 'emoji-picker-react'
-import { useSession } from 'next-auth/react'
-import { queries } from '@/shared/lib/tanstack-query/query-keys'
+import { useUpdateCategoryMutation } from '@/actions/fetchers/category/update-category/mutation'
 
 interface Props extends Category {
   open: boolean
@@ -30,46 +27,17 @@ export default function ModifyCategoryModal({ id, name, emoji, tag, open, onOpen
   const [newName, setNewName] = useState(name)
   const [newEmoji, setNewEmoji] = useState(emoji || '📁')
   const [newTag, setNewTag] = useState<CategoryTagType>(tag)
-  const queryClient = useQueryClient()
-  const { data: session } = useSession()
 
-  const { mutate } = useMutation({
-    mutationFn: updateCategory,
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: queries.category.list().queryKey })
-
-      const prevCategories = queryClient.getQueryData<Category[]>(queries.category.list().queryKey)
-
-      queryClient.setQueryData(queries.category.list().queryKey, (prevCategories: Category[]) =>
-        prevCategories.map((category) => {
-          if (id !== category.id) return category
-
-          return {
-            ...category,
-            name: newName,
-            emoji: newEmoji,
-            tag: newTag,
-          }
-        })
-      )
-
-      return prevCategories
-    },
-    onError: (_, __, context) => {
-      queryClient.setQueryData(queries.category.list().queryKey, context)
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: queries.category.list().queryKey }),
-  })
+  const { mutate: updateCategoryMutate } = useUpdateCategoryMutation()
 
   const handleUpdateCategory = () => {
     if (newName === '') return alert('폴더 이름을 설정해주세요')
 
-    mutate({
+    updateCategoryMutate({
       name: newName,
       emoji: newEmoji,
       tag: newTag,
       categoryId: id,
-      accessToken: session?.user.accessToken || '',
     })
   }
 

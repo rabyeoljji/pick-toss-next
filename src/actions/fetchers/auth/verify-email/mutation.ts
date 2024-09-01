@@ -6,7 +6,7 @@ export const useVerifyEmailMutation = () => {
   const { data: session } = useSession()
 
   return useMutation({
-    mutationFn: (data: Pick<VerifyEmailParams, 'email'>) =>
+    mutationFn: (data: Omit<VerifyEmailParams, 'accessToken' | 'revalidate' | 'tags'>) =>
       verifyEmail({
         ...data,
         accessToken: session?.user.accessToken || '',

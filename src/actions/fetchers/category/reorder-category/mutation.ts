@@ -6,12 +6,7 @@ export const useReorderCategoryMutation = () => {
   const { data: session } = useSession()
 
   return useMutation({
-    mutationFn: (
-      data: Pick<
-        ReorderCategoryParams,
-        'categoryId' | 'preDragCategoryOrder' | 'afterDragCategoryOrder'
-      >
-    ) =>
+    mutationFn: (data: Omit<ReorderCategoryParams, 'accessToken' | 'revalidate' | 'tags'>) =>
       reorderCategory({
         ...data,
         accessToken: session?.user.accessToken || '',
