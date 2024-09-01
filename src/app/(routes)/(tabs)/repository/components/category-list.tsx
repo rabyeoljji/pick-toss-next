@@ -15,27 +15,22 @@ import {
 } from '@dnd-kit/core'
 import { ButtonHTMLAttributes, HTMLAttributes, useState } from 'react'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { Category } from '@/actions/fetchers/category/get-categories'
 import icons from '@/constants/icons'
-import { reorderCategory } from '@/actions/fetchers/category/reorder-category'
 import { cn } from '@/shared/lib/utils'
 import CreateCategoryDialog from '@/shared/components/create-category-dialog'
 import Loading from '@/shared/components/loading'
 import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
-import { useSession } from 'next-auth/react'
 import { queries } from '@/shared/lib/tanstack-query/query-keys'
+import { useReorderCategoryMutation } from '@/actions/fetchers/category/reorder-category/mutation'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 export default function CategoryList({ className }: Props) {
   const queryClient = useQueryClient()
-  const { data: session } = useSession()
-
   const { data: categories, isError, isPending } = useGetCategoriesQuery()
-  const { mutate: mutateReorder } = useMutation({
-    mutationFn: reorderCategory,
-  })
+  const { mutate: reorderMutate } = useReorderCategoryMutation()
 
   const [draggedItem, setDraggedItem] = useState<Category | null>(null)
 
@@ -76,11 +71,10 @@ export default function CategoryList({ className }: Props) {
       const oldIndex = categories.findIndex((category) => category.id === active.id)
       const newIndex = categories.findIndex((category) => category.id === over?.id)
 
-      mutateReorder({
+      reorderMutate({
         categoryId: Number(active.id),
         preDragCategoryOrder: oldIndex + 1,
         afterDragCategoryOrder: newIndex + 1,
-        accessToken: session?.user.accessToken || '',
       })
 
       queryClient.setQueryData(queries.category.list().queryKey, (prevCategories: Category[]) =>

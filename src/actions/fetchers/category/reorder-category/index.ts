@@ -2,7 +2,7 @@ import { apiClient } from '@/actions/api-client'
 import { API_ENDPOINT } from '@/actions/endpoints'
 import { PrivateRequest } from '@/actions/types'
 
-interface ReorderCategoryParams extends PrivateRequest {
+export interface ReorderCategoryParams extends PrivateRequest {
   categoryId: number
   preDragCategoryOrder: number
   afterDragCategoryOrder: number
