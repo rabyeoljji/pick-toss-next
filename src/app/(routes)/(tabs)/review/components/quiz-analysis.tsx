@@ -9,9 +9,8 @@ import { currentMonth } from '@/shared/utils/date'
 import { Period } from './ui/period'
 import { PeriodTypeSelector } from './ui/period-type-selector'
 import { CategorySelect } from './ui/category-select'
-import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
-import { useGetMonthQuizAnswerRateQuery } from '@/actions/fetchers/quiz/get-month-quiz-answer-rate/query'
-import { useGetWeekQuizAnswerRateQuery } from '@/actions/fetchers/quiz/get-week-quiz-answer-rate/query'
+import { useQuery } from '@tanstack/react-query'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 interface Period {
   type: 'week' | 'month'
@@ -24,21 +23,26 @@ export function QuizAnalysis() {
   })
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0) // 0 === 전체
 
-  const { data: categories } = useGetCategoriesQuery()
-
-  const { data: weekQuizAnswerRate } = useGetWeekQuizAnswerRateQuery({
-    categoryId: selectedCategoryId,
+  const { data: categoriesData } = useQuery({
+    ...queries.category.list(),
   })
 
-  const { data: monthQuizAnswerRate } = useGetMonthQuizAnswerRateQuery({
-    categoryId: selectedCategoryId,
-    date: {
-      year: 2024,
-      month: currentMonth(),
-    },
+  const { data: weekQuizAnswerRate } = useQuery({
+    ...queries.quiz.weekAnswerRate(selectedCategoryId),
   })
 
-  const isLoading = categories == null || weekQuizAnswerRate == null || monthQuizAnswerRate == null
+  const { data: monthQuizAnswerRate } = useQuery({
+    ...queries.quiz.monthAnswerRate({
+      categoryId: selectedCategoryId,
+      date: {
+        year: 2024,
+        month: currentMonth(),
+      },
+    }),
+  })
+
+  const isLoading =
+    categoriesData?.categories == null || weekQuizAnswerRate == null || monthQuizAnswerRate == null
 
   const rateData = period.type === 'week' ? weekQuizAnswerRate : monthQuizAnswerRate
 
@@ -66,7 +70,7 @@ export function QuizAnalysis() {
           <div className="mt-[24px] flex flex-col gap-[12px]">
             <CategorySelect
               selectedCategoryId={selectedCategoryId}
-              categories={categories}
+              categories={categoriesData?.categories}
               onValueChange={(categoryId: number) => setSelectedCategoryId(categoryId)}
             />
             {isNoAnalysis ? (
