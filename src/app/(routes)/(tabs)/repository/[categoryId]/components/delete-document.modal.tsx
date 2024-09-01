@@ -65,8 +65,8 @@ export default function DeleteDocumentModal({
     },
     onSuccess: async () => {
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['documents'] }),
-        queryClient.invalidateQueries({ queryKey: ['categories'] }),
+        queryClient.invalidateQueries({ queryKey: queries.document._def }),
+        queryClient.invalidateQueries({ queryKey: queries.category.list().queryKey }),
       ])
       await update({})
       setOpen(false)

@@ -61,7 +61,7 @@ export default function ModifyDocumentNameModal({
         context
       )
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['documents'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queries.document._def }),
   })
 
   const handleModifyName = () => {

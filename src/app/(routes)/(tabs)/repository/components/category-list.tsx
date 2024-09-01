@@ -24,6 +24,7 @@ import CreateCategoryDialog from '@/shared/components/create-category-dialog'
 import Loading from '@/shared/components/loading'
 import { useGetCategoriesQuery } from '@/actions/fetchers/category/get-categories/query'
 import { useSession } from 'next-auth/react'
+import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -82,7 +83,7 @@ export default function CategoryList({ className }: Props) {
         accessToken: session?.user.accessToken || '',
       })
 
-      queryClient.setQueryData(['categories'], (prevCategories: Category[]) =>
+      queryClient.setQueryData(queries.category.list().queryKey, (prevCategories: Category[]) =>
         arrayMove(prevCategories, oldIndex, newIndex)
       )
     }
