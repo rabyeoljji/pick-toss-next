@@ -3,8 +3,6 @@ import { ReactNode, useState } from 'react'
 import Image from 'next/image'
 import icons from '@/constants/icons'
 import { Button } from '@/shared/components/ui/button'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createCategory } from '@/actions/fetchers/category/create-category'
 import { CATEGORY_TAG_TYPE, CategoryTagType } from '@/actions/fetchers/category/get-categories'
 import {
   DropdownMenu,
@@ -16,7 +14,7 @@ import EmojiPicker from 'emoji-picker-react'
 import CategoryTag from '@/app/(routes)/(tabs)/repository/components/category-tag'
 import Loading from './loading'
 import { cn } from '@/shared/lib/utils'
-import { useSession } from 'next-auth/react'
+import { useCreateCategoryMutation } from '@/actions/fetchers/category/create-category/mutation'
 
 interface Props {
   trigger: ReactNode
@@ -34,19 +32,11 @@ export default function CreateCategoryDialog({
   const [name, setName] = useState('')
   const [emoji, setEmoji] = useState('📁')
   const [tag, setTag] = useState<CategoryTagType>('IT')
-  const { data: session } = useSession()
 
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  const queryClient = useQueryClient()
-
-  const { mutate } = useMutation({
-    mutationFn: createCategory,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['categories'] })
-    },
-  })
+  const { mutate: createCategoryMutate } = useCreateCategoryMutation()
 
   const resetState = () => {
     setName('')
@@ -58,8 +48,8 @@ export default function CreateCategoryDialog({
     if (name === '') return alert('폴더 이름을 설정해주세요.')
 
     setLoading(true)
-    mutate(
-      { name, emoji, tag, accessToken: session?.user.accessToken || '' },
+    createCategoryMutate(
+      { name, emoji, tag },
       {
         onSuccess: () => {
           onSuccess && onSuccess()

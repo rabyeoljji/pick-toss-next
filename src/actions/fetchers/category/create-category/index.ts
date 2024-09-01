@@ -2,7 +2,7 @@ import { apiClient } from '@/actions/api-client'
 import { API_ENDPOINT } from '@/actions/endpoints'
 import { PrivateRequest } from '@/actions/types'
 
-interface CreateCategoryParams extends PrivateRequest {
+export interface CreateCategoryParams extends PrivateRequest {
   name: string
   tag: string
   emoji: string

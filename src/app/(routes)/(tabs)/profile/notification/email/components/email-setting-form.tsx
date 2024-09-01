@@ -1,11 +1,10 @@
 'use client'
 
-import { verifyEmail } from '@/actions/fetchers/auth/verify-email'
-import { verifyEmailCheck } from '@/actions/fetchers/auth/verify-email-check'
+import { useVerifyEmailCheckMutation } from '@/actions/fetchers/auth/verify-email-check/mutation'
+import { useVerifyEmailMutation } from '@/actions/fetchers/auth/verify-email/mutation'
 import { Button } from '@/shared/components/ui/button'
 import { useToast } from '@/shared/hooks/use-toast'
-import { useMutation } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@/shared/hooks/use-user'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useRef, useState } from 'react'
 
@@ -13,42 +12,25 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const codeRegex = /^[0-9]{6}$/
 
 export default function EmailSettingForm() {
-  const { data: session, update } = useSession()
   const router = useRouter()
+  const { user } = useUser()
   const { toast } = useToast()
 
-  const [emailInput, setEmailInput] = useState(session?.user.dto.email || '')
+  const [emailInput, setEmailInput] = useState(user?.email)
   const [codeInput, setCodeInput] = useState('')
-  const isFirstEmail = useRef(!!session?.user.dto.email)
+  const isFirstEmail = useRef(user?.email)
 
   const {
-    mutate: mutateVerifyEmail,
+    mutate: verifyEmailMutate,
     isPending: isSendingEmail,
     isSuccess: isSentEmail,
-  } = useMutation({
-    mutationFn: () =>
-      verifyEmail({ email: emailInput, accessToken: session?.user.accessToken || '' }),
-  })
+  } = useVerifyEmailMutation()
+
   const {
-    mutate: mutateVerifyCode,
+    mutate: verifyEmailCheckMutate,
     isPending: isVerifyingCode,
     isError: isVerifyError,
-  } = useMutation({
-    mutationFn: () =>
-      verifyEmailCheck({
-        email: emailInput,
-        verificationCode: codeInput,
-        accessToken: session?.user.accessToken || '',
-      }),
-    onSuccess: async () => {
-      const description = isFirstEmail.current
-        ? '알림 받을 이메일이 등록되었습니다'
-        : '알림 받을 이메일이 변경되었습니다'
-      await update({})
-      toast({ description: description })
-      router.push('/profile/notification')
-    },
-  })
+  } = useVerifyEmailCheckMutation()
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value
@@ -67,11 +49,27 @@ export default function EmailSettingForm() {
   }
 
   const handleRequestCodeClick = () => {
-    mutateVerifyEmail()
+    verifyEmailMutate({
+      email: emailInput || '',
+    })
   }
 
   const handleVerifyCodeClick = () => {
-    mutateVerifyCode()
+    verifyEmailCheckMutate(
+      {
+        email: emailInput || '',
+        verificationCode: codeInput,
+      },
+      {
+        onSuccess: () => {
+          const description = isFirstEmail.current
+            ? '알림 받을 이메일이 등록되었습니다'
+            : '알림 받을 이메일이 변경되었습니다'
+          toast({ description: description })
+          router.push('/profile/notification')
+        },
+      }
+    )
   }
 
   const getEmailMessage = () => {
@@ -93,7 +91,7 @@ export default function EmailSettingForm() {
     return ``
   }
 
-  const isValidateEmail = emailInput.match(emailRegex)
+  const isValidateEmail = emailInput?.match(emailRegex)
   const isValidateCode = codeInput.match(codeRegex)
 
   return (

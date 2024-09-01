@@ -1,11 +1,22 @@
-// import { getCategories } from '@/actions/fetchers/category/get-categories'
-// import { createQueryKeyStore } from '@lukemorales/query-key-factory'
+import { SORT_OPTION } from '@/actions/fetchers/document/get-documents-for-category/query'
+import { createQueryKeyStore } from '@lukemorales/query-key-factory'
 
-// export const queries = createQueryKeyStore({
-//   categories: {
-//     all: () => ({
-//       queryKey: null,
-//       queryFn: () => getCategories(),
-//     }),
-//   },
-// })
+export const queries = createQueryKeyStore({
+  category: {
+    list: () => ({
+      queryKey: [''],
+    }),
+    item: (categoryId: number) => ({
+      queryKey: [categoryId],
+    }),
+  },
+
+  document: {
+    item: (documentId: number) => ({
+      queryKey: [documentId],
+    }),
+    list: (categoryId: number, sortOption: (typeof SORT_OPTION)[number]) => ({
+      queryKey: [categoryId, sortOption],
+    }),
+  },
+})

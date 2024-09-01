@@ -3,7 +3,7 @@ import { API_ENDPOINT } from '@/actions/endpoints'
 import { CategoryTagType } from '../get-categories'
 import { PrivateRequest } from '@/actions/types'
 
-interface UpdateCategoryParams extends PrivateRequest {
+export interface UpdateCategoryParams extends PrivateRequest {
   categoryId: number
   tag: CategoryTagType
   name: string
