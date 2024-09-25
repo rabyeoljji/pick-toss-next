@@ -12,6 +12,7 @@ interface Props {
   confirm?: () => void
 }
 
+/** @deprecated v2임 */
 export function AIPickDialog({ trigger, confirm }: Props) {
   const [open, setOpen] = useState(false)
   const { data: session } = useSession()

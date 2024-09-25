@@ -18,6 +18,7 @@ const formSchema = z.object({
   term: z.string(),
 })
 
+/** @deprecated v2임 */
 export function SearchForm({ placeholder, defaultValue, onSubmit, className }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

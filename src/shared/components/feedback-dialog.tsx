@@ -24,6 +24,7 @@ interface Props {
   onOpenChange: (open: boolean) => void
 }
 
+/** @deprecated v2임 */
 export default function FeedbackDialog({ open, onOpenChange }: Props) {
   const { toast } = useToast()
 

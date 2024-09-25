@@ -24,6 +24,7 @@ interface Props {
   onSuccess?: () => void
 }
 
+/** @deprecated v2임 */
 export default function CreateCategoryDialog({
   trigger,
   externalOpen,

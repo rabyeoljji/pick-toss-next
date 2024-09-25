@@ -9,6 +9,7 @@ interface Props {
   categoryId?: number
 }
 
+/** @deprecated v2임 */
 export default function AddNoteFloatingButton({ categoryId }: Props) {
   const { clickedEvent } = useAmplitudeContext()
 

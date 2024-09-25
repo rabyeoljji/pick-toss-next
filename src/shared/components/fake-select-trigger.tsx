@@ -1,6 +1,7 @@
 import { cn } from '@/shared/lib/utils'
 import { forwardRef } from 'react'
 
+/** @deprecated v2임 */
 export const FakeSelectTrigger = forwardRef<
   HTMLDivElement,
   { value: string; emoji?: string; className?: HTMLDivElement['className'] }

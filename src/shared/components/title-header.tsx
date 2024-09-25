@@ -7,6 +7,7 @@ interface Props {
   title: string
 }
 
+/** @deprecated v2임 */
 export default function TitleHeader({ title }: Props) {
   const router = useRouter()
   return (

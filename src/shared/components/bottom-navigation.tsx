@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { useMemo } from 'react'
 
+/** @deprecated v2임 */
 export default function BottomNavigation() {
   const segments = useSelectedLayoutSegments()
 

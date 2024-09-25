@@ -10,6 +10,7 @@ interface Props {
   children: React.ReactElement
 }
 
+/** @deprecated v2임 */
 export function CreateDocumentProtector({ skeleton, children }: Props) {
   if (!isValidElement(children) || React.Children.count(children) !== 1) {
     throw new Error('Children should have only one top-level element.')

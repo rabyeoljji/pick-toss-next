@@ -14,6 +14,7 @@ import { queries } from '../lib/tanstack-query/query-keys'
 
 interface Props extends PropsWithChildren {}
 
+/** @deprecated v2임 */
 export function CategoryProtector({ children }: Props) {
   const { data } = useQuery({
     ...queries.category.list(),

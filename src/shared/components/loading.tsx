@@ -11,6 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   size?: 'small' | 'large' | 'xs'
 }
 
+/** @deprecated v2임 */
 export default function Loading({ center, size = 'small', className }: Props) {
   return (
     <div className={cn(center ? 'center' : className)}>

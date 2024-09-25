@@ -13,6 +13,7 @@ interface Props extends DialogTriggerProps, React.RefAttributes<HTMLButtonElemen
   onOpenChange?: (open: boolean) => void
 }
 
+/** @deprecated v2임 */
 export default function ProDialogTriggerWrapper({ open, onOpenChange, children, ...props }: Props) {
   const { clickedEvent } = useAmplitudeContext()
 

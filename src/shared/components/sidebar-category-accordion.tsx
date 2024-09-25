@@ -18,6 +18,7 @@ import BarLoader from 'react-spinners/BarLoader'
 import { useQuery } from '@tanstack/react-query'
 import { queries } from '../lib/tanstack-query/query-keys'
 
+/** @deprecated v2임 */
 export const SidebarCategoryAccordion = () => {
   const segments = useSelectedLayoutSegments()
 

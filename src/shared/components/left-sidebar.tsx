@@ -18,6 +18,7 @@ import { AIPickDialog } from './ai-pick-dialog'
 import { CreateDocumentProtector } from './create-document-protector'
 import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
+/** @deprecated v2임 */
 export default function LeftSidebar() {
   const segments = useSelectedLayoutSegments()
   const { data: session } = useSession()

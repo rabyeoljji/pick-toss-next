@@ -12,6 +12,7 @@ interface Props {
   defaultOpen?: boolean
 }
 
+/** @deprecated v2임 */
 export function LimitDocumentDialog({ trigger, confirm, defaultOpen = false }: Props) {
   return (
     <Dialog

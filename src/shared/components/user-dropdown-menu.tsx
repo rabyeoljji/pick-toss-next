@@ -16,6 +16,7 @@ import { useState } from 'react'
 import FeedbackDialog from './feedback-dialog'
 import Link from 'next/link'
 
+/** @deprecated v2임 */
 export function UserDropdownMenu() {
   const session = useSession()
   const router = useRouter()

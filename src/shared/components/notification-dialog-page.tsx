@@ -10,6 +10,7 @@ interface Props {
   trigger: ReactNode
 }
 
+/** @deprecated v2임 */
 export function NotificationDialogPage({ trigger }: Props) {
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 1024px)')
