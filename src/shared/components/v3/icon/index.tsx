@@ -8,7 +8,6 @@ interface IconProps extends HTMLAttributes<HTMLElement> {
   className?: HTMLElement['className']
 }
 
-/** @deprecated v3 하위의 Icon 컴포넌트 사용해야함 */
 const Icon = memo(function Icon({ name, className, ...props }: IconProps) {
   const IconElement = SvgElement[kebabToPascal(name) as SvgElementKeys]
 
