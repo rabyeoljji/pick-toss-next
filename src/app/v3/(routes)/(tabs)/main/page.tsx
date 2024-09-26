@@ -1,4 +1,5 @@
 import { Button } from '@/shared/components/ui/button'
+import { Input } from '@/shared/components/ui/input'
 
 const Home = () => {
   return (
@@ -26,6 +27,8 @@ const Home = () => {
       <Button variant="tinySquare" colors="unselected">
         버튼명
       </Button>
+      <Input type="text" placeholder="입력해주세요" variant="search" />
+      <Input type="text" placeholder="입력해주세요" variant="default" />
     </div>
   )
 }
