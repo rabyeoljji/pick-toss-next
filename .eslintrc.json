@@ -3,9 +3,13 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
     "prettier",
-    "plugin:tailwindcss/recommended"
+    "plugin:tailwindcss/recommended",
+    "plugin:storybook/recommended"
   ],
-  "plugins": ["@typescript-eslint", "filename-rules"],
+  "plugins": [
+    "@typescript-eslint",
+    "filename-rules"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": true,
@@ -13,8 +17,18 @@
   },
   "rules": {
     "@typescript-eslint/no-useless-template-literals": "error",
-    "filename-rules/match": [2, "kebab-case"],
-    "no-console": ["error", { "allow": ["error"] }],
+    "filename-rules/match": [
+      2,
+      "kebab-case"
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "error"
+        ]
+      }
+    ],
     "@typescript-eslint/no-misused-promises": [
       "error",
       {
