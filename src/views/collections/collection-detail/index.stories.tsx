@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import CollectionDetail from '.'
-import RootLayout from '@/app/layout'
 
 const meta = {
   title: 'Page/CollectionDetail',
@@ -10,9 +9,9 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <RootLayout>
+      <div className="mx-auto max-w-mobile">
         <Story />
-      </RootLayout>
+      </div>
     ),
   ],
 } satisfies Meta<typeof CollectionDetail>
