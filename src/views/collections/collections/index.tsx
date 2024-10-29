@@ -1,29 +1,32 @@
-'use client'
-
 import Exploration from './components/exploration'
 import MyCollection from './components/my-collection'
 import Icon from '@/shared/components/icon'
-import { useState } from 'react'
 import Text from '@/shared/components/ui/text'
 import { cn } from '@/shared/lib/utils'
+import Link from 'next/link'
 
 const tabs = [
   { key: 'exploration', label: '탐색', component: <Exploration /> },
   { key: 'my-collection', label: '내 컬렉션', component: <MyCollection /> },
 ] as const
 
-const Collections = () => {
-  const [activeTab, setActiveTab] = useState<'exploration' | 'my-collection'>('my-collection')
+interface Props {
+  tab: 'exploration' | 'my-collection'
+}
+
+const Collections = ({ tab }: Props) => {
+  const activeTab = ['exploration', 'my-collection'].includes(tab) ? tab : 'exploration'
 
   return (
     <div>
       <header className="h-[54px]">
         <div className="flex items-center justify-between pl-[5px] pr-[16px]">
-          <div className="text-text-disabled">
+          <div className="flex text-text-disabled">
             {tabs.map((tab) => (
-              <button
+              <Link
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                href={`/collections?tab=${tab.key}`}
+                replace
                 className="px-[12px] py-[14px]"
               >
                 <Text
@@ -32,7 +35,7 @@ const Collections = () => {
                 >
                   {tab.label}
                 </Text>
-              </button>
+              </Link>
             ))}
           </div>
           <div className="flex items-center gap-[16px]">

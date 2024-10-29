@@ -1,9 +1,15 @@
 import Collections from '@/views/collections/collections'
 
-const CollectionsPage = () => {
+interface Props {
+  searchParams: {
+    tab: 'exploration' | 'my-collection'
+  }
+}
+
+const CollectionsPage = ({ searchParams }: Props) => {
   return (
     <>
-      <Collections />
+      <Collections tab={searchParams.tab} />
     </>
   )
 }
