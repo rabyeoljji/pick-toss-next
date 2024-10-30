@@ -9,6 +9,8 @@ interface QuizNoteContextValues {
   setSelectedFolderId: (id: string) => void
   isSelectMode: boolean
   setIsSelectMode: (value: boolean) => void
+  isExpandedBtns: boolean
+  setIsExpandedBtns: (value: boolean) => void
 }
 
 const QuizNoteContext = createContext<QuizNoteContextValues | null>(null)
@@ -17,6 +19,7 @@ export function QuizNoteProvider({ children }: PropsWithChildren) {
   const [selectedFolderId, setSelectedFolderId] = useState('')
   const [isSelectMode, setIsSelectMode] = useState(false)
   const [buttonHidden, setButtonHidden] = useState(false)
+  const [isExpandedBtns, setIsExpandedBtns] = useState(false)
 
   const values = useMemo(
     () => ({
@@ -26,6 +29,8 @@ export function QuizNoteProvider({ children }: PropsWithChildren) {
       setIsSelectMode,
       buttonHidden,
       setButtonHidden,
+      isExpandedBtns,
+      setIsExpandedBtns,
     }),
     [
       selectedFolderId,
@@ -34,6 +39,8 @@ export function QuizNoteProvider({ children }: PropsWithChildren) {
       setIsSelectMode,
       buttonHidden,
       setButtonHidden,
+      isExpandedBtns,
+      setIsExpandedBtns,
     ]
   )
 

@@ -8,16 +8,15 @@ import { cn } from '@/shared/lib/utils'
 import { addNoteButtons } from '../constants/add-note-buttons'
 import { useQuizNoteContext } from '../context/quiz-note-context'
 import Text from '@/shared/components/ui/text'
-import { AddNoteProps } from './add-note-menu'
 import { useRouter } from 'next/navigation'
 
 type Custom = number | 'plus' | 'cancel'
 
 // AnimatedButtons 컴포넌트
-const AnimatedButtons = ({ isExpanded, setIsExpanded }: AddNoteProps) => {
+const AnimatedButtons = () => {
   const router = useRouter()
   const [isFirstRender, setIsFirstRender] = useState(true)
-  const { buttonHidden } = useQuizNoteContext()
+  const { buttonHidden, isExpandedBtns, setIsExpandedBtns } = useQuizNoteContext()
 
   useEffect(() => {
     setIsFirstRender(false)
@@ -79,7 +78,7 @@ const AnimatedButtons = ({ isExpanded, setIsExpanded }: AddNoteProps) => {
         <Text
           className={cn(
             'absolute text-text-primary-inverse text-sm opacity-0 transition-all right-[64px]',
-            isExpanded && 'opacity-100',
+            isExpandedBtns && 'opacity-100',
             text.bottomCss
           )}
         >
@@ -97,7 +96,7 @@ const AnimatedButtons = ({ isExpanded, setIsExpanded }: AddNoteProps) => {
       )}
     >
       <AnimatePresence>
-        {!isExpanded &&
+        {!isExpandedBtns &&
           renderMotionButton(
             'plus',
             'plus',
@@ -107,17 +106,17 @@ const AnimatedButtons = ({ isExpanded, setIsExpanded }: AddNoteProps) => {
               colors: 'special',
               className: 'bg-gradient-to-r from-blue-400 via-none to-orange-500',
             },
-            () => setIsExpanded(true)
+            () => setIsExpandedBtns(true)
           )}
 
-        {isExpanded && (
+        {isExpandedBtns && (
           <>
             {renderMotionButton(
               'cancel',
               'cancel',
               'cancel',
               { variant: 'mediumIcon', colors: 'tertiary' },
-              () => setIsExpanded(false)
+              () => setIsExpandedBtns(false)
             )}
 
             {addNoteButtons.map((button) =>

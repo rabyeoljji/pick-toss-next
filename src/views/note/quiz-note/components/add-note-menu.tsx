@@ -1,22 +1,22 @@
+'use client'
+
 import Text from '@/shared/components/ui/text'
 import DimmedBackground from './dimmed-background'
 import AnimatedButtons from './animate-buttons'
 import { cn } from '@/shared/lib/utils'
+import { useQuizNoteContext } from '../context/quiz-note-context'
 
-export interface AddNoteProps {
-  isExpanded: boolean
-  setIsExpanded: (isExpanded: boolean) => void
-}
+const AddNoteMenu = () => {
+  const { isExpandedBtns } = useQuizNoteContext()
 
-const AddNoteMenu = ({ isExpanded, setIsExpanded }: AddNoteProps) => {
   return (
     <div
       className={cn(
         'absolute right-1/2 top-0 h-screen w-dvw max-w-mobile translate-x-1/2 pointer-events-none',
-        isExpanded && 'z-40'
+        isExpandedBtns && 'z-40'
       )}
     >
-      <DimmedBackground isExpanded={isExpanded}>
+      <DimmedBackground isExpandedBtns={isExpandedBtns}>
         <div className="flex-center absolute bottom-[396px] right-[16px] z-20 h-[32px] w-[243px] rounded-[16px] bg-background-tooltip opacity-100">
           <Text as="span" typography="text2-medium" className="text-text-primary-inverse">
             노션 페이지를 수정해도 업데이트 할 수 있어요
@@ -36,7 +36,7 @@ const AddNoteMenu = ({ isExpanded, setIsExpanded }: AddNoteProps) => {
           </svg>
         </div>
       </DimmedBackground>
-      <AnimatedButtons isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+      <AnimatedButtons />
     </div>
   )
 }
