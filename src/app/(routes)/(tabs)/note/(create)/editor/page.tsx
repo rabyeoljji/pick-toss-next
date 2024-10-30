@@ -1,20 +1,17 @@
-import TitleInput from '@/views/note/create-note/editor/components/title-input'
-import { CreateNoteProvider } from '@/views/note/create-note/editor/context/create-note-context'
 import dynamic from 'next/dynamic'
-import Loading from '@/shared/components/loading'
-import CreateQuizButton from '@/views/note/create-note/ui/create-quiz-button'
-import Header from '@/views/note/create-note/ui/header'
-import Icon from '@/shared/components/icon'
+import CreateQuizButton from '@/features/note/components/create-quiz-button'
+import Header from '@/features/note/components/header'
+import Icon from '@/shared/components/custom/icon'
 import Text from '@/shared/components/ui/text'
+import { CreateNoteProvider } from '@/features/note/contexts/create-note-context'
+import Loading from '@/shared/components/custom/loading'
+import TitleInput from '@/features/editor/components/title-input'
 
 // Remirror가 브라우저 전용 라이브러리라 서버에서 렌더링될 때 오류 발생, 이를 해결하기 위해 dynamic import를 사용
-const VisualEditor = dynamic(
-  () => import('@/views/note/create-note/editor/components/visual-editor'),
-  {
-    ssr: false,
-    loading: () => <Loading center />,
-  }
-)
+const VisualEditor = dynamic(() => import('@/features/editor/components/visual-editor'), {
+  ssr: false,
+  loading: () => <Loading center />,
+})
 
 const CreateWithEditorPage = () => {
   return (

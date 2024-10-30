@@ -1,7 +1,7 @@
-import GoBackButton from '@/shared/components/go-back-button'
 import Text from '@/shared/components/ui/text'
-import NotificationControlArea from '@/views/profile/notification/components/notification-control-area'
-import { NotificationProvider } from '@/views/profile/notification/context/notification-context'
+import { NotificationProvider } from '@/features/notification/contexts/notification-context'
+import GoBackButton from '@/shared/components/custom/go-back-button'
+import NotificationControlArea from '@/features/notification/notification-control-area'
 
 const NotificationPage = () => {
   const isKakaoUser = true

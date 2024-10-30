@@ -1,6 +1,6 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +9,8 @@ import {
 } from '@/shared/components/ui/dropdown-menu'
 import Text from '@/shared/components/ui/text'
 import { cn } from '@/shared/lib/utils'
-import MoveNoteDrawer from '@/views/shared/move-note-drawer'
-import QuizNoteDialog from '@/views/shared/quiz-note-dialog'
+import MoveNoteDrawer from '@/features/note/components/move-note-drawer'
+import QuizNoteDialog from '@/features/quiz/components/quiz-note-dialog'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 

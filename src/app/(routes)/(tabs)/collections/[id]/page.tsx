@@ -1,10 +1,10 @@
-import CategoryTag from '@/shared/components/category-tag'
-import FixedBottom from '@/shared/components/fixed-bottom'
-import GoBackButton from '@/shared/components/go-back-button'
-import Icon from '@/shared/components/icon'
+import QuizCard from '@/features/quiz/components/quiz-card/index'
+import CategoryTag from '@/shared/components/custom/category-tag'
+import FixedBottom from '@/shared/components/custom/fixed-bottom'
+import GoBackButton from '@/shared/components/custom/go-back-button'
+import Icon from '@/shared/components/custom/icon'
 import { Button } from '@/shared/components/ui/button'
 import Text from '@/shared/components/ui/text'
-import QuizCard from '@/views/collections/collection-detail/components/quiz-card'
 
 type BaseQuiz = {
   id: string

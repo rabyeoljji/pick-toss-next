@@ -1,6 +1,6 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import { Input } from '@/shared/components/ui/input'
 // import Text from '@/shared/components/ui/text'
 // import { cn } from '@/shared/lib/utils'
@@ -8,8 +8,8 @@ import { Input } from '@/shared/components/ui/input'
 import { useEffect, useRef, useState } from 'react'
 import Text from '@/shared/components/ui/text'
 import { useRouter } from 'next/navigation'
-import SearchList from '@/views/note/note-search/components/search-list'
-import SearchItem from '@/views/note/note-search/components/search-item'
+import SearchList from '@/features/search/components/search-list'
+import SearchItem from '@/features/search/components/search-item'
 
 const Search = () => {
   const router = useRouter()

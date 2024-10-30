@@ -1,16 +1,16 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import Text from '@/shared/components/ui/text'
 import { cn } from '@/shared/lib/utils'
 import Header from '@/views/note/note-detail/components/header'
-import PickDrawer from '@/views/note/note-detail/components/pick-drawer'
-import { QuizListProvider } from '@/views/note/note-detail/context/quiz-list-context'
-import NoteContent from '@/views/note/note-detail/screens/note-content'
-import Quiz from '@/views/note/note-detail/screens/quiz'
-import NewQuizDrawer from '@/views/shared/new-quiz-drawer'
-import ReplayQuizDrawer from '@/views/shared/replay-quiz-drawer'
+import PickDrawer from '@/features/quiz/components/pick-drawer'
+import { QuizListProvider } from '@/features/note/contexts/quiz-list-context'
+import NewQuizDrawer from '@/features/quiz/components/new-quiz-drawer'
+import ReplayQuizDrawer from '@/features/quiz/components/replay-quiz-drawer'
 import { useState } from 'react'
+import NoteContent from '@/features/note/screens/note-content'
+import Quiz from '@/features/note/screens/quiz'
 
 const tabs = [
   { key: 'note-content', label: '노트', component: <NoteContent /> },

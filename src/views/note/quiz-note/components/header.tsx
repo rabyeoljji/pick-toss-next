@@ -1,19 +1,19 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
-import { useQuizNoteContext } from '../context/quiz-note-context'
+import Icon from '@/shared/components/custom/icon'
+import { useQuizNoteContext } from '../../../../features/note/contexts/quiz-note-context'
 import Text from '@/shared/components/ui/text'
 import { useEffect, useState } from 'react'
 import { cn } from '@/shared/lib/utils'
-import FolderSelectDrawer from './folder-select-drawer'
-import SortIconBtn from './sort-icon-button'
 import Link from 'next/link'
-import MenuDotsBtn from './menu-dots-button'
+import MenuDotsBtn from '../../../../features/note/components/menu-dots-button'
+import SortIconBtn from '@/features/note/components/sort-icon-button'
+// import FolderSelectDrawer from '@/features/note/components/folder-select-drawer'
 
 // Header 컴포넌트
 const Header = () => {
   const { setSelectedFolderId, isSelectMode, setIsSelectMode } = useQuizNoteContext()
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isDrawerOpen] = useState(false)
 
   useEffect(() => {
     setSelectedFolderId('0')
@@ -40,7 +40,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <FolderSelectDrawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+              {/* <FolderSelectDrawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} /> */}
 
               {!isDrawerOpen && (
                 <div className="flex size-fit items-center gap-[16px]">

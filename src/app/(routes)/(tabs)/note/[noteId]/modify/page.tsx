@@ -1,9 +1,9 @@
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import Header from '@/views/note/modify-note/components/header'
-import TitleInput from '@/views/note/modify-note/components/title-input'
-import { EditNoteProvider } from '@/views/note/modify-note/context/edit-note-context'
+import { EditNoteProvider } from '@/features/note/contexts/edit-note-context'
 import Text from '@/shared/components/ui/text'
-import VisualEditor from '@/views/note/modify-note/components/visual-editor'
+import TitleInput from '@/features/editor/components/title-input'
+import VisualEditor from '@/features/editor/components/visual-editor'
 
 const ModifyPage = () => {
   return (

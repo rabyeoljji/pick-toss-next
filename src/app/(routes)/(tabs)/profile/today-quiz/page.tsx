@@ -1,8 +1,8 @@
-import GoBackButton from '@/shared/components/go-back-button'
-import Icon from '@/shared/components/icon'
+import DayCheck from '@/features/quiz/components/day-check'
+import GoBackButton from '@/shared/components/custom/go-back-button'
+import Icon from '@/shared/components/custom/icon'
 import Tag from '@/shared/components/ui/tag'
 import Text from '@/shared/components/ui/text'
-import DayCheck from '@/views/profile/today-quiz/components/day-check'
 
 const fakeCheckData = [
   { day: 1, isComplete: true },

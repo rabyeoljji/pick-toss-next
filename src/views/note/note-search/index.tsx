@@ -1,6 +1,6 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import { Input } from '@/shared/components/ui/input'
 // import Text from '@/shared/components/ui/text'
 // import { cn } from '@/shared/lib/utils'

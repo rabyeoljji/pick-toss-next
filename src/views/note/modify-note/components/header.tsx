@@ -1,6 +1,6 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import {
   Dialog,
   DialogClose,

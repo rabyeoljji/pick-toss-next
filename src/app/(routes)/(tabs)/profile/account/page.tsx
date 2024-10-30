@@ -1,10 +1,10 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import Text from '@/shared/components/ui/text'
 import { cn } from '@/shared/lib/utils'
-import CategoryDrawer from '@/views/profile/profile-edit/components/category-drawer'
-import SetNameDialog from '@/views/profile/profile-edit/components/set-name-dialog'
+import CategoryDrawer from '@/features/note/components/category-drawer'
+import SetNameDialog from '@/features/user/components/set-name-dialog'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 

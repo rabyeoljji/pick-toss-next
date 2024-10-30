@@ -1,8 +1,8 @@
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import Text from '@/shared/components/ui/text'
 import { cn } from '@/shared/lib/utils'
-import Exploration from '@/views/collections/collections/components/exploration'
-import MyCollection from '@/views/collections/collections/components/my-collection'
+import Exploration from '@/features/collection/components/exploration'
+import MyCollection from '@/features/collection/components/my-collection'
 import Link from 'next/link'
 
 interface Props {

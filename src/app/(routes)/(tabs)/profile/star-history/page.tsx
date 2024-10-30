@@ -1,12 +1,12 @@
 'use client'
 
-import GoBackButton from '@/shared/components/go-back-button'
+import DateContainer from '@/features/analysis/date-container'
+import ListItem from '@/features/analysis/list-item'
+import NoHistory from '@/features/analysis/no-history'
+import { fakeData } from '@/features/user/mock/fake-data'
+import GoBackButton from '@/shared/components/custom/go-back-button'
 import { Button } from '@/shared/components/ui/button'
 import Text from '@/shared/components/ui/text'
-import DateContainer from '@/views/profile/star-history/components/date-container'
-import ListItem from '@/views/profile/star-history/components/list-item'
-import NoHistory from '@/views/profile/star-history/components/no-history'
-import { fakeData } from '@/views/profile/star-history/mock/fake-data'
 import { useState } from 'react'
 
 type Tab = 'all' | 'payment' | 'expend' | 'reward'

@@ -1,12 +1,11 @@
 'use client'
 
-import Icon from '@/shared/components/icon'
+import Icon from '@/shared/components/custom/icon'
 import Text from '@/shared/components/ui/text'
-import CategoryTooltip from '@/views/profile/main/components/category-tooltip'
-import Header from '@/views/profile/main/components/header'
-import { PROFILE_MENU_LIST } from '@/views/profile/main/constants/profile-menu-list'
+import CategoryTooltip from '@/features/user/category-tooltip'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { PROFILE_MENU_LIST } from '@/features/user/constants/profile-menu-list'
 
 const ProfilePage = () => {
   const router = useRouter()
@@ -14,7 +13,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
 
       <main className="h-[calc(100dvh-54px-88px)] w-full overflow-y-auto px-[16px] pb-[54px]">
         <button
