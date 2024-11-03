@@ -6,26 +6,7 @@ import Icon from '@/shared/components/custom/icon'
 import { Button } from '@/shared/components/ui/button'
 import Text from '@/shared/components/ui/text'
 
-type BaseQuiz = {
-  id: string
-  question: string
-  answer: string
-  explanation: string
-}
-
-type MultipleChoiceQuiz = BaseQuiz & {
-  type: 'multiple'
-  options: string[]
-}
-
-type OXQuiz = BaseQuiz & {
-  type: 'ox'
-  answer: 'O' | 'X'
-}
-
-export type Quiz = MultipleChoiceQuiz | OXQuiz
-
-const quizzes: Quiz[] = [
+export const quizzes: Quiz.List = [
   {
     id: '1',
     type: 'multiple',
