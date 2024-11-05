@@ -1,10 +1,9 @@
 import SetNote from '@/features/quiz/today-quiz-setting/components/set-note'
 import SetQuizCount from '@/features/quiz/today-quiz-setting/components/set-quiz-count'
 import { TodayQuizSettingProvider } from '@/features/quiz/today-quiz-setting/context/today-quiz-setting-context'
-import FixedBottom from '@/shared/components/custom/fixed-bottom'
 import GoBackButton from '@/shared/components/custom/go-back-button'
-import { Button } from '@/shared/components/ui/button'
 import Text from '@/shared/components/ui/text'
+import FixedBottomButtons from '@/features/quiz/today-quiz-setting/components/fixed-bottom-buttons'
 
 const TodayQuizSettingPage = () => {
   return (
@@ -21,14 +20,7 @@ const TodayQuizSettingPage = () => {
 
         <SetNote />
 
-        <FixedBottom className="flex gap-[6px]">
-          <Button variant={'largeRound'} colors={'tertiary'} className="w-[35%]">
-            초기화
-          </Button>
-          <Button variant={'largeRound'} colors={'primary'} className="w-[65%]">
-            저장하기
-          </Button>
-        </FixedBottom>
+        <FixedBottomButtons />
       </main>
     </TodayQuizSettingProvider>
   )
