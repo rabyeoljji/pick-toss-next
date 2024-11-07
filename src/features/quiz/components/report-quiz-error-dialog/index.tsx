@@ -11,6 +11,7 @@ import {
 import Text from '@/shared/components/ui/text'
 import { useState } from 'react'
 import { reportOptions } from '../../config'
+import { cn } from '@/shared/lib/utils'
 
 const ResultQuizErrorDialog = () => {
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null)
@@ -69,12 +70,12 @@ const ResultQuizErrorDialog = () => {
             <button
               key={option.id}
               onClick={() => handleOptionClick(option.id)}
-              className={`w-full rounded-[10px] border py-[9.5px] transition-colors
-                ${
-                  selectedOptionId === option.id
-                    ? 'border-border-selected bg-button-fill-secondary text-button-label-secondary'
-                    : 'text-button-label-tertiary'
-                }`}
+              className={cn(
+                'w-full rounded-[10px] border py-[9.5px] transition-colors',
+                selectedOptionId === option.id
+                  ? 'border-border-selected bg-button-fill-secondary text-button-label-secondary'
+                  : 'text-button-label-tertiary'
+              )}
             >
               <Text typography={selectedOptionId === option.id ? 'button3' : 'button4'}>
                 {option.label}
