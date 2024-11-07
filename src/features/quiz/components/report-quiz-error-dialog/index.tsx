@@ -49,7 +49,7 @@ const ResultQuizErrorDialog = () => {
         onPointerDownOutside={(e) => {
           e.preventDefault()
         }}
-        className="max-w-[308px] rounded-[20px] bg-background-base-01 px-[24px] pb-[16px] pt-[28px]"
+        className="pb-[16px] pt-[28px]"
       >
         <DialogHeader>
           <DialogTitle className="text-center">
