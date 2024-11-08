@@ -6,12 +6,12 @@ type BaseQuiz = {
 }
 
 type MultipleChoiceQuiz = BaseQuiz & {
-  type: 'multiple'
+  quizType: 'multiple'
   options: string[]
 }
 
 type OXQuiz = BaseQuiz & {
-  type: 'ox'
+  quizType: 'ox'
   answer: 'O' | 'X'
 }
 
@@ -84,16 +84,7 @@ interface QuizRecordsResponse extends ConsecutiveDays {
 
 /** GET /api/v2/quiz-sets/{quiz_set_id} */
 interface QuizSetResponse {
-  quizzes: {
-    id: number
-    question: string
-    answer: string
-    explanation: string
-    options: string[]
-    quizType: QuizType
-    document: Document
-    directory: Directory
-  }[]
+  quizzes: QuizWithMetadata[]
   todayQuizSet: boolean
 }
 
