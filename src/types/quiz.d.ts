@@ -15,7 +15,7 @@ type OXQuiz = BaseQuiz & {
   answer: 'O' | 'X'
 }
 
-type Quiz = MultipleChoiceQuiz | OXQuiz
+type CombineQuiz = MultipleChoiceQuiz | OXQuiz
 
 type QuizType = 'MIX_UP' | 'MULTIPLE_CHOICE'
 
@@ -39,7 +39,7 @@ type ConsecutiveDays = {
   maxConsecutiveDays: number
 }
 
-type QuizWithMetadata = Quiz & {
+type QuizWithMetadata = CombineQuiz & {
   document: Document
   category: Category
 }
@@ -156,8 +156,8 @@ interface CreateQuizzesPayload {
 }
 
 declare namespace Quiz {
-  type Item = Quiz
-  type List = Quiz[]
+  type Item = CombineQuiz
+  type List = CombineQuiz[]
   type ItemWithMetadata = QuizWithMetadata
   type QuizType = QuizType
   type Record = QuizRecord
