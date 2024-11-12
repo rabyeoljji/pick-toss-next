@@ -1,5 +1,5 @@
 type BaseQuiz = {
-  id: string
+  id: number
   question: string
   answer: string
   explanation: string
@@ -7,13 +7,15 @@ type BaseQuiz = {
 
 type MultipleChoiceQuiz = BaseQuiz & {
   quizType: 'MULTIPLE_CHOICE'
+type MultipleChoiceQuiz = {
+  quizType: 'MULTIPLE_CHOICE'
   options: string[]
-}
+} & BaseQuiz
 
-type OXQuiz = BaseQuiz & {
+type OXQuiz = {
   quizType: 'MIX_UP'
-  answer: 'O' | 'X'
-}
+  answer: 'correct' | 'wrong'
+} & BaseQuiz
 
 type CombineQuiz = MultipleChoiceQuiz | OXQuiz
 
@@ -39,10 +41,10 @@ type ConsecutiveDays = {
   maxConsecutiveDays: number
 }
 
-type QuizWithMetadata = CombineQuiz & {
+type QuizWithMetadata = {
   document: Document
   category: Category
-}
+} & CombineQuiz
 
 type QuizRecord = {
   question: string
@@ -127,12 +129,12 @@ type DownloadQuizResponse = string[]
 
 /** PATCH /api/v2/quiz/result */
 interface UpdateQuizResultPayload {
-  quizSetId: number
-  quizResults: {
-    quizId: number
-    isCorrect: boolean
-    elapsedTimeMs: number
+  quizSetId: string
+  quizzes: {
+    id: number
+    answer: 'correct' | 'wrong'
     choseAnswer: string
+    elapsedTime: number
   }[]
 }
 interface UpdateQuizResultResponse {
@@ -152,6 +154,7 @@ declare namespace Quiz {
   type ItemWithMetadata = QuizWithMetadata
   type QuizType = QuizType
   type Record = QuizRecord
+  type Result = UpdateQuizResultPayload['quizzes'][number]
 
   declare namespace Request {
     /** GET /api/v2/today-quiz-info
