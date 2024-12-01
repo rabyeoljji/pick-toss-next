@@ -1,7 +1,3 @@
-const withPWA = require('next-pwa')({
-  dest: 'public',
-})
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -11,7 +7,7 @@ const nextConfig = {
       },
     ],
   },
-  headers() {
+  async headers() {
     return [
       {
         source: '/api/:path*',
@@ -33,4 +29,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPWA(nextConfig)
+export default nextConfig
