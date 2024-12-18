@@ -12,15 +12,13 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          embed: |
-            {
-              "title": "Deployment Status",
-              "description": "Deployment for ${{ github.repository }} has ${{ job.status }}",
-              "color": ${{ job.status == 'success' && '65280' || '16711680' }},
-              "fields": [
-                {
-                  "name": "Commit",
-                  "value": "${{ github.sha }}"
-                }
-              ]
-            }
+          embed-title: "Deployment Status"
+          embed-description: "Deployment for ${{ github.repository }} has ${{ job.status }}"
+          embed-color: ${{ job.status == 'success' && '65280' || '16711680' }}
+          embed-fields: |
+            [
+              {
+                "name": "Commit",
+                "value": "${{ github.sha }}"
+              }
+            ]
