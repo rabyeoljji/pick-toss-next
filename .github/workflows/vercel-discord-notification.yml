@@ -12,6 +12,7 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "Vercel 배포 상태: ${{ job.status }}"
           embed-title: "Deployment Status"
           embed-description: "Deployment for ${{ github.repository }} has ${{ job.status }}"
           embed-color: ${{ job.status == 'success' && '65280' || '16711680' }}
