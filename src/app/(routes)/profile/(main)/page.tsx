@@ -65,7 +65,7 @@ const ProfilePage = async () => {
                       key={category}
                       title={CATEGORIES.find((value) => value.id === category)?.name ?? ''}
                       className="flex-center"
-                    ></CategoryTag>
+                    />
                   ))}
                 </div>
               )}
