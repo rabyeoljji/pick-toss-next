@@ -178,13 +178,6 @@ export const API_ENDPOINTS = {
     },
   },
 
-  NOTIFICATION: {
-    GET: {
-      /** GET /notifications - 모든 알림 가져오기 */
-      ALL: '/notifications',
-    },
-  },
-
   QUIZ: {
     BASE: '/quizzes',
     GET: {

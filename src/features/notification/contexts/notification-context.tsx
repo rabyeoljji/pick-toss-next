@@ -79,8 +79,8 @@ export const NotificationProvider = ({
     }
   }, [offEmail])
 
-  const handleAllowNotification = useMemo(
-    () => (checked: boolean) => {
+  const handleAllowNotification = useCallback(
+    (checked: boolean) => {
       updateNotificationMutate(
         {
           quizNotificationEnabled: checked,

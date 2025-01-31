@@ -12,7 +12,6 @@ import {
 import { useUserStore } from '@/store/user'
 import { signOut } from 'next-auth/react'
 import { clearAllCookies } from '@/shared/utils/storage'
-import { queries } from '@/shared/lib/tanstack-query/query-keys'
 
 /** GET /members/info - Get member info */
 export const useUserInfo = () => {
@@ -30,7 +29,7 @@ export const useUpdateTodayQuizCount = () => {
 
   return useMutation({
     mutationFn: async (payload: User.Request.UpdateTodayQuizCount) => updateTodayQuizCount(payload),
-    onSuccess: () => queryClient.invalidateQueries(queries.user.info()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userInfo'] }),
   })
 }
 
@@ -41,7 +40,7 @@ export const useUpdateQuizNotification = () => {
   return useMutation({
     mutationFn: async (payload: User.Request.UpdateQuizNotification) =>
       updateQuizNotification(payload),
-    onSuccess: () => queryClient.invalidateQueries(queries.user.info()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userInfo'] }),
   })
 }
 
@@ -51,7 +50,7 @@ export const useUpdateUserName = () => {
 
   return useMutation({
     mutationFn: async (payload: User.Request.UpdateName) => updateUserName(payload),
-    onSuccess: () => queryClient.invalidateQueries(queries.user.info()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userInfo'] }),
   })
 }
 
@@ -62,7 +61,7 @@ export const useUpdateCollectionCategories = () => {
   return useMutation({
     mutationFn: async (payload: User.Request.UpdateCollectionCategories) =>
       updateCollectionCategories(payload),
-    onSuccess: () => queryClient.invalidateQueries(queries.user.info()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userInfo'] }),
   })
 }
 

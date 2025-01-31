@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import mobileNightSkySource from '@/../../public/images/mobile-night-sky.png'
-import desktopNightSkySource from '@/../../public/images/desktop-night-sky.png'
+import mobileNightSkySource from '../assets/mobile-night-sky.png'
+import desktopNightSkySource from '../assets/desktop-night-sky.png'
 import { Button } from '@/shared/components/ui/button'
 import { GoogleIcon, KakaoIcon, PicktossIcon } from '../svgs'
 import { signIn } from '@/app/api/auth/[...nextauth]/auth'
@@ -30,6 +30,7 @@ export function Footer() {
           <div className="mt-[22px] flex flex-col gap-[8px]">
             <form
               action={async () => {
+                'use server'
                 await signIn('google')
               }}
             >
@@ -40,6 +41,7 @@ export function Footer() {
             </form>
             <form
               action={async () => {
+                'use server'
                 await signIn('kakao')
               }}
             >
@@ -76,6 +78,7 @@ export function Footer() {
           <div className="mt-[32px] flex flex-col items-center gap-[8px]">
             <form
               action={async () => {
+                'use server'
                 await signIn('google')
               }}
             >
@@ -86,6 +89,7 @@ export function Footer() {
             </form>
             <form
               action={async () => {
+                'use server'
                 await signIn('kakao')
               }}
             >

@@ -6,7 +6,6 @@ import * as quizServer from './quiz/server'
 import * as collection from './collection/client'
 import * as user from './user/client'
 import * as search from './search/client'
-import * as notification from './notification/client'
 
 export const REQUEST = {
   directory,
@@ -17,5 +16,4 @@ export const REQUEST = {
   collection,
   user,
   search,
-  notification,
 }

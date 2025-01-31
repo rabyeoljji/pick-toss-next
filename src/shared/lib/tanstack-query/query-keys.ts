@@ -103,11 +103,4 @@ export const queries = createQueryKeyStore({
       queryFn: () => REQUEST.user.getUserInfo(),
     }),
   },
-
-  notification: {
-    all: () => ({
-      queryKey: [''],
-      queryFn: () => REQUEST.notification.getAllNotifications(),
-    }),
-  },
 })

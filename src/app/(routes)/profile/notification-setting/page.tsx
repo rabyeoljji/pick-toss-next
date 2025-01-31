@@ -7,7 +7,7 @@ const NotificationSettingPage = async () => {
 
   return (
     <NotificationProvider user={user}>
-      <NotificationControlArea />
+      <NotificationControlArea defaultState={user.quizNotificationEnabled} />
     </NotificationProvider>
   )
 }

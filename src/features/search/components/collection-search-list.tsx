@@ -1,6 +1,5 @@
 import Collection from '@/features/collection/components/collection'
 import Text from '@/shared/components/ui/text'
-import Link from 'next/link'
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 interface Props {
@@ -17,20 +16,18 @@ const CollectionSearchList = ({ length, searchResults }: Props) => {
 
       <div className="mb-[24px] mt-[20px] grid grid-cols-2 gap-[11px]">
         {searchResults.map((collectionItem) => (
-          <Link key={collectionItem.id} href={`/collections/${collectionItem.id}`}>
-            <Collection
-              key={collectionItem.id}
-              collectionId={collectionItem.id}
-              emoji={collectionItem.emoji}
-              title={collectionItem.name}
-              category={collectionItem.collectionCategory}
-              problemCount={collectionItem.quizCount}
-              bookMarkCount={collectionItem.bookmarkCount}
-              creatorName={collectionItem.memberName}
-              lastUpdated={''}
-              className="rounded-[16px] border border-border-default"
-            />
-          </Link>
+          <Collection
+            key={collectionItem.id}
+            collectionId={collectionItem.id}
+            emoji={collectionItem.emoji}
+            title={collectionItem.name}
+            category={collectionItem.collectionCategory}
+            problemCount={collectionItem.quizCount}
+            bookMarkCount={collectionItem.bookmarkCount}
+            creatorName={collectionItem.memberName}
+            lastUpdated={''}
+            className="rounded-[16px] border border-border-default"
+          />
         ))}
       </div>
     </div>

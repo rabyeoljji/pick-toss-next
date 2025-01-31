@@ -1,8 +1,8 @@
+import SocialLogin from '@/features/auth/social-login'
 import Icon from '@/shared/components/custom/icon'
 import Text from '@/shared/components/ui/text'
-import SocialLogin from '../auth/social-login'
 
-const AppStartView = () => {
+const AppStartPage = () => {
   return (
     <main className="flex-center h-[calc(100dvh-54px)] w-full flex-col overflow-y-auto overflow-x-hidden bg-background-base-01 px-[43px] scrollbar-hide">
       <Icon name="start-picktoss" className="h-auto w-[160px]" />
@@ -22,4 +22,4 @@ const AppStartView = () => {
   )
 }
 
-export default AppStartView
+export default AppStartPage
