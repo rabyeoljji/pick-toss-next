@@ -21,6 +21,7 @@ import { useDeleteDocument } from '@/requests/document/hooks'
 import { useEffect, useRef, useState } from 'react'
 import { useUserStore } from '@/store/user'
 import { useDownloadQuiz } from '@/requests/quiz/hooks'
+import { useDocumentDetailContext } from '@/features/document/contexts/document-detail-context'
 
 // Header 컴포넌트
 const Header = () => {
@@ -29,37 +30,40 @@ const Header = () => {
   const prev = useSearchParams().get('prev')
 
   const { userInfo: user } = useUserStore()
+  const { isDrawerOpen } = useDocumentDetailContext()
 
   const [isTitleHidden, setIsTitleHidden] = useState(false)
   const titleRef = useRef<HTMLHeadingElement | null>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
   const { data } = useQuery(queries.document.item(Number(id)))
   const { mutate: downloadQuizMutation } = useDownloadQuiz()
   const { mutate: deleteDocumentMutation } = useDeleteDocument()
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsTitleHidden(!entry?.isIntersecting)
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    )
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => setIsTitleHidden(!entry?.isIntersecting),
+        {
+          root: null,
+          threshold: 0.5,
+        }
+      )
+    }
+
+    if (isDrawerOpen) {
+      observerRef.current?.disconnect()
+      return
+    }
 
     if (titleRef.current) {
-      observer.observe(titleRef.current)
-    } else if (titleRef.current) {
-      observer.unobserve(titleRef.current)
+      observerRef.current?.observe(titleRef.current)
     }
 
     return () => {
-      if (titleRef.current) {
-        observer.unobserve(titleRef.current)
-      }
+      observerRef.current?.disconnect()
     }
-  }, [])
+  }, [isDrawerOpen])
 
   const handleClickCancel = () => {
     if (prev && prev === 'created') {
