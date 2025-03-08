@@ -11,7 +11,7 @@ import { useReplayDocumentQuiz } from '@/requests/quiz/hooks'
 import { useRouter } from 'next/navigation'
 import { useDocumentDetailContext } from '@/features/document/contexts/document-detail-context'
 import { BeatLoader } from 'react-spinners'
-import { useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
+import { QuizReplayProps, useAmplitudeContext } from '@/shared/hooks/use-amplitude-context'
 
 interface Props {
   triggerComponent: React.ReactNode
@@ -46,7 +46,13 @@ const ReplayQuizDrawer = ({
 
   const { isReplayQuizOpen, setIsReplayQuizOpen } = useDocumentDetailContext()
 
+  const { quizReplayClickEvent } = useAmplitudeContext()
+
   const handleClickStart = () => {
+    const type = quizType === 'RANDOM' ? '전체' : quizType === 'MIX_UP' ? 'OX' : '객관식'
+    const quizReplayProps: QuizReplayProps = { type }
+    quizReplayClickEvent(quizReplayProps)
+
     setLoadingSpinner(true)
 
     // 퀴즈 다시 풀기 세트 생성하는 api 호출해 quiz set id 얻어
