@@ -14,7 +14,6 @@ import { Textarea } from '@/shared/components/ui/textarea'
 import FixedBottom from '@/shared/components/custom/fixed-bottom'
 import { Button } from '@/shared/components/ui/button'
 import Image from 'next/image'
-import { toast } from '@/shared/hooks/use-toast'
 
 const complaintSchema = z.object({
   content: z
