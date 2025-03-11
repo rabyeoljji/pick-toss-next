@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,6 +14,7 @@ import { Textarea } from '@/shared/components/ui/textarea'
 import FixedBottom from '@/shared/components/custom/fixed-bottom'
 import { Button } from '@/shared/components/ui/button'
 import Image from 'next/image'
+import { toast } from '@/shared/hooks/use-toast'
 
 const complaintSchema = z.object({
   content: z
@@ -29,6 +30,7 @@ export default function ComplaintCollectionPage() {
   const id = useParams().id
   const { mutate: complaintCollection } = useComplaintCollection()
   const { data: collection } = useCollectionInfo(Number(id))
+  const router = useRouter()
 
   // 이미지 미리보기 URL을 관리하는 state
   const [previewImages, setPreviewImages] = useState<string[]>([])
@@ -86,11 +88,18 @@ export default function ComplaintCollectionPage() {
   // 신고하기 제출
   const onSubmit = (data: ComplaintFormData) => {
     if (!id) return
-    complaintCollection({
-      collectionId: Number(id),
-      content: data.content,
-      images: data.images,
-    })
+    complaintCollection(
+      {
+        collectionId: Number(id),
+        content: data.content,
+        images: data.images,
+      },
+      {
+        onSuccess: () => {
+          router.back()
+        },
+      }
+    )
   }
 
   if (!collection) {
